@@ -4,6 +4,7 @@
   let classes = "avatar_menu";
   export let image;
   export let name;
+  let display = "none";
 </script>
 
 <div class="avatar">
