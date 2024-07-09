@@ -41,3 +41,5 @@ An app made using svelte for watching anime, using [Mitteiru-backend](https://gi
 ### Profile Options
 ![Profile options](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-42-09.png)
 
+### Your list page
+![Your list page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-43-48.png)
