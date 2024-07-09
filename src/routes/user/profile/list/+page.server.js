@@ -1,5 +1,5 @@
-export async function load({cookies}){
-    let userId = cookies.get("userId")
+export async function load({ cookies }) {
+  let userId = cookies.get("userId");
 
-    return {userId}
+  return { userId };
 }
