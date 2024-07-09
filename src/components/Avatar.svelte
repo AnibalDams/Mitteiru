@@ -8,6 +8,12 @@
 
 <div class="avatar">
   <img
+    on:mouseover={() => {
+      display = "flex";
+    }}
+    on:mouseleave={() => {
+      display = classes === "avatar_menu visible" ? "flex" : "none";
+    }}
     class="avatar_image"
     src={image}
     on:click={() => {
@@ -15,36 +21,34 @@
         classes === "avatar_menu" ? "avatar_menu visible" : "avatar_menu";
     }}
   />
-  {#if classes === "avatar_menu visible"}
-    <div class={classes}>
-      <span style="font-weight: bold;">{name}</span>
+  <div class={classes}>
+    <span style="font-weight: bold;">{name}</span>
 
-      <button
-        type="button"
-        class="avatar_menu_button"
-        on:click={() => {
-          goto("/selectprofile");
-        }}>Change Profile</button
-      >
+    <button
+      type="button"
+      class="avatar_menu_button"
+      on:click={() => {
+        goto("/selectprofile");
+      }}>Change Profile</button
+    >
 
-      <button
-        type="button"
-        class="avatar_menu_button"
-        on:click={() => {
-          goto("/user/profile/list");
-        }}>My List</button
-      >
+    <button
+      type="button"
+      class="avatar_menu_button"
+      on:click={() => {
+        goto("/user/profile/list");
+      }}>My List</button
+    >
 
-      <button
-        type="button"
-        class="avatar_menu_button"
-        on:click={() => {
-          goto("/logout");
-        }}
-        style="color:red;">Logout</button
-      >
-    </div>
-  {/if}
+    <button
+      type="button"
+      class="avatar_menu_button"
+      on:click={() => {
+        goto("/logout");
+      }}
+      style="color:red;">Logout</button
+    >
+  </div>
 </div>
 
 <style>
@@ -61,7 +65,6 @@
   .avatar .avatar_menu {
     position: absolute;
 
-    display: flex;
     opacity: 0;
     z-index: 5;
     background-color: #eee;
