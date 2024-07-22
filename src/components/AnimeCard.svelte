@@ -40,9 +40,7 @@
     margin-bottom: 40px;
     width: 300px;
     height: 400px;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+
     border-radius: 5px;
     transition: 0.1s;
     cursor: pointer;
