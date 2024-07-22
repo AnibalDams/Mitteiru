@@ -2,14 +2,11 @@
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
 
-  import { deleteCookie } from "svelte-cookie";
   onMount(() => {
-    deleteCookie("profileId");
-    deleteCookie("profileId");
-    deleteCookie("profileName");
-    deleteCookie("profileName");
-    deleteCookie("profileImage");
-    deleteCookie("profileImage");
-    goto("/");
+      document.cookie = "profileId=;max-age=-1;path=/;";
+      document.cookie = "profileName=;max-age=-1;path=/;";
+      document.cookie = "profileImage=;max-age=-1;path=/;";
+
+      goto("/");
   });
 </script>
