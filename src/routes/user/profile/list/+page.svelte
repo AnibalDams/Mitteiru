@@ -12,19 +12,41 @@
 	import NotFoundError from "../../../../components/NotFoundError.svelte";
     import ComboBox from "../../../../components/ComboBox.svelte";
 
+	import {selectedList} from './store'
+    import IconButton from "./components/IconButton.svelte";
+    import Button from "../../../../components/Button.svelte";
+
 	export let data;
 	let isThereAnime = null
 	let animeRandom;
+	let lists = []
+	
 	let animes = [];
 	let loaded = false;
 	let animeGenres;
 	let profileId = "";
 	let profileImage = "";
 	let profileName = "";
+	let display = false
 	let logged = "nosesabe";
+	let newListName=""
+	let createButtonText = "Create"
 	function randomNumber(min, max) {
 		return Math.round(Math.random() * (max - min)) + min;
 	}
+
+	const createNewList = async()=>{
+		if (newListName.length >0) {
+			createButtonText ="Creating..."
+			await axios.post(`http://localhost:8000/user/profile/${profileId}/list/${newListName}/new`)
+			createButtonText = "Created"
+			newListName = ""
+
+			display=false
+			createButtonText="Create"
+		}
+	}
+
 	onMount(async () => {
 		profileId = getCookie("profileId");
 		logged = data.userId ? "si" : "no";
@@ -34,40 +56,30 @@
 		if (profileId.length <= 0 && logged === "si") {
 			goto("/selectprofile");
 		} else {
-			let animesFetch = await axios(
+			let listsFetch = await axios(
 				`http://localhost:8000/user/profile/${profileId}/list/all`,
 			);
-			if(animesFetch.data.list.length<=0){
+			let animesFetch = await axios(
+				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
+			);
+			lists = listsFetch.data.list
+			$selectedList = lists[0][0]
+
+			if(animesFetch.data.animes.length<=0){
 				isThereAnime = false
 				loaded = true
 			}
-			if (animesFetch.data.list.length >= 1) {
-				let number = randomNumber(0, animesFetch.data.list.length - 1);
+			if (animesFetch.data.animes.length >= 1) {
+				let number = randomNumber(0, animesFetch.data.animes.length - 1);
+				for (let i = 0; i < animesFetch.data.animes.length; i++) {
+					const anime = animesFetch.data.animes[i];
+					animes.push(anime)
 
-				for (let i = 0; i < animesFetch.data.list.length; i++) {
-					const anime = animesFetch.data.list[i];
-
-					if (animes.length < 10) {
-						animes.push([anime[2], anime[3], "", "", "", anime[5]]);
-					}
+					
 				}
-
-				animeRandom = animesFetch.data.list[number];
-				animeRandom = [
-					animeRandom[2],
-					animeRandom[3],
-					animeRandom[4],
-					"",
-					"",
-					"",
-					animeRandom[6],
-				];
-				const genres = await axios(
-					`http://localhost:8000/anime/${animeRandom[0]}`,
-				);
-				animeGenres = genres.data.genres;
-				isThereAnime = true
-				loaded = true;
+				animeRandom = animesFetch.data.animes[number];
+				isThereAnime=true
+				loaded = true
 
 			}
 		}
@@ -83,6 +95,8 @@
 	{#if !isThereAnime}
 	<Header {logged} {profileImage} name={profileName} />
 
+
+
 	<NotFoundError text={`You don't have any anime here... `} link={true} linkText="Try adding one!" linkDirection="/directory"/>
 	
 	
@@ -91,10 +105,13 @@
 		<Header {logged} {profileImage} name={profileName} />
 		<AnimeReccomendation animeData={animeRandom} {animeGenres} />
 	
-		<h2 style="margin:10px; display:flex; align-items:center;">Your list. Let's watch something! <ComboBox/></h2>
+		<h2 style="margin:10px; display:flex; align-items:center; ">Your lists. Let's watch something! <ComboBox selecteed={$selectedList} data={lists}/> <IconButton on:click={()=>display = display==true?false:true} /> {#if display}<input bind:value={newListName} placeholder="Insert a name for the list"/> <Button marginLeft="10px" onClick={()=>createNewList()}>{createButtonText}</Button>{/if}</h2>
 		<div class="anime_card_container">
 			{#each animes as anime}
-				<AnimeCard animeData={anime} />
+				{#if anime[10]===$selectedList}
+					<AnimeCard animeData={anime} />
+				{/if}
+				<div style="height: 500px;"></div>
 			{/each}
 		</div>
 
@@ -115,4 +132,25 @@
 		margin-left: 10px;
 		margin-top: 20px;
 	}
+	input{
+		margin-left:10px;
+        border: none;
+        outline: none;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-weight: bold;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 4px 4px 0px black;
+        border:1px solid black;
+        transition: 0.1s;
+    }
+    input:focus{
+        border:1px solid gray;
+        box-shadow: 4px 4px 0px gray;
+
+
+    }
+
 </style>

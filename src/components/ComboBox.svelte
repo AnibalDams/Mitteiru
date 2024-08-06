@@ -1,7 +1,23 @@
 <script>
+    import { onMount } from 'svelte';
+    
     let classes = "combo_box_options"
     let display = "none"
-    let selecteed = "default"
+    export let data = [[0,"",0]]
+    import {selectedList} from '../routes/user/profile/list/store'
+   
+    let text = ""
+    export let action = ()=>{}
+    onMount(()=>{
+        for (let i = 0; i < data.length; i++) {
+            const list = data[i];
+            if(list[0] === $selectedList){
+                text = list[1]
+            }
+            
+        }
+    })
+    
 </script>
 
 <div class="combo_box" >
@@ -11,16 +27,21 @@
         display = classes === "combo_box_options visible"?"block":"none"
     }} on:click={()=>{
         classes = classes === "combo_box_options"?"combo_box_options visible":"combo_box_options" 
-    }}>{selecteed}</span>
+    }}>{text}</span>
     <ul class={classes} style={`display:${display}`}>
-        <li class="combo_box_option" >Default</li>
-        <li class="combo_box_option" on:click={()=>{
-            selecteed = "watching"
-            classes = "combo_box_options"
-            display = "none"
-        }}>Watching</li>
-        <li class="combo_box_option">finished</li>
-        <li class="combo_box_option">want to watch</li>
+        {#each data as listName}
+            <li class="combo_box_option" on:click={()=>{
+                
+                classes = "combo_box_options"
+                display = "none"
+                $selectedList = listName[0]
+                text = listName[1]
+                
+                action()
+            }}>{listName[1]}</li>            
+        {/each}
+
+
     </ul>
 </div>
 
@@ -60,7 +81,7 @@
         left: 0;
         width: 200px;
         padding-top: 10px;
-        padding-bottom: 10px;
+        padding-bottom: 15px;
         padding-left: 25px;
         padding-right: 25px;
         background-color: white;
