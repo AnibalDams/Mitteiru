@@ -59,15 +59,18 @@
         "http://localhost:8000/static/thumb002.png",
         "http://localhost:8000/static/toji-fushiguro-jujutsu-kaisen.jpg",
     ];
-    let name = "";
-    let avatar = "http://localhost:8000/static/itadori.jfif";
+   
+    export let name = "";
+    export let avatar = "http://localhost:8000/static/itadori.jfif";
     export let cancel;
-    let buttonCreatetext = "create";
+    export let variant = "create"
+    let buttonCreatetext =variant=="create"? "create":"update";
+    export let profileId;
 
     const createProfile = async () => {
         if (name.length > 0) {
             buttonCreatetext = "creating...";
-            const newProfile = await axios.post(
+            await axios.post(
                 "http://localhost:8000/user/profile/new",
 
                 {
@@ -81,6 +84,24 @@
             cancel();
         }
     };
+    const updateProfile = async () => {
+        if (name.length > 0) {
+            buttonCreatetext = "creating...";
+            await axios.put(
+                `http://localhost:8000/user/profile/${profileId}`,
+
+                {
+                    name: name,
+                    photo: avatar,
+                    userId,
+                },
+            );
+            buttonCreatetext = "Done";
+            refresh()
+            cancel();
+        }
+    }
+
 </script>
 
 <div class="container">
@@ -92,7 +113,14 @@
             placeholder="Who's watching now?"
             bind:value={name}
         />
-        <Button type="button" onClick={createProfile}>{buttonCreatetext}</Button
+        <Button type="button" onClick={()=>{
+            if(variant == "create"){
+                createProfile()
+
+            }else{
+                updateProfile()
+            }
+            }}>{buttonCreatetext}</Button
         >
     </div>
 

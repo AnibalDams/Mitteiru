@@ -4,7 +4,8 @@
   } from "radix-icons-svelte";
   import { goto } from "$app/navigation";
   import {searchIndex} from '../routes/search/[searchIndex]/searchIndex'
-
+  import {languages} from '$lib/languagesDic'
+  import {language} from '$lib/store'
   export let searchPage=false 
   export let searchPageAction
 
@@ -12,7 +13,7 @@
 
 
 <div class="search_bar">
-    <input type="text" bind:value={$searchIndex} placeholder="Search an anime" class="search_bar_input">
+    <input type="text" bind:value={$searchIndex} placeholder={languages["navBar"]["searchSomething"][$language]} class="search_bar_input">
     <span class="search_bar_button" on:click={()=>{
         if (searchPage) {
             if ($searchIndex.length >0) {

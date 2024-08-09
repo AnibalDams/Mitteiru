@@ -11,6 +11,7 @@
 	export let data
 	let animeRandom;
 	let animes=[]
+	let mostPopularAnimes=[]
 	let loaded=false
 	let animeGenres
 	let profileId  =""
@@ -31,6 +32,7 @@
 			goto("/selectprofile")
 		}else{
 		let animesFetch = await axios("http://localhost:8000/anime/all")
+		let mostPopularAnimesFetch = await axios("http://localhost:8000/anime/mostpopular")
 
 
 		if(animesFetch.data.animes.length>=1){
@@ -47,7 +49,7 @@
 					
 				}
 				
-				
+				mostPopularAnimes=mostPopularAnimesFetch.data.animes
 				animeRandom = animesFetch.data.animes[number]
 				const genres = await axios(`http://localhost:8000/anime/${animeRandom[0]}`)
 				animeGenres = genres.data.genres
@@ -75,6 +77,14 @@
 	<AnimeCard animeData={anime}/>
 	{/each}
 	</div>
+	<h2 style="margin-left:10px; margin-top:25px;">Not sure? Check out the most popular series!</h2>
+	<div class="anime_card_container">
+		
+		{#each mostPopularAnimes as popularAnime}
+			<AnimeCard animeData={popularAnime}/>
+		{/each}
+	</div>
+
 
 {:else}
 <div style="width:100%;height:100%; display:flex; justify-content:center;margin-top:100px;">

@@ -1,16 +1,18 @@
 <script>
-    import { Plus, Bookmark } from "radix-icons-svelte";
+    import { Bookmark } from "radix-icons-svelte";
     import axios from "axios";
-    import { onMount } from "svelte";
     import ModalWithoutActions from "../../../../components/ModalWithoutActions.svelte";
+    
     import CheckBox from "../../../../components/CheckBox.svelte";
+    import LangText from "../../../../components/LangText.svelte";
+
 
     export let animeData;
     let doesTheAnimeIsInList = false;
     export let lists = [[0, ""]];
     export let animesInList = [[0, ""]];
 
-    let buttonText = "Select a list to add this anime";
+    //let buttonText = "Select a list to add this anime";
     export let profileId;
     let showModal = false;
     const addToList = async (listId) => {
@@ -20,7 +22,6 @@
 
         doesTheAnimeIsInList = true;
 
-        buttonText = "Select a list to add this anime";
         showModal = false;
     };
    
@@ -35,7 +36,7 @@
 </script>
 
 <ModalWithoutActions {showModal} onClose={() => (showModal = false)}>
-    <h2 slot="header">Choose a list</h2>
+    <h2 slot="header"><LangText p="animeShow" w="chooseAList"/></h2>
     {#each lists as list, index}
         <CheckBox
             checked={animesInList.find((e) => e[10] == list[0] && e[0]==animeData.id)  ? true : false}
@@ -62,7 +63,7 @@
     ><Bookmark style={`transition:0.1s;margin-right:5px; margin-left:50px; `} />
     <span
         style="position:absolute;
-        top:35%; left:70px;">{buttonText}</span
+        top:35%; left:70px;"><LangText p="animeShow" w="addToList"/></span
     ></button
 >
 

@@ -1,5 +1,6 @@
 <script>
 	import Button from "../components/Button.svelte";
+	import LangText from '../components/LangText.svelte'
     import SearchBar from "../components/SearchBar.svelte";
 	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
@@ -10,6 +11,7 @@
 	export let name =""
 	export let searchPage = false
 	export let searchPageAction = null
+	import {language} from "$lib/store"
 	onMount(()=>{
 		//logged = getCookie("userId").length > 0 ? true:false
 	})
@@ -18,8 +20,10 @@
 
 <nav class="nav_bar">
 	<ul class="nav_bar_links_container">
-		<li class="nav_bar_link"><a href="/">Home</a> </li>
-		<li class="nav_bar_link"><a href="/directory">Directory</a></li>
+		<li class="nav_bar_link"><a href="/"><LangText p="navBar" w="home"/></a> </li>
+		<li class="nav_bar_link"><a href="/directory"><LangText p="navBar" w="directory"/></a></li>
+		<li class="nav_bar_link"><button style="padding:1px 20px;background-color:white; border:1px solid black;border-radius:5px; font-weight:bold; cursor:pointer;" on:click={()=>$language = $language=="en"?"es":"en"}>{$language}</button></li>
+
 
 	</ul>
 	<div class="nav_bar_search">

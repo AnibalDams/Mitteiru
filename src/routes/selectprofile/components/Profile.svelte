@@ -1,12 +1,13 @@
 <script>
     import DeleteModal from "./deleteModal.svelte";
-    import { deleteCookie } from "svelte-cookie";
+    import {Pencil1, Trash} from "radix-icons-svelte"
     import axios from "axios";
     export let image;
     export let name;
     export let id;
     export let onClick;
     export let secondaryAction;
+    export let editAction
     let deleteButtonText = "Delete";
     const deleteAction = async () => {
         try {
@@ -54,6 +55,13 @@
     <span class="profile_name"
         >{name.length <= 20 ? name : name.substring(0, 17) + "..."}</span
     >
+
+    <button
+        type="button"
+        on:click={()=>{editAction()}}
+        title="This functionality is being developed"
+        class="edit_button"><Pencil1/></button
+    >
     <button
         type="button"
         on:click={() => {
@@ -61,7 +69,7 @@
             showModal = true;
             deleteButtonClicked = false;
         }}
-        class="delete_button">x</button
+        class="delete_button"><Trash/></button
     >
 </button>
 
@@ -100,10 +108,11 @@
     }
     .delete_button {
         opacity: 0;
-        cursor: pointer;
-
-        padding-left: 6px;
-        padding-right: 6px;
+        cursor: pointer; 
+        display: flex;
+        padding: 3px;
+ 
+        
         top: -13px;
         font-size: 16px;
         font-weight: bold;
@@ -124,6 +133,29 @@
         top: 85%;
     }
     .profile:hover .delete_button {
+        opacity: 1;
+        top: -10px;
+    }
+
+    .edit_button{
+        opacity: 0;
+         cursor: pointer; 
+        display: flex;
+        padding: 3px;
+ 
+        
+        top: -13px;
+        font-size: 16px;
+        font-weight: bold;
+        right: 20px;
+        position: absolute;
+        background-color: rgb(0, 0, 0);
+        border: 3px solid white;
+        border-radius: 50%;
+        color: white;
+        transition: 0.1s;
+    }
+    .profile:hover .edit_button{
         opacity: 1;
         top: -10px;
     }
@@ -149,4 +181,5 @@
     .profile:hover span.gradient {
         background-position: 100% 90%;
     }
+
 </style>

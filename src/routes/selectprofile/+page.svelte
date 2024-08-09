@@ -8,13 +8,16 @@
     import NewProfile from "./components/NewProfile.svelte";
     import Header from "../Header.svelte";
     import NewProfilePage from "./components/newProfilePage.svelte";
+  import UpdatePage from "./components/updatePage.svelte";
     export let data;
     let userId;
     let newProfile = false;
     let profiles = [];
     let pName = "";
+    let profile = []
     let logged = false;
     let profileImage = "";
+    let update = false
     const refreshProfiles = async () => {
         if (userId.length > 0 && userId != undefined) {
             const profilesQuery = await axios(
@@ -67,15 +70,21 @@
             >
 
             <div class="profile_container">
-                {#each profiles as profile}
+                {#each profiles as profile_}
                     <Profile
                         secondaryAction={refreshProfiles}
                         onClick={() => {
-                            setProfile(profile[0], profile[2], profile[3]);
+                            setProfile(profile_[0], profile_[2], profile_[3]);
                         }}
-                        image={profile[2]}
-                        id={profile[0]}
-                        name={profile[3]}
+                        editAction={()=>{
+                            document.cookie = "profileId=;max-age=-1;path=/;";
+                            document.cookie = "profileName=;max-age=-1;path=/;";
+                            document.cookie = "profileImage=;max-age=-1;path=/;";
+                            profile = profile_
+                            update = true;newProfile=true}}
+                        image={profile_[2]}
+                        id={profile_[0]}
+                        name={profile_[3]}
                     />
                 {/each}
 
@@ -85,14 +94,29 @@
                     }}
                 />
             </div>
-        {:else}
+        {:else if update != true}
             <span class="title">Create a profile</span>
             <NewProfilePage
                 {userId}
+               
+                variant="create"
                 refresh={refreshProfiles}
                 cancel={() => {
+                    
                     newProfile = false;
+                    update = false
                 }}
+            />
+            {:else}
+            <span class="title">Update This Profile</span>
+            <UpdatePage
+            cancel={()=>{update = false;newProfile = false}}
+            refresh={refreshProfiles}
+                avatar={profile[2]}
+                name={profile[3]}
+                profileId={profile[0]}
+            
+            
             />
         {/if}
     </div>

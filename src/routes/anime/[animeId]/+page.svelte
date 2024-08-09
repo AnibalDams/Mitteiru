@@ -40,7 +40,7 @@
 </script>
 
 <svelte:head>
-    <title>{data.status === 404 ? "Anime not found" : data.anime.name}</title>
+    <title>{data.status === 404 ? "Anime not found" : data.anime.name?data.anime.name:"Loading..."}</title>
     <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
