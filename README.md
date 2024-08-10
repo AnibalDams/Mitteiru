@@ -20,7 +20,7 @@ I am creating this web app mainly to practice my skills in Svelte, Python, and p
 ![home page not logged](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-44-15.png)
 
 ### Home page (logged)
-![Home page logged](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-38-20.png)
+![Home page logged](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Opera%20Captura%20de%20pantalla_2024-08-10_132013_localhost.png)
 
 ### Anime page
 ![Anime Page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-38-55.png)
