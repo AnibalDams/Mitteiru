@@ -7,17 +7,18 @@
     
 
     export let animeData = []
+    console.log(animeData)
 </script>
 
 
 <div class="container" on:click={()=>goto(`/anime/${animeData[0]}`)} on:mouseover={()=>bgPer=90} on:mouseleave={()=>bgPer=0}>
-    <img src={`http://localhost:8000/static/${animeData[5]}`} class="anime_cover" alt="">
+    <img src={`http://localhost:8000/static/${animeData.cover}`} class="anime_cover" alt="">
     <Gradient positionValue={bgPer}/>
     <div class="data_container">
-        <span class="anime_title">{animeData.length<=36?animeData[1]:animeData[1].substring(0,33)+ "..."}</span>
+        <span class="anime_title">{animeData.name.length<=36?animeData.name:animeData.name.substring(0,33)+ "..."}</span>
         <div class="chip_container">
-            <span class="card_ship">{animeData[4]}</span>
-            <span class="card_ship">{animeData[3]}</span>
+            <span class="card_ship">{animeData.studio}</span>
+            <span class="card_ship">{animeData.release_year}</span>
             
         </div>
     </div>
