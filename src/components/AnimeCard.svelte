@@ -7,11 +7,10 @@
     
 
     export let animeData = []
-    console.log(animeData)
 </script>
 
 
-<div class="container" on:click={()=>goto(`/anime/${animeData[0]}`)} on:mouseover={()=>bgPer=90} on:mouseleave={()=>bgPer=0}>
+<div class="container" on:click={()=>goto(`/anime/${animeData.id}`)} on:mouseover={()=>bgPer=90} on:mouseleave={()=>bgPer=0}>
     <img src={`http://localhost:8000/static/${animeData.cover}`} class="anime_cover" alt="">
     <Gradient positionValue={bgPer}/>
     <div class="data_container">

@@ -9,20 +9,20 @@
 </script>
 
 
-<div class="container" style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent), url('http://localhost:8000/static/${animeData[6]}');`}>
+<div class="container" style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent), url('http://localhost:8000/static/${animeData.image}');`}>
     <div class="content">
-        <h1 class="content_title">{animeData[1]}</h1>
+        <h1 class="content_title">{animeData.name}</h1>
         <div class="content_genres">
             {#each animeGenres as genre}
-            <GenreShip genre={genre[1]}/>
+            <GenreShip genre={genre.name}/>
                 
             {/each}
 
          </div>
-         <p class="content_description">{animeData[2]}</p>
+         <p class="content_description">{animeData.synopsis}</p>
          <div class="content_buttons">
-            <Button variant="light" marginRight={"5px"} onClick={()=>{goto(`/anime/${animeData[0]}/episode/1`)}}>Watch now</Button>
-            <Button onClick={()=>goto(`/anime/${animeData[0]}`)}>More details</Button>
+            <Button variant="light" marginRight={"5px"} onClick={()=>{goto(`/anime/${animeData.id}/episode/1`)}}>Watch now</Button>
+            <Button onClick={()=>goto(`/anime/${animeData.id}`)}>More details</Button>
          </div>
     
         </div>

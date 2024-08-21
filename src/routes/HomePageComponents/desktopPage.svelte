@@ -31,8 +31,8 @@
 		if(profileId.length<=0 && logged ==="si"){
 			goto("/selectprofile")
 		}else{
-		let animesFetch = await axios("http://localhost:8000/anime/all")
-		let mostPopularAnimesFetch = await axios("http://localhost:8000/anime/mostpopular")
+		let animesFetch = await axios("http://localhost:8000/anime/d/all")
+		let mostPopularAnimesFetch = await axios("http://localhost:8000/anime/d/mostpopular")
 
 
 		if(animesFetch.data.animes.length>=1){
@@ -51,7 +51,7 @@
 				
 				mostPopularAnimes=mostPopularAnimesFetch.data.animes
 				animeRandom = animesFetch.data.animes[number]
-				const genres = await axios(`http://localhost:8000/anime/${animeRandom[0]}`)
+				const genres = await axios(`http://localhost:8000/anime/${animeRandom.id}`)
 				animeGenres = genres.data.genres
 				loaded = true
 			
