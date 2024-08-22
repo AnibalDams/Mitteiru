@@ -23,20 +23,20 @@ export const actions ={ signup :  async ({request,cookies})=>{
         password,
         admin:true
     })
-    if(signupQuery.data.message ==="The username is already taken"){
+    if(signupQuery.data.message ==="Username already used"){
         return fail(400,{username:true})
 
-    }else if (signupQuery.data.message ==="The email is already taken"){
+    }else if (signupQuery.data.message ==="email already used"){
         return fail(400,{email:true})
 
     }
-    const user = await axios.post("http://localhost:8000/user/login",{email,password})
-    cookies.set("userId",user.data.user.id,{
-        path:"/",
-        httpOnly:true,
-        sameSite:"strict",
-        secure:process.env.NODE_ENV ==="production",
-        maxAge:60*60*24*30
-    })
+    // const user = await axios.post("http://localhost:8000/user/login",{email,password})
+    // cookies.set("userId",user.data.user.id,{
+    //     path:"/",
+    //     httpOnly:true,
+    //     sameSite:"strict",
+    //     secure:process.env.NODE_ENV ==="production",
+    //     maxAge:60*60*24*30
+    // })
     redirect(302,`/selectprofile`)
 }}

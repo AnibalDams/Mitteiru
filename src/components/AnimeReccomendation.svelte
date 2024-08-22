@@ -12,6 +12,7 @@
 <div class="container" style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent), url('http://localhost:8000/static/${animeData.image}');`}>
     <div class="content">
         <h1 class="content_title">{animeData.name}</h1>
+        <span style="font-weight: bold;">{animeData.japanese_name}</span>
         <div class="content_genres">
             {#each animeGenres as genre}
             <GenreShip genre={genre.name}/>
@@ -51,7 +52,7 @@
         max-width: 60%;
     }
     .container .content .content_genres{
-        margin-top:15px;
+        margin-top:5px;
         margin-bottom:25px;
     }
 
