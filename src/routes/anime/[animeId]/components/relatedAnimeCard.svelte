@@ -15,7 +15,7 @@ on:mouseleave={()=>gradientPosition=0}
 <Gradient positionValue={gradientPosition}/>
 <img
     class="related_anime_card_image"
-    src={`http://localhost:8000/static/${dataA.similarAnime.horizontalImage}`}
+    src={`http://localhost:8000/static/${dataA.similarAnime.horizontal_image}`}
     alt=""
 />
 <span class="related_anime_card_name"

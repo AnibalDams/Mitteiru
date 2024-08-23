@@ -4,9 +4,9 @@
 
 </script>
 
-<button class="episode_card" on:click={goto(`/anime/${episodeData[1]}/episode/${episodeData[2]}`)}>
-    <img src={`http://localhost:8000/static/${episodeData[5]}`} alt={`Episode ${episodeData[2] - episodeData[3]}`} class="episode_card_image"/>
-    <span class="episode_card_name">Episode {episodeData[2]} - {episodeData[3]}</span>
+<button class="episode_card" on:click={goto(`/anime/${episodeData.anime_id}/episode/${episodeData.episode_number}`)}>
+    <img src={`http://localhost:8000/static/${episodeData.thumbnail}`} alt={`Episode ${episodeData.episode_number - episodeData.name}`} class="episode_card_image"/>
+    <span class="episode_card_name">Episode {episodeData.episode_number} - {episodeData.name}</span>
 </button>
 
 

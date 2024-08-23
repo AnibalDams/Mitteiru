@@ -40,12 +40,12 @@
 </script>
 
 <svelte:head>
-    <title>{data.status === 404 ? "Anime not found" : data.anime.name?data.anime.name:"Loading..."}</title>
+    <title>{!data.anime ? "Anime not found" : data.anime.name?data.anime.name:"Loading..."}</title>
     <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
 <Header {logged} {profileImage} name={profileName} />
-{#if data.status === 404}
+{#if !data.anime}
     <NotFoundError
         text="This anime wasn't found. Are you sure that you put the right anime in the url? Check it!"
     />

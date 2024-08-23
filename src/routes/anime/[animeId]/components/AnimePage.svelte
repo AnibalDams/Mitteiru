@@ -45,24 +45,25 @@
                 >
                 <span class="episodes_status_text"
                     ><LangText p="animeShow" w="status"/>: <span
-                        style={`color:${dataA.anime.onGoing ? "green" : "blue"};`}
-                        >{dataA.anime.onGoing ? languages["animeShow"]["onGoing"][$language] : languages["animeShow"]["finished"][$language]}</span
+                        style={`color:${dataA.anime.on_going ? "green" : "blue"};`}
+                        >{dataA.anime.on_going ? languages["animeShow"]["onGoing"][$language] : languages["animeShow"]["finished"][$language]}</span
                     ></span
                 >
             </div>
             <h1 class="anime_title">{dataA.anime.name}</h1>
+            <span style="display: block;margin-bottom:15px;font-weight:bold;">{dataA.anime.japanese_name}</span>
             <span
                 class="anime_studio_ship"
                 on:click={() => goto(`/anime/studio/${dataA.anime.studio}`)}
                 >{dataA.anime.studio}</span
             >
-            <span class="anime_studio_ship">{dataA.anime.releaseYear}</span>
+            <span class="anime_studio_ship">{dataA.anime.release_year}</span>
             <p class="anime_synopsis">
                 {dataA.anime.synopsis}
             </p>
             <div class="genres">
                 {#each dataA.genres as genre}
-                    <GenreShip genre={genre[1]} />
+                    <GenreShip genre={genre.name} />
                 {/each}
             </div>
             <div class="related_anime">
@@ -109,7 +110,6 @@
         font-weight: bold;
     }
     .anime_container .right_sec .anime_information .anime_title {
-        margin-bottom: 20px;
 
         margin-top: 10px;
         font-size: 2.6rem;
