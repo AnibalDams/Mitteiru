@@ -71,12 +71,11 @@
         if (name.length > 0) {
             buttonCreatetext = "creating...";
             await axios.post(
-                "http://localhost:8000/user/profile/new",
+                `http://localhost:8000/user/${userId}/profile/d/new`,
 
                 {
                     name: name,
                     photo: avatar,
-                    userId,
                 },
             );
             buttonCreatetext = "Done";
