@@ -15,21 +15,21 @@
     import ModalWithoutActions from "../../../../../components/ModalWithoutActions.svelte";
 
     export let data;
-    let episodeNumber = data.status === 200? data.episode[2]:0;
+    let episodeNumber = data.episode.episode_number;
     let profileId = "";
     let profileImage = "";
     let profileName = "";
     let logged = "";
     let showModal = false
-    let episodeLink = `http://localhost:8000/static/${data.status===200?data.episode[6]:0}`;
+    let episodeLink = `http://localhost:8000/static/${data.status===200?data.episode.link:0}`;
     let episode_ = data.episode
 
     const getEpisode = async (episodeN) => {
         for (let i = 0; i < data.allEpisodes.length; i++) {
             const episode = data.allEpisodes[i];
-            if (episode[2] === episodeNumber) {
+            if (episode.episode_number === episodeNumber) {
                 episode_ = data.allEpisodes[i]
-                episodeLink = `http://localhost:8000/static/${episode[6]}`;
+                episodeLink = `http://localhost:8000/static/${episode.link}`;
             }
         }
     };
@@ -58,12 +58,12 @@
     <title>{`${data.status===404?"This anime doesn't have episodes":data.anime.name+" "+"episode"+" "+episodeNumber}`}</title>
 </svelte:head>
 
-{#if data.status ===200}
+{#if data.episode.episode_number}
 <ModalWithoutActions bind:showModal>
     <h2 slot="header" style="font-size:20px; margin-bottom:10px;">
-        {episode_[3]}
+        Episode {episodeNumber} - {episode_.name}
     </h2>
-    <p style="display: inline-block; margin-top:10px;margin-bottom:10px;">{episode_[4]}</p>
+    <p style="display: inline-block; margin-top:10px;margin-bottom:10px;">{episode_.synopsis}</p>
 </ModalWithoutActions>
 
 <div class="episode_container">
@@ -106,7 +106,7 @@
         {/if}
     </div>
 </div>
-{:else if data.status ===404}
+{:else}
 <NotFoundError text="This anime doesn't have the given episode. Sorry for the inconvenience :("/>
 {/if}
 <style>

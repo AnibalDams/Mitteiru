@@ -21,10 +21,10 @@
     const search = async () => {
         loaded=false
         animes=[]
-        let getAnimes = await axios("http://localhost:8000/anime/all");
+        let getAnimes = await axios("http://localhost:8000/anime/d/all");
 
         for (const anime of getAnimes.data.animes) {
-            const animeNameLower = anime[1].toLowerCase();
+            const animeNameLower = anime.name.toLowerCase();
             if (animeNameLower.includes($searchIndex.toLowerCase())) {
                 animes.push(anime);
             }

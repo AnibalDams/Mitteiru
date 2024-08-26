@@ -8,13 +8,14 @@
   import {language} from '$lib/store'
   export let searchPage=false 
   export let searchPageAction
-
+  let opacity = $searchIndex.length <= 0 ? 0.5:1
+  $: if($searchIndex.length <=0) {opacity = 0.5}else{opacity = 1}
 </script>
 
 
 <div class="search_bar">
-    <input type="text" bind:value={$searchIndex} placeholder={languages["navBar"]["searchSomething"][$language]} class="search_bar_input">
-    <span class="search_bar_button" on:click={()=>{
+    <input type="text" bind:value={$searchIndex}  placeholder={languages["navBar"]["searchSomething"][$language]} class="search_bar_input">
+    <span class="search_bar_button" style={`opacity:${opacity}; cursor:${opacity ==1?"pointer":"default"}`} on:click={()=>{
         if (searchPage) {
             if ($searchIndex.length >0) {
             searchPageAction()
