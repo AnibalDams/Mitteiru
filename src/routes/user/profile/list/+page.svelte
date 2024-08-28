@@ -38,7 +38,8 @@
 	const createNewList = async()=>{
 		if (newListName.length >0) {
 			createButtonText ="Creating..."
-			await axios.post(`http://localhost:8000/user/profile/${profileId}/list/${newListName}/new`)
+			 
+			await axios.post(`http://localhost:8000/user/profile/${profileId}/list/new`,{name:newListName})
 			createButtonText = "Created"
 			newListName = ""
 
@@ -62,8 +63,8 @@
 			let animesFetch = await axios(
 				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
 			);
-			lists = listsFetch.data.list
-			$selectedList = lists[0][0]
+			lists = listsFetch.data.lists
+			$selectedList = lists[0].id
 
 			if(animesFetch.data.animes.length<=0){
 				isThereAnime = false
@@ -108,7 +109,7 @@
 		<h2 style="margin:10px; display:flex; align-items:center; ">Your lists. Let's watch something! <ComboBox selecteed={$selectedList} data={lists}/> <IconButton on:click={()=>display = display==true?false:true} /> {#if display}<input bind:value={newListName} placeholder="Insert a name for the list"/> <Button marginLeft="10px" onClick={()=>createNewList()}>{createButtonText}</Button>{/if}</h2>
 		<div class="anime_card_container">
 			{#each animes as anime}
-				{#if anime[10]===$selectedList}
+				{#if anime.list_id===$selectedList}
 					<AnimeCard animeData={anime} />
 				{/if}
 				<div style="height: 500px;"></div>

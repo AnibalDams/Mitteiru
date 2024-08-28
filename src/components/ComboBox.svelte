@@ -11,8 +11,8 @@
     onMount(()=>{
         for (let i = 0; i < data.length; i++) {
             const list = data[i];
-            if(list[0] === $selectedList){
-                text = list[1]
+            if(list.id === $selectedList){
+                text = list.name
             }
             
         }
@@ -34,11 +34,11 @@
                 
                 classes = "combo_box_options"
                 display = "none"
-                $selectedList = listName[0]
-                text = listName[1]
+                $selectedList = listName.id
+                text = listName.name
                 
                 action()
-            }}>{listName[1]}</li>            
+            }}>{listName.name}</li>            
         {/each}
 
 

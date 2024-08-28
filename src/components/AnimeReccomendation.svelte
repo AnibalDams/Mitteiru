@@ -35,7 +35,7 @@
     
     .container{
         width: 100%;
-        height: 500px;
+        height: 600px;
         background-position: center;
         background-size: cover;
         display:flex;

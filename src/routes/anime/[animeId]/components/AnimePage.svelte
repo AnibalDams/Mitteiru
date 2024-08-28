@@ -17,7 +17,7 @@
     export let profileId;
 
     onMount(()=>{
-        console.log(animesInList)
+       
     })
 </script>
 

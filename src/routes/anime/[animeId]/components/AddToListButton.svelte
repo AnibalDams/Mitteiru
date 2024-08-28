@@ -17,7 +17,7 @@
     let showModal = false;
     const addToList = async (listId) => {
         await axios.post(
-            `http://localhost:8000/user/profile/${profileId}/anime/${animeData.id}/list/${listId}/add`,
+            `http://localhost:8000/anime/${animeData.id}/list/${listId}/add`,
         );
 
         doesTheAnimeIsInList = true;
@@ -39,16 +39,17 @@
     <h2 slot="header"><LangText p="animeShow" w="chooseAList"/></h2>
     {#each lists as list, index}
         <CheckBox
-            checked={animesInList.find((e) => e[10] == list[0] && e[0]==animeData.id)  ? true : false}
+            checked={animesInList.find((e) => e.list_id == list.id && e.id==animeData.id)  ? true : false}
             selected={() => {
-                removeFromList(list[0])
+                removeFromList(list.id)
                 
             }}
             notSelected={() => {
-                addToList(list[0]);
+                console.log(list.id)
+                addToList(list.id);
             }}
 
-            text={list[1]}
+            text={list.name}
         />
 
     {/each}

@@ -74,7 +74,7 @@
           <Profile
             secondaryAction={refreshProfiles}
             onClick={() => {
-                console.log(profile_)
+              
               setProfile(profile_.id, profile_.photo, profile_.name);
             }}
             editAction={() => {
