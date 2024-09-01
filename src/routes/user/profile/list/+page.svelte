@@ -108,12 +108,17 @@
 	
 		<h2 style="margin:10px; display:flex; align-items:center; ">Your lists. Let's watch something! <ComboBox selecteed={$selectedList} data={lists}/> <IconButton on:click={()=>display = display==true?false:true} /> {#if display}<input bind:value={newListName} placeholder="Insert a name for the list"/> <Button marginLeft="10px" onClick={()=>createNewList()}>{createButtonText}</Button>{/if}</h2>
 		<div class="anime_card_container">
-			{#each animes as anime}
-				{#if anime.list_id===$selectedList}
-					<AnimeCard animeData={anime} />
-				{/if}
-				<div style="height: 500px;"></div>
-			{/each}
+			{#if animes.find(e=>e.list_id===$selectedList)}
+				{#each animes as anime}
+					{#if anime.list_id===$selectedList}
+							<AnimeCard animeData={anime} />
+					{/if}
+				{/each}
+			{:else}
+				<div style="display:flex; justify-content:center; align-items:center; width:100%; height: 500px;">
+					<img src="http://localhost:8000/static/404.png" style="width: 400px; height:400px;" alt="animes not found">
+				</div>
+			{/if}
 		</div>
 
 	{/if}
