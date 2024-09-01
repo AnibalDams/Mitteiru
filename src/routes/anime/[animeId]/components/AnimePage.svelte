@@ -38,7 +38,7 @@
         </div>
         <div class="anime_information">
             <div class="episodes_status_sec">
-                <span class="episodes_status_text"
+                <span class="episodes_status_text" title="This number may not accurately reflect the total number of episodes in the anime, as it is based on the episodes available in the database."
                     ><LangText p="animeShow" w="episodes"/>: <span style="color:blue;"
                         >{dataA.episodes.length}</span
                     ></span
