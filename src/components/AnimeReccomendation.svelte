@@ -2,9 +2,10 @@
     import Button from './Button.svelte'
     import GenreShip from './GenreShip.svelte';
 	import { goto } from "$app/navigation";
-
+    import SavedCheck from './SavedCheck.svelte';
     export let animeData =[]
     export let animeGenres=[]
+    export let inList = false
 
 </script>
 
@@ -18,6 +19,10 @@
             <GenreShip genre={genre.name}/>
                 
             {/each}
+            {#if inList}
+            <SavedCheck/>
+                
+            {/if}
 
          </div>
          <p class="content_description">{animeData.synopsis}</p>

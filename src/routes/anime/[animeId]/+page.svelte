@@ -27,7 +27,7 @@
             let getLists = await axios(
 				`http://localhost:8000/user/profile/${profileId}/list/all`,
 			);
-            console.log(getLists.data)
+          
             let getAnimesInList = await axios(
 				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
 			);

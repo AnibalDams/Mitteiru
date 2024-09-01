@@ -45,7 +45,6 @@
                 
             }}
             notSelected={() => {
-                console.log(list.id)
                 addToList(list.id);
             }}
 

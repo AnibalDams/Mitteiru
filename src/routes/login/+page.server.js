@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function load({ cookies }) {
   let userId = cookies.get("userId");
-  console.log(userId);
+
   return { userId };
 }
 

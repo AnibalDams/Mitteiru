@@ -116,9 +116,9 @@
           newProfile = false;
         }}
         refresh={refreshProfiles}
-        avatar={profile[2]}
-        name={profile[3]}
-        profileId={profile[0]}
+        avatar={profile.photo}
+        name={profile.name}
+        profileId={profile.id}
       />
     {/if}
   </div>

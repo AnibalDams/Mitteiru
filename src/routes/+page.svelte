@@ -18,10 +18,6 @@
 </script>
 
 <svelte:body on:viewportChanged={()=>screenWidth= window.innerWidth}/>
-{#if screenWidth>= 725}
-	<DesktopPage data={data}/>
-{:else}
-	<MobilePage/>
-	
-{/if}
+
+<DesktopPage data={data}/>
 

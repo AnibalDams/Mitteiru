@@ -76,7 +76,6 @@
                     admin:true,
                     name: name,
                     photo: avatar,
-                    userId,
                 },
             );
             buttonCreatetext = "Done";

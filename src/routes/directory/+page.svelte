@@ -12,6 +12,7 @@
     let profileId = "";
     let profileImage = "";
     let profileName = "";
+    let animesInList = []
     export let data;
     let logged;
     onMount(async () => {
@@ -25,6 +26,10 @@
         } else {
             let getAnimes = await axios("http://localhost:8000/anime/d/all");
             animes = getAnimes.data.animes;
+            let getAnimesInList = await axios(
+				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
+			);
+            animesInList = getAnimesInList.data.animes
             loaded = true;
         }
     });
@@ -41,7 +46,7 @@
     <h2>Directory ({animes.length})</h2>
     <div class="animes_container">
         {#each animes as anime}
-            <AnimeCard animeData={anime} />
+            <AnimeCard animeData={anime}  saved={animesInList.find(e=>e.id==anime.id)?true:false}/>
         {/each}
     </div>
 {:else}

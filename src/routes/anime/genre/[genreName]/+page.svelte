@@ -4,7 +4,7 @@
     import AnimeCard from "../../../../components/AnimeCard.svelte";
     import Header from "../../../Header.svelte";
     import GenreShip from '../../../../components/GenreShip.svelte'
-
+    import axios from "axios"
     import { onMount } from "svelte";
 
     export let data;
@@ -13,7 +13,7 @@
     let profileImage = "";
     let profileName = "";
     let logged = "";
-
+    let animesInList = []
     onMount(async () => {
         const userId = data.userId;
         if (userId && userId.length > 0) {
@@ -24,7 +24,10 @@
             if (profileId.length <= 0) {
                 goto("/selectprofile");
             }
-
+            let getAnimesInList = await axios(
+				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
+			);
+            animesInList = getAnimesInList.data.animes
             logged = "si";
         } else {
             logged = "no";
@@ -56,7 +59,7 @@
         <span class="text">Results for the genre: {data.genreName}</span>
         <div class="animes_container">
             {#each data.animes as anime}
-                <AnimeCard animeData={anime} />
+                <AnimeCard animeData={anime}  saved={animesInList.find(e=>e.id==anime.id)?true:false}/>
 
             {/each}
         </div>
