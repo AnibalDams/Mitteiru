@@ -57,7 +57,7 @@
                 on:click={() => goto(`/anime/studio/${dataA.anime.studio}`)}
                 >{dataA.anime.studio}</span
             >
-            <span class="anime_studio_ship">{dataA.anime.release_year}</span>
+            <span class="anime_studio_ship" on:click={goto(`/anime/year/${dataA.anime.release_year}`)}>{dataA.anime.release_year}</span>
             <p class="anime_synopsis">
                 {dataA.anime.synopsis}
             </p>

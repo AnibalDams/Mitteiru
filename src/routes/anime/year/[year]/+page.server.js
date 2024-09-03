@@ -6,12 +6,13 @@ export async function load({params,cookies}) {
 
    
     try {
-        const animesOfAStudio = await axios(`http://localhost:8000/anime/d/studio/${params.studio}`)
+        const animesOfAYear = await axios(`http://localhost:8000/anime/d/year/${params.year}`)
+        
         
 
  
 
-        return {studio:params.studio,animes:animesOfAStudio.data.animes,userId,status:200}   
+        return {year:params.year,animes:animesOfAYear.data.animes,userId,status:200}   
 
     } catch (error) {
         console.error(error)
