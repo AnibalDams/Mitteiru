@@ -31,6 +31,8 @@
             let getAnimesInList = await axios(
 				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
 			);
+            const f = await axios.post(`http://localhost:8000/user/profile/${profileId}/history/${data.anime.id}/0/add`)
+            console.log(f.data)
             profileLists = getLists.data.lists
             animesInList = getAnimesInList.data.animes
             logged = "si";

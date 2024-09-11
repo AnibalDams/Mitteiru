@@ -18,6 +18,7 @@
 		<span style="font-weight: bold;">{name}</span>
 
         <button type="button" class="avatar_menu_button" on:click={()=>{goto("/user/profile/list")}}>My List</button>
+        <button type="button" class="avatar_menu_button" on:click={()=>{goto("/user/profile/history")}}>History</button>
         <button type="button" class="avatar_menu_button" on:click={()=>{goto("/selectprofile")}}>Change Profile</button>
         
 
@@ -51,7 +52,7 @@
         border-radius: 5px;
         right: 10%;
         top:90%;
-        height: 250px;
+        height: 290px;
         width: 250px;
         flex-direction: column;
         justify-content: center;

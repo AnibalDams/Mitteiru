@@ -21,7 +21,7 @@
     let profileName = "";
     let logged = "";
     let showModal = false
-    let episodeLink = `http://localhost:8000/static/${data.status===200?data.episode.link:0}`;
+    let episodeLink = `http://localhost:8000/static/${data.episode?data.episode.link:0}`;
     let episode_ = data.episode
 
     const getEpisode = async (episodeN) => {
@@ -71,7 +71,7 @@
 
     <h2 class="title">{data.anime.name} episode {episodeNumber}     <button title="Synopsis" on:click={()=>{showModal=true}} class="synopsis_button"><EyeOpen/></button> </h2>
 
-    <video src={episodeLink} controls class="video_player">
+    <video src={episodeLink} autoplay controls class="video_player">
         <track kind="captions" /></video
     >
     <div class="controls">

@@ -42,7 +42,7 @@
 <svelte:head>
 
 
-    <title>Animes of the year: {data.year}</title>
+    <title>{data.year}'s animes</title>
 
 
 </svelte:head>
