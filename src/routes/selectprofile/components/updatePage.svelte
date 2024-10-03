@@ -98,7 +98,9 @@
         />
         <Button type="button" onClick={()=>{
 
+               if (buttonCreatetext !== "Updating...") {
                 updateProfile()
+               }
             
             }}>{buttonCreatetext}</Button
         >

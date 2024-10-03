@@ -60,10 +60,10 @@
     on:click={() => {
         showModal = true;
     }}
-    ><Bookmark style={`transition:0.1s;margin-right:5px; margin-left:50px; `} />
+    ><Bookmark style={`transition:0.1s;position:absolute; top:50%;transform:translateY(-50%); left:50px; `} />
     <span
         style="position:absolute;
-        top:35%; left:70px;"><LangText p="animeShow" w="addToList"/></span
+        top:50%; left:70px; transform:translateY(-50%)"><LangText p="animeShow" w="addToList"/></span
     ></button
 >
 

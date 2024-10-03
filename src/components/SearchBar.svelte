@@ -25,7 +25,7 @@
         if($searchIndex.length >0){
             goto(`/search/${$searchIndex}`)
         }}
-    }}><MagnifyingGlass style="position:absolute;top:30%;left:20%; "/></span>
+    }}><MagnifyingGlass style="position:absolute;top:50%;left:50%; transform:translate(-50%,-50%)"/></span>
 </div>
 
 

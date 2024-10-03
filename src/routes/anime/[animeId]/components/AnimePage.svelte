@@ -9,27 +9,34 @@
     import {languages} from '$lib/languagesDic'
     import {language} from '$lib/store'
     import LangText from "../../../../components/LangText.svelte";
+  import LikeButton from "../../../../components/LikeButton.svelte";
     
     export let logged;
     export let dataA;
     export let profileLists = [[0,""]]
     export let animesInList = [[0,""]]
     export let profileId;
+    export let likesCount = 0;
+    export let profileLikes = []
+    let showCover = false
+    
 
-    onMount(()=>{
-       
-    })
 </script>
 
 <div
     class="anime_container"
     style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent),url(http://localhost:8000/static/${dataA.anime.image});`}
 >
+<div class="image_large" on:click={()=>showCover = false}  style={`display: ${showCover?"flex":"none"};`}>
+    <img src={`http://localhost:8000/static/${dataA.anime.cover}`} style="border-radius: 10px; width:600px;height:800px; object-fit:cover;" alt={dataA.anime.name}>
+    </div>
     <div class="right_sec">
         <div class="image_sec">
             <img
+
                 src={`http://localhost:8000/static/${dataA.anime.cover}`}
                 alt=""
+                on:click={()=>showCover= true}
                 class="cover"
             />
             {#if logged === "si" && profileId.length > 0}
@@ -57,8 +64,12 @@
                 on:click={() => goto(`/anime/studio/${dataA.anime.studio}`)}
                 >{dataA.anime.studio}</span
             >
-            <span class="anime_studio_ship" on:click={goto(`/anime/year/${dataA.anime.release_year}`)}>{dataA.anime.release_year}</span>
-            <p class="anime_synopsis">
+               
+                <span class="anime_studio_ship" on:click={goto(`/anime/year/${dataA.anime.release_year}`)}>{dataA.anime.release_year}</span>
+                {#if logged === "si" && profileId.length >0}
+                    <LikeButton likesCount={likesCount} profileLikes={profileLikes} profileId={Number(profileId)} animeId={dataA.anime.id}/>
+                {/if}
+                <p class="anime_synopsis">
                 {dataA.anime.synopsis}
             </p>
             <div class="genres">
@@ -84,6 +95,7 @@
         <div class="episodes_information_list">
             {#each dataA.episodes as episode}
                 <EpisodeCard episodeData={episode} />
+
             {/each}
         </div>
     </div>
@@ -91,6 +103,7 @@
 
 <style>
     .anime_container {
+        position: relative;
         max-width: 100%;
         height: 1000px;
         background-position: center;
@@ -145,6 +158,20 @@
         height: 500px;
         object-fit: cover;
         border-radius: 5px;
+    }
+    .image_large{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        
+        justify-content: center;
+        align-items: center;
+        transition: 0.1s;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background-color: rgba(0, 0, 0, 0.507);
+        z-index: 99999;
     }
 
     .related_anime {

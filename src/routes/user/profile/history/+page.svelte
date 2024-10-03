@@ -14,6 +14,7 @@
   let animesInList = [];
   let history = [];
   let loaded = false;
+  let today = new Date().toISOString().substring(0,10)
   onMount(async () => {
     profileId = getCookie("profileId");
     profileImage = getCookie("profileImage");
@@ -43,7 +44,7 @@
 
 <div class="container">
 {#each history as h}
-    <span>{h.date}</span>
+    <span>{h.date == today?"Today":h.date}</span>
     <div class="animes_container">
     {#each h.animes as anime}
         <AnimeCard animeData={anime} saved={animesInList.find((e) => e.id == anime.id) ? true : false}/>

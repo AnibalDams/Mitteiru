@@ -69,9 +69,9 @@
 <div class="episode_container">
     
 
-    <h2 class="title">{data.anime.name} episode {episodeNumber}     <button title="Synopsis" on:click={()=>{showModal=true}} class="synopsis_button"><EyeOpen/></button> </h2>
+    <h2 class="title">{data.anime.name} episode {episodeNumber} <button title="Synopsis" on:click={()=>{showModal=true}} class="synopsis_button"><EyeOpen style="position:absolute;top:50%; left:50%;transform:translate(-50%,-50%)"/></button> </h2>
 
-    <video src={episodeLink} autoplay controls class="video_player">
+    <video title="We do recommend use the full-screen mode" src={episodeLink} autoplay controls class="video_player">
         <track kind="captions" /></video
     >
     <div class="controls">
@@ -83,7 +83,7 @@
                     getEpisode(episodeNumber);
                 }}
                 ><TrackPrevious style="margin-right:10px;" />
-                <span>Previous</span></button
+                <span style="font-weight: bold;">episode {episodeNumber-1}</span></button
             >
         {:else}
             <div></div>
@@ -98,7 +98,7 @@
                     episodeNumber += 1;
                     getEpisode(episodeNumber);
                 }}
-                ><span>Next</span><TrackNext style="margin-left:10px;" />
+                ><span style="font-weight: bold;">episode {episodeNumber+1}</span><TrackNext style="margin-left:10px;" />
             </button>
         {:else}
         <div></div>
@@ -120,8 +120,12 @@
 
     }
     .episode_container .title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-left: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 20px; 
+        text-align: center;
     }
     .episode_container .controls {
         margin: 10px;
@@ -149,10 +153,10 @@
 
     }
     .synopsis_button{
-        padding-left: 5px;
-        padding-right: 5px;
-        padding-top: 5px;
-        padding-bottom: 5px;
+        position: relative;
+        width: 30px;
+        height: 30px;
+        margin-left: 5px;
         border:1px solid black;
         border-radius: 5px;
         background-color: white;

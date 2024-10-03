@@ -113,11 +113,9 @@
             bind:value={name}
         />
         <Button type="button" onClick={()=>{
-            if(variant == "create"){
+            if(variant == "create" && buttonCreatetext !== "creating..."){
                 createProfile()
 
-            }else{
-                updateProfile()
             }
             }}>{buttonCreatetext}</Button
         >
