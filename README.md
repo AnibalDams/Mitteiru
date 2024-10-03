@@ -11,7 +11,7 @@ I am creating this web app mainly to practice my skills in Svelte, Python, and p
 # Some Screenshots
 
 ### Select a profile
-![select a profile page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-36-43.png)
+![select a profile page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Screenshot%202024-10-03%20at%2001-22-51%20Who's%20watching.png)
 
 ### Create a new profile
 ![Create a new profile](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-42-48.png)
@@ -41,4 +41,4 @@ I am creating this web app mainly to practice my skills in Svelte, Python, and p
 ![Profile options](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-42-09.png)
 
 ### Your list page
-![Your list page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-43-48.png)
+![Your list page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Screenshot%202024-10-03%20at%2001-18-51%20Your%20List.png)
