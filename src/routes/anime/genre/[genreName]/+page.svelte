@@ -84,5 +84,7 @@
         margin-top: 20px;
         margin-bottom: 20px;
         margin-left: 10px;
+        overflow: auto;
+        white-space: nowrap;
     }
 </style>

@@ -6,9 +6,10 @@ export async function load({ cookies, params }) {
     try{
         
     const anime = await axios(`http://localhost:8000/anime/${params.animeId}`)
-  
     const episodes = await axios(`http://localhost:8000/anime/${params.animeId}/episode/all`)
-    const similarAnime = (await axios(`http://localhost:8000/anime/${params.animeId}/similar`)).data.animes[0]
+    const similarAnimes = (await axios(`http://localhost:8000/anime/${params.animeId}/similar`)).data.animes
+    const randomnumber = (Math.round(Math.random() * (similarAnimes.length - 1)) + 1)-1;
+    const similarAnime = similarAnimes[randomnumber]
 
     return { status:200,userId, anime: anime.data.animes, genres: anime.data.genres,episodes: episodes.data.episodes, similarAnime}
     }catch(error){

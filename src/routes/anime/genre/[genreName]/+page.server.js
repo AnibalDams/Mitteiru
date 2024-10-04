@@ -8,7 +8,7 @@ async function getTenGenres() {
       for (let i = 0; i < allGenres.data.genres.length; i++) {
         const element = allGenres.data.genres[i].name;
 
-        if (tenGenres.length <= 10) {
+        if (tenGenres.length <= 20) {
           tenGenres.push(element);
         }
       }

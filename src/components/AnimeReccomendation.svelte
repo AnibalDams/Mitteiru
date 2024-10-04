@@ -6,11 +6,13 @@
   export let animeData = [];
   export let animeGenres = [];
   export let inList = false;
+  console.log(animeData)
+  let url = `${animeData.studio==="animeFlv"?"url("+animeData.cover+")":"url("+"http://localhost:8000/static/"+animeData.image+")"}`
 </script>
 
 <div
   class="container"
-  style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent), url('http://localhost:8000/static/${animeData.image}');`}
+  style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent), ${url};`}
 >
   <div class="content">
     <h1 class="content_title">{animeData.name}</h1>

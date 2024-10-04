@@ -19,22 +19,22 @@
     export let likesCount = 0;
     export let profileLikes = []
     let showCover = false
-    
+    let coverUrl = `${dataA.anime.studio==="animeFlv"?"url("+dataA.anime.cover+")":"url("+"http://localhost:8000/static/"+dataA.anime.cover+")"}`
 
 </script>
 
 <div
     class="anime_container"
-    style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent),url(http://localhost:8000/static/${dataA.anime.image});`}
+    style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent),${dataA.anime.studio==="animeFlv"?"url("+dataA.anime.cover+")":"url("+"http://localhost:8000/static/"+dataA.anime.image+")"};`}
 >
 <div class="image_large" on:click={()=>showCover = false}  style={`display: ${showCover?"flex":"none"};`}>
-    <img src={`http://localhost:8000/static/${dataA.anime.cover}`} style="border-radius: 10px; width:600px;height:800px; object-fit:cover;" alt={dataA.anime.name}>
+    <img src={dataA.anime.studio=="animeFlv"?dataA.anime.cover:`http://localhost:8000/static/${dataA.anime.cover}`} style="border-radius: 10px; width:600px;height:800px; object-fit:cover;" alt={dataA.anime.name}>
     </div>
     <div class="right_sec">
         <div class="image_sec">
             <img
 
-                src={`http://localhost:8000/static/${dataA.anime.cover}`}
+                src={dataA.anime.studio=="animeFlv"?dataA.anime.cover:`http://localhost:8000/static/${dataA.anime.cover}`}
                 alt=""
                 on:click={()=>showCover= true}
                 class="cover"
@@ -94,7 +94,7 @@
         <h2 class="episodes_information_title">Episodes</h2>
         <div class="episodes_information_list">
             {#each dataA.episodes as episode}
-                <EpisodeCard episodeData={episode} />
+                <EpisodeCard animeStudio={dataA.anime.studio} episodeData={episode} />
 
             {/each}
         </div>

@@ -1,5 +1,6 @@
 <script>
     export let episodeData
+    export let animeStudio;
 	import { goto } from "$app/navigation";
     import Gradient from '../../../../components/Gradient.svelte'
 
@@ -7,7 +8,7 @@
 </script>
 
 <button class="episode_card" on:mouseover={()=>gPosition = 90} on:mouseleave={()=>gPosition = 0} on:click={goto(`/anime/${episodeData.anime_id}/episode/${episodeData.episode_number}`)}>
-    <img src={`http://localhost:8000/static/${episodeData.thumbnail}`} alt={`Episode ${episodeData.episode_number - episodeData.name}`} class="episode_card_image"/>
+    <img src={animeStudio==="animeFlv"?episodeData.thumbnail:`http://localhost:8000/static/${episodeData.thumbnail}`} alt={`Episode ${episodeData.episode_number - episodeData.name}`} class="episode_card_image"/>
     <Gradient positionValue={gPosition}/>
     <span class="episode_card_name">Episode {episodeData.episode_number} - {episodeData.name.length >47?episodeData.name.substring(0,44)+"...":episodeData.name}</span>
 </button>
