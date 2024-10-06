@@ -21,7 +21,7 @@
     let profileName = "";
     let logged = "";
     let showModal = false
-    let episodeLink = `http://localhost:8000/static/${data.episode?data.episode.link:0}`;
+    let episodeLink = data.anime.studio !="animeFlv"?`http://localhost:8000/static/${data.episode?data.episode.link:0}`:data.episode.link;
     let episode_ = data.episode
 
     const getEpisode = async (episodeN) => {
@@ -29,7 +29,7 @@
             const episode = data.allEpisodes[i];
             if (episode.episode_number === episodeNumber) {
                 episode_ = data.allEpisodes[i]
-                episodeLink = `http://localhost:8000/static/${episode.link}`;
+                episodeLink =data.anime.studio !="animeFlv"? `http://localhost:8000/static/${episode.link}`:episode.link;
             }
         }
     };
@@ -71,9 +71,13 @@
 
     <h2 class="title">{data.anime.name} episode {episodeNumber} <button title="Synopsis" on:click={()=>{showModal=true}} class="synopsis_button"><EyeOpen style="position:absolute;top:50%; left:50%;transform:translate(-50%,-50%)"/></button> </h2>
 
+ {#if data.anime.studio ==="animeFlv"}
+    <iframe style="width: 100%; height:600px" src={episodeLink} frameborder="0"></iframe>  
+ {:else}
     <video title="We do recommend use the full-screen mode" src={episodeLink} autoplay controls class="video_player">
-        <track kind="captions" /></video
-    >
+    <track kind="captions" /></video
+>
+ {/if}
     <div class="controls">
         {#if episodeNumber != 1}
             <button
