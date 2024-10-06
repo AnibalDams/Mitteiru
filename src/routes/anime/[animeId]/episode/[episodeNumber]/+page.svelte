@@ -69,7 +69,7 @@
 <div class="episode_container">
     
 
-    <h2 class="title">{data.anime.name} episode {episodeNumber} <button title="Synopsis" on:click={()=>{showModal=true}} class="synopsis_button"><EyeOpen style="position:absolute;top:50%; left:50%;transform:translate(-50%,-50%)"/></button> </h2>
+    <h2 class="title">{data.anime.name} episode {episodeNumber} <button title="Synopsis" on:click={()=>{showModal=true}} class="synopsis_button"><EyeOpen style="position:absolute;top:50%; left:50%;transform:translate(-50%,-50%)"/></button> {#if data.anime.studio === "animeFlv"}<span style="display: inline-block;font-size:16px; padding:10px;background-color:rgb(255, 79, 79);color:darkred; border-radius:10px; margin-left:10px;">Anime obtained from an external page. This episode may contain some ads.</span>{/if}</h2>
 
  {#if data.anime.studio ==="animeFlv"}
     <iframe style="width: 100%; height:600px" src={episodeLink} frameborder="0"></iframe>  
@@ -153,6 +153,7 @@
         transition: 0.1s;
     }
     .episode_container .controls .control:hover{
+
         box-shadow: 4px 4px 0px black;
 
     }
