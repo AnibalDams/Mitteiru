@@ -66,7 +66,6 @@
 <style>
   h2 {
     margin-top: 20px;
-    text-align: center;
     margin: 10px;
   }
   .animes_container {

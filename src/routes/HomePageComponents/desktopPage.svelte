@@ -80,7 +80,7 @@
     inList={animesInList.find((e) => e.id == animeRandom.id) ? true : false}
   />
 
-  <h2 style="margin:10px;text-align:center;">Watch our latest releases!</h2>
+  <h2 style="margin:10px;">Watch our latest releases!</h2>
   <div class="anime_card_container">
     {#each animes as anime}
       <AnimeCard
@@ -89,7 +89,7 @@
       />
     {/each}
   </div>
-  <h2 style="margin-left:10px; margin-top:25px; text-align:center;">
+  <h2 style="margin-left:10px; margin-top:25px; ">
     Not sure? Check out the most popular series!
   </h2>
   <div class="anime_card_container">

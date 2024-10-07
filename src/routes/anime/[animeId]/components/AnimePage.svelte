@@ -180,7 +180,6 @@
 
 
     .episodes_information {
-        text-align: center;
         margin-top: 50px;
 
     }
