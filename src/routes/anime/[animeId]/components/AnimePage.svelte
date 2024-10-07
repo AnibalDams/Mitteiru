@@ -181,6 +181,7 @@
 
     .episodes_information {
         margin-top: 50px;
+        margin-left:10px;
 
     }
     .episodes_information .episodes_information_list {
