@@ -17,7 +17,7 @@
     let showModal = false;
     const addToList = async (listId) => {
         await axios.post(
-            `http://localhost:8000/anime/${animeData.id}/list/${listId}/add`,
+            `https://mitteiru-backend.onrender.com/anime/${animeData.id}/list/${listId}/add`,
         );
 
         doesTheAnimeIsInList = true;
@@ -27,7 +27,7 @@
    
     const removeFromList = async (listId) => {
         await axios.delete(
-            `http://localhost:8000/user/profile/list/${listId}/anime/${animeData.id}`,
+            `https://mitteiru-backend.onrender.com/user/profile/list/${listId}/anime/${animeData.id}`,
         );
 
 

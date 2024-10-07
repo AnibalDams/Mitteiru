@@ -27,17 +27,17 @@
                 goto("/selectprofile");
             }
             let getLists = await axios(
-				`http://localhost:8000/user/profile/${profileId}/list/all`,
+				`https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/all`,
 			);
           
             let getAnimesInList = await axios(
-				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
+				`https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`,
 			);
-            let getLikes = (await axios(`http://localhost:8000/anime/${data.anime.id}/likes/count`))
+            let getLikes = (await axios(`https://mitteiru-backend.onrender.com/anime/${data.anime.id}/likes/count`))
             likesCount = getLikes.data.likesCount
             profileLikes = getLikes.data.profiles
             console.log(profileLikes)
-            await axios.post(`http://localhost:8000/user/profile/${profileId}/history/${data.anime.id}/0/add`)
+            await axios.post(`https://mitteiru-backend.onrender.com/user/profile/${profileId}/history/${data.anime.id}/0/add`)
             profileLists = getLists.data.lists
             animesInList = getAnimesInList.data.animes
             logged = "si";

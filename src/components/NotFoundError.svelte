@@ -8,7 +8,7 @@
 
 <div class="not_found_c">
     
-    <img src="http://localhost:8000/static/404.png" alt="" srcset="">
+    <img src="https://mitteiru-backend.onrender.com/static/404.png" alt="" srcset="">
    
     {#if !link}
     <span class="not_found_text">{text}</span>

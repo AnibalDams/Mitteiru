@@ -15,7 +15,7 @@ on:mouseleave={()=>gradientPosition=0}
 <Gradient positionValue={gradientPosition}/>
 <img
     class="related_anime_card_image"
-    src={dataA.similarAnime.studio==="animeFlv"?dataA.similarAnime.cover:`http://localhost:8000/static/${dataA.similarAnime.horizontal_image}`}
+    src={dataA.similarAnime.studio==="animeFlv"?dataA.similarAnime.cover:`https://mitteiru-backend.onrender.com/static/${dataA.similarAnime.horizontal_image}`}
     alt=""
 />
 <span class="related_anime_card_name"
@@ -56,7 +56,7 @@ on:mouseleave={()=>gradientPosition=0}
     }
      .related_anime_card:hover .related_anime_card_name{
         opacity: 1;
-        top: 80%;
+        top: 75%;
     }
 
 </style>

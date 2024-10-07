@@ -25,7 +25,7 @@
                 goto("/selectprofile");
             }
             let getAnimesInList = await axios(
-				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
+				`https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`,
 			);
             animesInList = getAnimesInList.data.animes
             logged = "si";

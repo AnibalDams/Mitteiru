@@ -9,7 +9,7 @@ export async function load({ params, cookies }) {
 
         const episodeNumber = Number(params.episodeNumber)
         let episode ={}
-        const allEpisodes = await axios(`http://localhost:8000/anime/${params.animeId}/episode/all`)
+        const allEpisodes = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}/episode/all`)
    
         if (allEpisodes.data.episodes) {
             for (let i = 0; i < allEpisodes.data.episodes.length; i++) {
@@ -21,7 +21,7 @@ export async function load({ params, cookies }) {
                 
             }            
         }
-        const anime = await axios(`http://localhost:8000/anime/${params.animeId}`)
+        const anime = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}`)
 
         return {status:episode.status, userId, episode: episode, allEpisodes: allEpisodes.data.episodes, anime: anime.data.animes, animeId: params.animeId }
 

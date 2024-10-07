@@ -21,7 +21,7 @@
     let profileName = "";
     let logged = "";
     let showModal = false
-    let episodeLink = data.anime.studio !="animeFlv"?`http://localhost:8000/static/${data.episode?data.episode.link:0}`:data.episode.link;
+    let episodeLink = data.anime.studio !="animeFlv"?`https://mitteiru-backend.onrender.com/static/${data.episode?data.episode.link:0}`:data.episode.link;
     let episode_ = data.episode
 
     const getEpisode = async (episodeN) => {
@@ -29,7 +29,7 @@
             const episode = data.allEpisodes[i];
             if (episode.episode_number === episodeNumber) {
                 episode_ = data.allEpisodes[i]
-                episodeLink =data.anime.studio !="animeFlv"? `http://localhost:8000/static/${episode.link}`:episode.link;
+                episodeLink =data.anime.studio !="animeFlv"? `https://mitteiru-backend.onrender.com/static/${episode.link}`:episode.link;
             }
         }
     };

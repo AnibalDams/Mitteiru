@@ -24,11 +24,11 @@
     if (profileId.length <= 0 && logged == "si") {
       goto("/selectprofile");
     } else {
-      let getAnimes = await axios("http://localhost:8000/anime/d/all");
+      let getAnimes = await axios("https://mitteiru-backend.onrender.com/anime/d/all");
       animes = getAnimes.data.animes;
       if (profileId.length > 0) {
         let getAnimesInList = await axios(
-          `http://localhost:8000/user/profile/${profileId}/list/anime/all`
+          `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
         );
         animesInList = getAnimesInList.data.animes;
       }
@@ -45,7 +45,7 @@
 
 {#if loaded}
   <Header {logged} {profileImage} name={profileName} />
-  <h2>Directory ({animes.length})</h2>
+  <h2 >Directory ({animes.length})</h2>
   <div class="animes_container">
     {#each animes as anime}
       <AnimeCard
@@ -56,7 +56,7 @@
   </div>
 {:else}
   <div
-    style="width:100%;height:100%; display:flex; justify-content:center;margin-top:100px;"
+    style="position:relative;width:100%;height:500px; "
   >
     <Loader />
   </div>
@@ -64,12 +64,16 @@
 
 <style>
   h2 {
+    margin-top: 20px;
+    text-align: center;
     margin: 10px;
   }
   .animes_container {
     margin: 10px;
     display: flex;
     flex-direction: row;
+    align-content: center;
+    justify-content: center;
     flex-wrap: wrap;
   }
 </style>

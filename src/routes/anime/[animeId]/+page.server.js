@@ -5,9 +5,9 @@ export async function load({ cookies, params }) {
     let userId = cookies.get("userId")
     try{
         
-    const anime = await axios(`http://localhost:8000/anime/${params.animeId}`)
-    const episodes = await axios(`http://localhost:8000/anime/${params.animeId}/episode/all`)
-    const similarAnimes = (await axios(`http://localhost:8000/anime/${params.animeId}/similar`)).data.animes
+    const anime = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}`)
+    const episodes = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}/episode/all`)
+    const similarAnimes = (await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}/similar`)).data.animes
     const randomnumber = (Math.round(Math.random() * (similarAnimes.length - 1)) + 1)-1;
     const similarAnime = similarAnimes[randomnumber]
 

@@ -2,7 +2,7 @@
     import Button from "./Button.svelte";
 </script>
 
-<div class="container" style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent), url('http://localhost:8000/static/The-Great-Jahy-Will-Not-Be-Defeated-10-17-2021.jpg');`}>
+<div class="container" style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent), url('https://mitteiru-backend.onrender.com/static/The-Great-Jahy-Will-Not-Be-Defeated-10-17-2021.jpg');`}>
 
     <h1 class="title">The great Jahy Will Not Be Defeated!</h1>
     <p class="synopsis">Once feared as the Demon king's aide, Jahy loses her powers after a magical attack. Stranded in the human world with a child's form, she must work menial jobs and gather mytic gems to regain her former glory and restore the Demon Realm</p>

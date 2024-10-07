@@ -16,7 +16,7 @@
             document.cookie = "profileName=;max-age=-1;path=/;";
             document.cookie = "profileImage=;max-age=-1;path=/;";
             await axios.delete(
-                `http://localhost:8000/user/profile/${id}/delete`,
+                `https://mitteiru-backend.onrender.com/user/profile/${id}/delete`,
             );
             deleteButtonText = "Deleted";
             secondaryAction();

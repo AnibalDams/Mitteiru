@@ -15,7 +15,7 @@
   on:mouseleave={() => (bgPer = 0)}
 >
   <img
-    src={animeData.studio==="animeFlv"?animeData.cover:`http://localhost:8000/static/${animeData.cover}`}
+    src={animeData.studio==="animeFlv"?animeData.cover:`https://mitteiru-backend.onrender.com/static/${animeData.cover}`}
     class="anime_cover"
     alt=""
   />

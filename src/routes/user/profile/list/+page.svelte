@@ -39,7 +39,7 @@
 		if (newListName.length >0) {
 			createButtonText ="Creating..."
 			 
-			await axios.post(`http://localhost:8000/user/profile/${profileId}/list/new`,{name:newListName})
+			await axios.post(`https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/new`,{name:newListName})
 			createButtonText = "Created"
 			newListName = ""
 
@@ -58,10 +58,10 @@
 			goto("/selectprofile");
 		} else {
 			let listsFetch = await axios(
-				`http://localhost:8000/user/profile/${profileId}/list/all`,
+				`https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/all`,
 			);
 			let animesFetch = await axios(
-				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
+				`https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`,
 			);
 			lists = listsFetch.data.lists
 			$selectedList = lists[0].id
@@ -116,7 +116,7 @@
 				{/each}
 			{:else}
 				<div style="display:flex; justify-content:center; align-items:center; width:100%; height: 500px;">
-					<img src="http://localhost:8000/static/404.png" style="width: 400px; height:400px;" alt="animes not found">
+					<img src="https://mitteiru-backend.onrender.com/static/404.png" style="width: 400px; height:400px;" alt="animes not found">
 				</div>
 			{/if}
 		</div>

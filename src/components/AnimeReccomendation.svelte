@@ -7,7 +7,7 @@
   export let animeGenres = [];
   export let inList = false;
   console.log(animeData)
-  let url = `${animeData.studio==="animeFlv"?"url("+animeData.cover+")":"url("+"http://localhost:8000/static/"+animeData.image+")"}`
+  let url = `${animeData.studio==="animeFlv"?"url("+animeData.cover+")":"url("+"https://mitteiru-backend.onrender.com/static/"+animeData.image+")"}`
 </script>
 
 <div

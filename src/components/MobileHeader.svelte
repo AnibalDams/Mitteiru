@@ -1,7 +1,7 @@
 <nav class="nav_bar">
     <h1>Mitteiru</h1>
     <div class="right_section">
-        <img class="avatar" src="http://localhost:8000/static/81645-dvD1Ac67IkpJ.png" alt="">
+        <img class="avatar" src="https://mitteiru-backend.onrender.com/static/81645-dvD1Ac67IkpJ.png" alt="">
     </div>
 </nav>
 

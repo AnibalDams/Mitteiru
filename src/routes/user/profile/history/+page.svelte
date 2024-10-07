@@ -27,9 +27,9 @@
 
       if (profileId.length > 0) {
         let getAnimesInList = await axios(
-          `http://localhost:8000/user/profile/${profileId}/list/anime/all`
+          `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
         );
-        let getHistory = await axios(`http://localhost:8000/user/profile/${profileId}/history`)
+        let getHistory = await axios(`https://mitteiru-backend.onrender.com/user/profile/${profileId}/history`)
         animesInList = getAnimesInList.data.animes;
         history = getHistory.data.animes
       }

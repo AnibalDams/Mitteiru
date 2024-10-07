@@ -31,9 +31,9 @@
     if (profileId.length <= 0 && logged === "si") {
       goto("/selectprofile");
     } else {
-      let animesFetch = await axios("http://localhost:8000/anime/d/all");
+      let animesFetch = await axios("https://mitteiru-backend.onrender.com/anime/d/all");
       let mostPopularAnimesFetch = await axios(
-        "http://localhost:8000/anime/d/mostpopular"
+        "https://mitteiru-backend.onrender.com/anime/d/mostpopular"
       );
 
       if (animesFetch.data.animes.length >= 1) {
@@ -51,13 +51,13 @@
         animeRandom = animesFetch.data.animes[number];
 
         const genres = await axios(
-          `http://localhost:8000/anime/${animeRandom.id}`
+          `https://mitteiru-backend.onrender.com/anime/${animeRandom.id}`
         );
 
         animeGenres = genres.data.genres;
         if (profileId.length > 0) {
           let getAnimesInList = await axios(
-            `http://localhost:8000/user/profile/${profileId}/list/anime/all`
+            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
           );
           animesInList = getAnimesInList.data.animes;
         }
@@ -80,7 +80,7 @@
     inList={animesInList.find((e) => e.id == animeRandom.id) ? true : false}
   />
 
-  <h2 style="margin:10px;">Watch our latest releases!</h2>
+  <h2 style="margin:10px;text-align:center;">Watch our latest releases!</h2>
   <div class="anime_card_container">
     {#each animes as anime}
       <AnimeCard
@@ -89,7 +89,7 @@
       />
     {/each}
   </div>
-  <h2 style="margin-left:10px; margin-top:25px;">
+  <h2 style="margin-left:10px; margin-top:25px; text-align:center;">
     Not sure? Check out the most popular series!
   </h2>
   <div class="anime_card_container">
@@ -102,7 +102,7 @@
   </div>
 {:else}
   <div
-    style="width:100%;height:100%; display:flex; justify-content:center;margin-top:100px;"
+    style="position:relative;width:100%;height:500px;"
   >
     <Loader />
   </div>
@@ -113,6 +113,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     margin-left: 10px;
     margin-top: 20px;
   }
