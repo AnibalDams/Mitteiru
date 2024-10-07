@@ -113,8 +113,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+
     margin-left: 10px;
     margin-top: 20px;
   }

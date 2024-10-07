@@ -73,8 +73,7 @@
     margin: 10px;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
+
     flex-wrap: wrap;
   }
 </style>
