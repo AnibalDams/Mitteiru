@@ -180,12 +180,15 @@
 
 
     .episodes_information {
-        margin-left: 10px;
+        text-align: center;
         margin-top: 50px;
+
     }
     .episodes_information .episodes_information_list {
         margin-top: 20px;
         display: flex;
         flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
     }
 </style>

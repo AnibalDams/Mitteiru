@@ -73,7 +73,7 @@
     margin: 10px;
     display: flex;
     flex-direction: row;
-    align-content: center;
+    align-items: center;
     justify-content: center;
     flex-wrap: wrap;
   }
