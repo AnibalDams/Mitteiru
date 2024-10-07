@@ -84,14 +84,14 @@
                 {:else}
                     <span
                         style="display:inline-block; margin-top:20px;font-weight:bold;"
-                        >No similar anime was found :(</span
+                        ><LangText p="animeShow" w="animeSimilarNoFound"/> :(</span
                     >
                 {/if}
             </div>
         </div>
     </div>
     <div class="episodes_information">
-        <h2 class="episodes_information_title">Episodes</h2>
+        <h2 class="episodes_information_title"><LangText p="animeShow" w="episodes"/></h2>
         <div class="episodes_information_list">
             {#each dataA.episodes as episode}
                 <EpisodeCard animeStudio={dataA.anime.studio} episodeData={episode} />

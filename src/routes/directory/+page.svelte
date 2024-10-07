@@ -4,6 +4,7 @@
   import AnimeCard from "../../components/AnimeCard.svelte";
   import Loader from "../../components/Loader.svelte";
   import Header from "../Header.svelte";
+  import LangText from "../../components/LangText.svelte";
   import { getCookie } from "svelte-cookie";
   import { goto } from "$app/navigation";
 
@@ -45,7 +46,7 @@
 
 {#if loaded}
   <Header {logged} {profileImage} name={profileName} />
-  <h2 >Directory ({animes.length})</h2>
+  <h2 ><LangText p="navBar" w="directory"/> ({animes.length})</h2>
   <div class="animes_container">
     {#each animes as anime}
       <AnimeCard

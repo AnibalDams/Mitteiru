@@ -40,7 +40,22 @@ export const languages = {
             en:"Sign up",
             es:"Registrarse"
         },
-
+        myList:{
+            en:"My List",
+            es:"Mi lista"
+        },
+        history:{
+            en:"History",
+            es:"Historial"
+        },
+        changeProfile:{
+            en:"Change Profile",
+            es:"Cambiar de perfil"
+        },
+        logOut:{
+            en:"Log Out",
+            es:"Cerrar sesión"
+        }
 
     },
     animeShow:{
@@ -76,6 +91,10 @@ export const languages = {
         similarAnime:{
             en:"Similar Anime",
             es:"Anime Similar"
+        },
+        animeSimilarNoFound:{
+            en:"No similar anime was found",
+            es:"No se ha encontrado ningún anime similar"
         }
 
     },

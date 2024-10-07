@@ -1,6 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
-
+    import LangText from "./LangText.svelte";
     let classes  = "avatar_menu"
     let display = "none"
     export let image
@@ -17,12 +17,12 @@
         
 		<span style="font-weight: bold;">{name}</span>
 
-        <button type="button" class="avatar_menu_button" on:click={()=>{goto("/user/profile/list")}}>My List</button>
-        <button type="button" class="avatar_menu_button" on:click={()=>{goto("/user/profile/history")}}>History</button>
-        <button type="button" class="avatar_menu_button" on:click={()=>{goto("/selectprofile")}}>Change Profile</button>
+        <button type="button" class="avatar_menu_button" on:click={()=>{goto("/user/profile/list")}}><LangText p="navBar" w="myList"/></button>
+        <button type="button" class="avatar_menu_button" on:click={()=>{goto("/user/profile/history")}}><LangText p="navBar" w="history"/></button>
+        <button type="button" class="avatar_menu_button" on:click={()=>{goto("/selectprofile")}}><LangText p="navBar" w="changeProfile"/></button>
         
 
-        <button type="button" class="avatar_menu_button" on:click={()=>{goto("/logout")}}  style="color:red;">Logout</button>
+        <button type="button" class="avatar_menu_button" on:click={()=>{goto("/logout")}}  style="color:red;"><LangText p="navBar" w="logOut"/></button>
         
     </div>
     
