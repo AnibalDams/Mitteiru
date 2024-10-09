@@ -116,7 +116,7 @@
 				{/each}
 			{:else}
 				<div style="display:flex; justify-content:center; align-items:center; width:100%; height: 500px;">
-					<img src="https://mitteiru-backend.onrender.com/static/404.png" style="width: 400px; height:400px;" alt="animes not found">
+					<img src="https://i.ibb.co/RvBnWLg/404.png" style="width: 400px; height:400px;" alt="animes not found">
 				</div>
 			{/if}
 		</div>
