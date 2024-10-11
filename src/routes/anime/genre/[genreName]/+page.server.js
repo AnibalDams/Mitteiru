@@ -6,11 +6,9 @@ async function getTenGenres() {
     const allGenres = await axios("https://mitteiru-backend.onrender.com/anime/genre/d/all");
     if (allGenres.status === 200) {
       for (let i = 0; i < allGenres.data.genres.length; i++) {
-        const element = allGenres.data.genres[i].name;
+        const genre = allGenres.data.genres[i].name;
+        tenGenres.push(genre);
 
-        if (tenGenres.length <= 20) {
-          tenGenres.push(element);
-        }
       }
       return tenGenres;
     }
