@@ -36,7 +36,6 @@
             let getLikes = (await axios(`https://mitteiru-backend.onrender.com/anime/${data.anime.id}/likes/count`))
             likesCount = getLikes.data.likesCount
             profileLikes = getLikes.data.profiles
-            console.log(profileLikes)
             await axios.post(`https://mitteiru-backend.onrender.com/user/profile/${profileId}/history/${data.anime.id}/0/add`)
             profileLists = getLists.data.lists
             animesInList = getAnimesInList.data.animes

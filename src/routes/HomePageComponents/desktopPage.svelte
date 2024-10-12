@@ -12,6 +12,7 @@
   let animeRandom;
   let animes = [];
   let mostPopularAnimes = [];
+  let mostLikedAnimes = [];
   let animesInList = [];
   let loaded = false;
   let animeGenres;
@@ -35,7 +36,7 @@
       let mostPopularAnimesFetch = await axios(
         "https://mitteiru-backend.onrender.com/anime/d/mostpopular"
       );
-
+      let getMostLikedAnimes = await axios("https://mitteiru-backend.onrender.com/anime/d/mostLiked");
       if (animesFetch.data.animes.length >= 1) {
         let number = randomNumber(0, animesFetch.data.animes.length - 1);
 
@@ -48,6 +49,7 @@
         }
 
         mostPopularAnimes = mostPopularAnimesFetch.data.animes;
+        mostLikedAnimes = getMostLikedAnimes.data.animes
         animeRandom = animesFetch.data.animes[number];
 
         const genres = await axios(
@@ -97,6 +99,19 @@
       <AnimeCard
         animeData={popularAnime}
         saved={animesInList.find((e) => e.id == popularAnime.id) ? true : false}
+      />
+    {/each}
+  </div>
+  <h2 style="margin-left:10px; margin-top:25px; ">
+    Still not sure? The animes our users love will solve that!
+  </h2>
+  <div class="anime_card_container">
+    {#each mostLikedAnimes as likedAnime}
+      <AnimeCard
+        animeData={likedAnime}
+        profileId={profileId}
+        showLikes={true}
+        saved={animesInList.find((e) => e.id == likedAnime.id) ? true : false}
       />
     {/each}
   </div>

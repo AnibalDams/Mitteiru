@@ -1,11 +1,28 @@
 <script>
   import { goto } from "$app/navigation";
   import Gradient from "./Gradient.svelte";
+  import {  HeartFilled} from "radix-icons-svelte";
+  import formatNumber from '$lib/numberFormatter'
+  import axios from "axios";
+  import { onMount } from "svelte";
+  
 
   let bgPer = 0;
-
+  export let showLikes = false
   export let saved = false;
   export let animeData = [];
+  export let liked = false
+  export let profileId;
+  let likesPerProfile = [];
+
+  onMount(async()=>{
+    if (showLikes) {
+      let getLikesPerProfile = await axios(`https://mitteiru-backend.onrender.com/anime/${animeData.id}/likes/count`)
+      let likesPerProfile = getLikesPerProfile.data.profiles
+      liked = likesPerProfile.find((e)=>e.profile_id == profileId)?true:false
+      
+    }
+  })
 </script>
 
 <div
@@ -29,6 +46,10 @@
     <div class="chip_container">
       <span class="card_ship">{animeData.studio}</span>
       <span class="card_ship">{animeData.release_year}</span>
+      {#if showLikes}
+        <span class="card_ship likes" style={`color:${liked?"green":"white"};border-color:${liked?"green":"white"};`}><HeartFilled style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"/>{formatNumber(animeData.like_count)}</span>
+        
+      {/if}
       {#if saved}
         <span class="card_ship saved">Saved</span>
       {/if}
@@ -92,6 +113,11 @@
     border: 1px solid #eee;
     border-radius: 5px;
     margin-top: 5px;
+  }
+  span.card_ship.likes{
+    position: relative;
+    padding-left: 20px;
+
   }
   span.card_ship.saved {
     border-color: green;
