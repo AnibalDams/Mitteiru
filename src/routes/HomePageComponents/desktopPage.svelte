@@ -65,7 +65,7 @@
 
 <svelte:head>
   <title>Home</title>
-  <meta name="description" content="Svelte demo app" />
+  <meta name="description" content="An app to watch anime online" />
 </svelte:head>
 
 {#if loaded}
