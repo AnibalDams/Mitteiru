@@ -1,4 +1,6 @@
 <script>
+    import { goto } from "$app/navigation";
+
     import Button from "./Button.svelte";
     export let animeData = {synopsis:""}
 </script>
@@ -8,8 +10,8 @@
     <h1 class="title">{animeData.name}</h1>
     <p class="synopsis">{animeData.synopsis.length >= 250?animeData.synopsis.substring(0,247)+"...":animeData.synopsis}</p>
     <div class="actions">
-        <Button variant="primaryMobile">Watch Now!</Button>
-        <Button variant="lightMobile">More Details</Button>
+        <Button variant="primaryMobile" onClick={()=>goto(`/anime/${animeData.id}/episode/1`)}>Watch Now!</Button>
+        <Button variant="lightMobile" onClick={()=>goto(`/anime/${animeData.id}`)}>More Details</Button>
     </div>
 </div>
 

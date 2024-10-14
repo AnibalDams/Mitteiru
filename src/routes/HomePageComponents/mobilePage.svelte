@@ -70,7 +70,7 @@
   </h3>
   <div class="card_container">
     {#each animes as anime}
-      <MobileAnimeCard cover={anime.cover} title={anime.name} />
+      <MobileAnimeCard id={anime.id} cover={anime.cover} title={anime.name} />
     {/each}
   </div>
   <h3 style="margin-left: 10px; margin-top:20px;">
@@ -78,7 +78,7 @@
   </h3>
   <div class="card_container">
     {#each data.mostPopularAnimes as anime}
-      <MobileAnimeCard cover={anime.cover} title={anime.name} />
+      <MobileAnimeCard id={anime.id} cover={anime.cover} title={anime.name} />
     {/each}
   </div>
 
@@ -87,8 +87,9 @@
   </h3>
   <div class="card_container">
     {#each data.mostLikedAnimes as anime}
-      <MobileAnimeCard cover={anime.cover} title={anime.name} likes={anime.like_count} showLikes={true}/>
-    {/each}
+      <MobileAnimeCard anime={anime} id={anime.id} cover={anime.cover} title={anime.name} likes={anime.like_count} showLikes={true}/>
+    
+      {/each}
   </div>
 {:else}
   <Loader />

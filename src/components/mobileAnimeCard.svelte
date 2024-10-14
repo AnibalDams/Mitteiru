@@ -1,7 +1,10 @@
 
 <script>
-  import {  HeartFilled} from "radix-icons-svelte";
-  import formatNumber from '$lib/numberFormatter'
+  import { goto } from "$app/navigation";
+    
+    import {  HeartFilled} from "radix-icons-svelte";
+    import formatNumber from '$lib/numberFormatter'
+    export let id;
     export let cover;
     export let title = ""
     export let likes = 0
@@ -9,7 +12,7 @@
 </script>
 
 
-<div class="card">
+<div class="card" on:click={goto(`/anime/${id}`)}>
     {#if showLikes}
         <div class="likes"><span class="like"><HeartFilled style="position:absolute; top:50%; transform:translateY(-50%); right:145%;"/>{formatNumber(likes)} </span></div>
         
