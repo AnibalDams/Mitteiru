@@ -11,8 +11,7 @@
   export let data;
   let animeRandom;
   let animes = [];
-  let mostPopularAnimes = [];
-  let mostLikedAnimes = [];
+
   let animesInList = [];
   let loaded = false;
   let animeGenres;
@@ -32,25 +31,20 @@
     if (profileId.length <= 0 && logged === "si") {
       goto("/selectprofile");
     } else {
-      let animesFetch = await axios("https://mitteiru-backend.onrender.com/anime/d/all");
-      let mostPopularAnimesFetch = await axios(
-        "https://mitteiru-backend.onrender.com/anime/d/mostpopular"
-      );
-      let getMostLikedAnimes = await axios("https://mitteiru-backend.onrender.com/anime/d/mostLiked");
-      if (animesFetch.data.animes.length >= 1) {
-        let number = randomNumber(0, animesFetch.data.animes.length - 1);
 
-        for (let i = 0; i < animesFetch.data.animes.length; i++) {
-          const anime = animesFetch.data.animes[i];
+      if (data.animes.length >= 1) {
+        let number = randomNumber(0, data.animes.length - 1);
+
+        for (let i = 0; i < data.animes.length; i++) {
+          const anime = data.animes[i];
 
           if (animes.length < 10) {
             animes.push(anime);
           }
         }
 
-        mostPopularAnimes = mostPopularAnimesFetch.data.animes;
-        mostLikedAnimes = getMostLikedAnimes.data.animes
-        animeRandom = animesFetch.data.animes[number];
+
+        animeRandom = data.animes[number];
 
         const genres = await axios(
           `https://mitteiru-backend.onrender.com/anime/${animeRandom.id}`
@@ -95,7 +89,7 @@
     Not sure? Check out the most popular series!
   </h2>
   <div class="anime_card_container">
-    {#each mostPopularAnimes as popularAnime}
+    {#each data.mostPopularAnimes as popularAnime}
       <AnimeCard
         animeData={popularAnime}
         saved={animesInList.find((e) => e.id == popularAnime.id) ? true : false}
@@ -106,7 +100,7 @@
     Still not sure? The animes our users love will solve that!
   </h2>
   <div class="anime_card_container">
-    {#each mostLikedAnimes as likedAnime}
+    {#each data.mostLikedAnimes as likedAnime}
       <AnimeCard
         animeData={likedAnime}
         profileId={profileId}
