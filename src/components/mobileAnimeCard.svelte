@@ -1,7 +1,7 @@
 
 <script>
   import {  HeartFilled} from "radix-icons-svelte";
-    import formatNumber from "$lib/numberformatter"
+  import formatNumber from '$lib/numberFormatter'
     export let cover;
     export let title = ""
     export let likes = 0
