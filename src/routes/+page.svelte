@@ -1,23 +1,32 @@
-<script context="module">
+<script >
 	import { onMount } from "svelte";
 	import DesktopPage from "./HomePageComponents/desktopPage.svelte"; 
 	import MobilePage from "./HomePageComponents/mobilePage.svelte";
     import { Width } from "radix-icons-svelte";
-</script>
-
-<script>
+	let isMobile = false
 
 	export let data
-	let screenWidth;
-	onMount(()=>{
 
-		screenWidth =window.innerWidth 
+	onMount(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    isMobile = mediaQuery.matches;
 
-	})
-	
+    const handleResize = () => {
+      isMobile = mediaQuery.matches;
+    };
+
+    mediaQuery.addEventListener('change', handleResize);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleResize);
+    };
+  });
 </script>
 
-<svelte:body on:viewportChanged={()=>screenWidth= window.innerWidth}/>
-
+{#if isMobile}
+	<MobilePage data={data}/>
+{:else}
 <DesktopPage data={data}/>
+
+{/if}
 
