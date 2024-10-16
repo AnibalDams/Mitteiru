@@ -66,7 +66,7 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         text-align: justify;
         line-height: 1.2;
         font-size: 18px;
-        font-weight: lighter;
+        font-weight: 400;
         max-width: 800px;
         margin-bottom: 40px;
     }
