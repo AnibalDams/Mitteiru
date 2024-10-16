@@ -2,7 +2,6 @@
 	import { onMount } from "svelte";
 	import DesktopPage from "./HomePageComponents/desktopPage.svelte"; 
 	import MobilePage from "./HomePageComponents/mobilePage.svelte";
-    import { Width } from "radix-icons-svelte";
 	let isMobile = false
 
 	export let data

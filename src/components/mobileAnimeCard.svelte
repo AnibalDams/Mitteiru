@@ -35,7 +35,7 @@
     }
     div.card img.cover{
         border-radius: 10px;
-        width: 200px;
+        width: 180px;
         height: 285px;
         object-fit: cover;
     }

@@ -6,7 +6,7 @@
 </script>
 
 <nav class="nav_bar">
-    <h1>Mitteiru</h1>
+    <h1 on:click={()=>goto("/")}>Mitteiru</h1>
     <div class="right_section">
         <a href="/directory" ><CardStack style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);" color="black" size="15px"/></a>
         <a href="/search/ "><MagnifyingGlass style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);" color="black" size="15px"/></a>
