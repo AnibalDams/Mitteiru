@@ -20,6 +20,15 @@
   let profileLikes = [];
   let isMobile;
   onMount(async () => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    isMobile = mediaQuery.matches;
+
+    const handleResize = () => {
+      isMobile = mediaQuery.matches;
+    };
+
+    mediaQuery.addEventListener("change", handleResize);
+
     const userId = data.userId;
     if (userId && userId.length > 0) {
       const { getCookie } = await import("svelte-cookie");
@@ -50,15 +59,6 @@
     } else {
       logged = "no";
     }
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-    isMobile = mediaQuery.matches;
-
-    const handleResize = () => {
-      isMobile = mediaQuery.matches;
-    };
-
-    mediaQuery.addEventListener("change", handleResize);
-    console.log(isMobile)
     return () => {
       mediaQuery.removeEventListener("change", handleResize);
     };
