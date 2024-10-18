@@ -32,7 +32,7 @@
   on:mouseleave={() => (bgPer = 0)}
 >
   <img
-    src={animeData.studio==="animeFlv"?animeData.cover:`https://mitteiru-backend.onrender.com/static/${animeData.cover}`}
+    src={animeData.cover}
     class="anime_cover"
     alt=""
   />

@@ -43,7 +43,7 @@
     ];
    
     export let name = "";
-    export let avatar = "https://mitteiru-backend.onrender.com/static/itadori.jfif";
+    export let avatar = "https://i.ibb.co/pnkd1F0/itadori.jpg";
     export let cancel;
     let buttonCreatetext ="update";
     export let profileId;

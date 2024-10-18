@@ -15,7 +15,7 @@ on:mouseleave={()=>gradientPosition=0}
 <Gradient positionValue={gradientPosition}/>
 <img
     class="related_anime_card_image"
-    src={dataA.similarAnime.studio==="animeFlv"?dataA.similarAnime.cover:`https://mitteiru-backend.onrender.com/static/${dataA.similarAnime.horizontal_image}`}
+    src={dataA.similarAnime.studio==="animeFlv"?dataA.similarAnime.cover:dataA.similarAnime.horizontal_image}
     alt=""
 />
 <span class="related_anime_card_name"
