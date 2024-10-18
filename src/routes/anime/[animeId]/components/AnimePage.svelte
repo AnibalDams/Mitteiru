@@ -25,7 +25,7 @@
 
 <div
     class="anime_container"
-    style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent),url(${dataA.anime.cover});`}
+    style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent),url(${dataA.anime.studio==="animeFlv"?dataA.anime.cover:dataA.anime.image});`}
 >
 <div class="image_large" on:click={()=>showCover = false}  style={`display: ${showCover?"flex":"none"};`}>
     <img src={dataA.anime.cover} style="border-radius: 10px; width:600px;height:800px; object-fit:cover;" alt={dataA.anime.name}>

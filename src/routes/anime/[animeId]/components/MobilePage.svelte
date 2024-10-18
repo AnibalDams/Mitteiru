@@ -8,7 +8,7 @@
 
 <div class="cover_container" 
 
-style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent),url(${data.anime.cover});`}
+style={`background-image: linear-gradient(to top, #fff, transparent),linear-gradient(to bottom, #fff, transparent),url(${data.anime.studio==="animeFlv"?data.anime.cover:data.anime.image});`}
 
 >
     <img src={data.anime.cover} alt="">
