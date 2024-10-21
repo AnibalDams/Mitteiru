@@ -26,7 +26,6 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
 <div class="genres">
     {#each data.genres as genre}
     <span class="extra_info">{genre.name}</span>
-    <span class="extra_info">{genre.name}</span>
         
     {/each}
 </div>
