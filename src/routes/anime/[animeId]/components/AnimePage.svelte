@@ -19,7 +19,7 @@
     export let likesCount = 0;
     export let profileLikes = []
     let showCover = false
-    let coverUrl = `url(${dataA.anime.cover})`
+
 
 </script>
 

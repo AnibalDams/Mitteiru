@@ -22,7 +22,6 @@ export async function load({ params, cookies }) {
             }            
         }
         const anime = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}`)
-
         return {status:episode.status, userId, episode: episode, allEpisodes: allEpisodes.data.episodes, anime: anime.data.animes, animeId: params.animeId }
 
 

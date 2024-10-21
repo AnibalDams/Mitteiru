@@ -17,12 +17,19 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         <span class="japanese_name">{data.anime.japanese_name}</span>
     </div>
     <div class="extra_info">
-        <span class="studio">{data.anime.studio}</span>
-        <span class="year">{data.anime.release_year}</span>
-        <span class="on_going" style={`background-color:${data.anime.on_going ===1?"#90EE90":"#ADD8E6"}`}>{data.anime.on_going===1?"Releasing":"Finished"}</span>
+        <span class="extra_info studio">{data.anime.studio}</span>
+        <span class="extra_info year">{data.anime.release_year}</span>
+        <span class="extra_info on_going" style={`background-color:${data.anime.on_going ===1?"#90EE90":"#ADD8E6"}`}>{data.anime.on_going===1?"Releasing":"Finished"}</span>
     </div>
 </div>
 <p>{data.anime.synopsis}</p>
+<div class="genres">
+    {#each data.genres as genre}
+    <span class="extra_info">{genre.name}</span>
+    <span class="extra_info">{genre.name}</span>
+        
+    {/each}
+</div>
 
 
 
@@ -70,7 +77,7 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         position: absolute;
         top: 455px;
     }
-    div.extra_info span{
+    span.extra_info{
         display: inline-block;
         margin-right: 5px;
         padding-left: 10px;
@@ -90,14 +97,20 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         background-color: #FFFFE0;
     }
         p{
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
         text-align: justify;
         line-height: 1.2;
         font-size: 18px;
         font-weight: 400;
         max-width: 800px;
         margin-bottom: 40px;
+    }
+    div.genres{
+        margin-left:10px;
+        display: flex;
+        overflow: auto;
+        white-space: nowrap;
     }
 </style>
 
