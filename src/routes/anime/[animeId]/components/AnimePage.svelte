@@ -94,7 +94,9 @@
         <h2 class="episodes_information_title"><LangText p="animeShow" w="episodes"/></h2>
         <div class="episodes_information_list">
             {#each dataA.episodes as episode}
+                {#if episode.episode_number !=0}
                 <EpisodeCard animeStudio={dataA.anime.studio} episodeData={episode} />
+                {/if}
 
             {/each}
         </div>

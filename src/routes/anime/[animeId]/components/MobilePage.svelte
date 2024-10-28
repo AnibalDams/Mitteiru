@@ -1,5 +1,6 @@
 
 <script>
+    import MobileEpisodeCard from "./mobileEpisodeCard.svelte";
     export let data;
 </script>
 
@@ -30,6 +31,16 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
     {/each}
 </div>
 
+<div class="episodes">
+    {#each data.episodes as episode}
+        {#if episode.episode_number != 0}
+        <MobileEpisodeCard episodeNumber={episode.episode_number} episodeTitle={episode.name} thumbnail={episode.thumbnail} animeId={data.anime.id}/>
+            
+        {/if}    
+    {/each}
+   
+
+</div>
 
 
 <style>
@@ -110,6 +121,11 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         display: flex;
         overflow: auto;
         white-space: nowrap;
+    }
+    div.episodes{
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 25px;
     }
 </style>
 
