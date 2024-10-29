@@ -38,7 +38,7 @@
         for (let i = 0; i < data.animes.length; i++) {
           const anime = data.animes[i];
 
-          if (animes.length < 10) {
+          if (animes.length < 12) {
             animes.push(anime);
           }
         }
