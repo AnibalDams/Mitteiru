@@ -35,8 +35,8 @@
     }
     div.card img.cover{
         border-radius: 10px;
-        width: 180px;
-        height: 285px;
+        width: 150px;
+        height: 255px;
         object-fit: cover;
     }
     div.card span.title{

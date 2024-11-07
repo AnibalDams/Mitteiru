@@ -9,7 +9,7 @@
     <h1 on:click={()=>goto("/")}>Mitteiru</h1>
     <div class="right_section">
         <a href="/directory" ><CardStack style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);" color="black" size="15px"/></a>
-        <a href="/search/ "><MagnifyingGlass style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);" color="black" size="15px"/></a>
+        <a href="/search/mobile/search"><MagnifyingGlass style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);" color="black" size="15px"/></a>
         <img class="avatar" src="https://i.ibb.co/7JdWD71/Kimi-wa-Houkago-Insomnia-02-Large-05.jpg" alt="">
     </div>
 </nav>

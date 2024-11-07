@@ -6,7 +6,7 @@
   export let animeData = [];
   export let animeGenres = [];
   export let inList = false;
-  console.log(animeData)
+  
   let url = `url(${animeData.cover})`
 </script>
 
