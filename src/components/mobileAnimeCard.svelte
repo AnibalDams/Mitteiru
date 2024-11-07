@@ -18,7 +18,7 @@
         
     {/if}
     <img src={cover} alt={title} class="cover">
-    <span class="title">{title.length>22?title.substring(0,19)+"...":title}</span>
+    <span class="title">{title.length>22?title.substring(0,16)+"...":title}</span>
 </div>
 
 <style>
