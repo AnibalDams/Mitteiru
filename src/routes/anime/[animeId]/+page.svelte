@@ -6,7 +6,8 @@
   import NotFoundError from "../../../components/NotFoundError.svelte";
   import axios from "axios";
   import MobileHeader from "../../../components/MobileHeader.svelte";
-  import MobilePage from "./components/MobilePage.svelte";
+  import MobilePage from "./components/MobilePage.svelte"
+  import getCookie from '$lib/getCookie'
 
   export let data;
 
@@ -30,31 +31,36 @@
     mediaQuery.addEventListener("change", handleResize);
 
     const userId = data.userId;
-    if (userId && userId.length > 0) {
-      const { getCookie } = await import("svelte-cookie");
-      profileId = getCookie("profileId");
-      profileImage = getCookie("profileImage");
-      profileName = getCookie("profileName");
+   
+    if (userId.user._id.length >0) {
+  
+      profileId = getCookie("profileId", document);
+      profileImage = getCookie("profileImage", document);
+      profileName = getCookie("profileName",document);
+      console.log(profileImage)
       if (profileId.length <= 0) {
         goto("/selectprofile");
       }
       let getLists = await axios(
-        `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/all`
+        `http://localhost:8000/user/profile/${profileId}/list/all`
       );
 
       let getAnimesInList = await axios(
-        `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+        `http://localhost:8000/user/profile/${profileId}/list/anime/all`
       );
+      console.log(getAnimesInList.data)
       let getLikes = await axios(
-        `https://mitteiru-backend.onrender.com/anime/${data.anime.id}/likes/count`
+        `http://localhost:8000/anime/${data.anime._id}/likes/count`
       );
+      console.log(profileId)
       likesCount = getLikes.data.likesCount;
       profileLikes = getLikes.data.profiles;
       await axios.post(
-        `https://mitteiru-backend.onrender.com/user/profile/${profileId}/history/${data.anime.id}/0/add`
+        `http://localhost:8000/user/profile/${profileId}/history/${data.anime._id}/0/add`
       );
       profileLists = getLists.data.lists;
       animesInList = getAnimesInList.data.animes;
+     
       logged = "si";
     } else {
       logged = "no";

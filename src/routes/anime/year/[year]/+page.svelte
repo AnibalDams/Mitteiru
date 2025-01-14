@@ -24,7 +24,7 @@
             }
             if (profileId.length >0){
                 let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+            `http://localhost:8000/user/profile/${profileId}/list/anime/all`
           );
           animesInList = getAnimesInList.data.animes;
             }
@@ -57,7 +57,7 @@
         <span class="text">{data.year}'s Animes</span>
         <div class="animes_container">
             {#each data.animes as anime}
-                <AnimeCard animeData={anime} saved={animesInList.find((e) => e.id == anime.id) ? true : false}/>
+                <AnimeCard animeData={anime} saved={animesInList.find((e) => e._id == anime._id) ? true : false}/>
 
             {/each}
         </div>

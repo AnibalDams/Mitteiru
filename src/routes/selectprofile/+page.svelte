@@ -19,9 +19,9 @@
   let profileImage = "";
   let update = false;
   const refreshProfiles = async () => {
-    if (userId.length > 0 && userId != undefined) {
+    if (userId.user._id.length > 0 && userId != undefined) {
       const profilesQuery = await axios(
-        `https://mitteiru-backend.onrender.com/user/${userId}/profile/d/all`
+        `http://localhost:8000/user/${userId.user._id}/profile/d/all`
       );
       profiles = profilesQuery.data.profiles;
     } else {
@@ -30,6 +30,9 @@
   };
 
   const setProfile = async (profileId, profileImage, profileName) => {
+    document.cookie = "profileId=;max-age=-1;path=/;";
+    document.cookie = "profileName=;max-age=-1;path=/;";
+    document.cookie = "profileImage=;max-age=-1;path=/;";
     document.cookie = `profileId=${profileId};samesite=strict;`;
     document.cookie = `profileName=${profileName};samesite=strict;`;
     document.cookie = `profileImage=${profileImage};samesite=strict;`;
@@ -38,17 +41,18 @@
   };
   onMount(async () => {
     userId = data.userId;
-
-    if (userId.length > 0 && userId != undefined) {
+    console.log(userId.user._id)
+    if (userId.user._id.length > 0 && userId != undefined) {
       profileImage = getCookie("profileImage");
       pName = getCookie("profileName");
       const profilesQuery = await axios(
-        `https://mitteiru-backend.onrender.com/user/${userId}/profile/d/all`
+        `http://localhost:8000/user/${userId.user._id}/profile/d/all`
       );
       profiles = profilesQuery.data.profiles;
+      console.log(profilesQuery.data)
       logged = userId.length > 0 && userId !== undefined ? "si" : "no";
     } else {
-      goto("/");
+     
     }
   });
 </script>
@@ -75,7 +79,7 @@
             secondaryAction={refreshProfiles}
             onClick={() => {
               
-              setProfile(profile_.id, profile_.photo, profile_.name);
+              setProfile(profile_._id, profile_.photo, profile_.name);
             }}
             editAction={() => {
               document.cookie = "profileId=;max-age=-1;path=/;";
@@ -86,7 +90,7 @@
               newProfile = true;
             }}
             image={profile_.photo}
-            id={profile_.id}
+            id={profile_._id}
             name={profile_.name}
           />
         {/each}
@@ -100,7 +104,7 @@
     {:else if update != true}
       <span class="title">Create a profile</span>
       <NewProfilePage
-        {userId}
+        userId={userId.user._id}
         variant="create"
         refresh={refreshProfiles}
         cancel={() => {

@@ -16,11 +16,11 @@
 >
   <div class="content">
     <h1 class="content_title">{animeData.name}</h1>
-    <span style="font-weight: bold; display:inline-block;margin-bottom:5px;">{animeData.japanese_name}</span>
-    {#if animeGenres.length >0}
+    <span style="font-weight: bold; display:inline-block;margin-bottom:5px;">{animeData.japaneseName}</span>
+    {#if animeData.genres.length >0}
       <div class="content_genres">
-        {#each animeGenres as genre}
-          <GenreShip genre={genre.name} />
+        {#each animeData.genres as genre}
+          <GenreShip genre={genre} />
         {/each}
         {#if inList}
           <SavedCheck />
@@ -33,10 +33,10 @@
         variant="light"
         marginRight={"5px"}
         onClick={() => {
-          goto(`/anime/${animeData.id}/episode/1`);
+          goto(`/anime/${animeData._id}/episode/1`);
         }}>Watch now</Button
       >
-      <Button onClick={() => goto(`/anime/${animeData.id}`)}
+      <Button onClick={() => goto(`/anime/${animeData._id}`)}
         >More details</Button
       >
     </div>

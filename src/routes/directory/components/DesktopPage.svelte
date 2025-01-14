@@ -25,11 +25,11 @@
       if (profileId.length <= 0 && logged == "si") {
         goto("/selectprofile");
       } else {
-        let getAnimes = await axios("https://mitteiru-backend.onrender.com/anime/d/all");
+        let getAnimes = await axios("http://localhost:8000/anime/d/all");
         animes = getAnimes.data.animes;
         if (profileId.length > 0) {
           let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+            `http://localhost:8000/user/profile/${profileId}/list/anime/all`
           );
           animesInList = getAnimesInList.data.animes;
         }

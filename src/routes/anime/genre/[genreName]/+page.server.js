@@ -3,7 +3,7 @@ import axios from "axios";
 async function getTenGenres() {
   try {
     let tenGenres = [];
-    const allGenres = await axios("https://mitteiru-backend.onrender.com/anime/genre/d/all");
+    const allGenres = await axios("http://localhost:8000/anime/genre/d/all");
     if (allGenres.status === 200) {
       for (let i = 0; i < allGenres.data.genres.length; i++) {
         const genre = allGenres.data.genres[i].name;
@@ -22,8 +22,9 @@ export async function load({ params, cookies }) {
 
   try {
     const animesWithTheGenre = await axios(
-      `https://mitteiru-backend.onrender.com/anime/genre/${params.genreName}`
+      `http://localhost:8000/anime/genre/${params.genreName}`
     );
+    console.log(animesWithTheGenre.data)
 
     const tenGenres = await getTenGenres();
 

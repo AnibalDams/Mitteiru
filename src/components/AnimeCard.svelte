@@ -17,9 +17,9 @@
 
   onMount(async()=>{
     if (showLikes) {
-      let getLikesPerProfile = await axios(`https://mitteiru-backend.onrender.com/anime/${animeData.id}/likes/count`)
+      let getLikesPerProfile = await axios(`http://localhost:8000/anime/${animeData._id}/likes/count`)
       let likesPerProfile = getLikesPerProfile.data.profiles
-      liked = likesPerProfile.find((e)=>e.profile_id == profileId)?true:false
+      liked = likesPerProfile.find((e)=>e.profileId == profileId)?true:false
       
     }
   })
@@ -27,7 +27,7 @@
 
 <div
   class="container"
-  on:click={() => goto(`/anime/${animeData.id}`)}
+  on:click={() => goto(`/anime/${animeData._id}`)}
   on:mouseover={() => (bgPer = 90)}
   on:mouseleave={() => (bgPer = 0)}
 >
@@ -45,9 +45,9 @@
     >
     <div class="chip_container">
       <span class="card_ship">{animeData.studio}</span>
-      <span class="card_ship">{animeData.release_year}</span>
+      <span class="card_ship">{animeData.releaseYear}</span>
       {#if showLikes}
-        <span class="card_ship likes" style={`color:${liked?"green":"white"};border-color:${liked?"green":"white"};`}><HeartFilled style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"/>{formatNumber(animeData.like_count)}</span>
+        <span class="card_ship likes" style={`color:${liked?"green":"white"};border-color:${liked?"green":"white"};`}><HeartFilled style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"/>{formatNumber(animeData.likes)}</span>
         
       {/if}
       {#if saved}

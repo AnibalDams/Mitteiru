@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import axios from "axios";
   import Header from "../../../Header.svelte";
-  import { getCookie } from "svelte-cookie";
+  import getCookie from "$lib/getCookie";
   import { goto } from "$app/navigation";
   import Loader from "../../../../components/Loader.svelte";
   import AnimeCard from "../../../../components/AnimeCard.svelte";
@@ -16,9 +16,9 @@
   let loaded = false;
   let today = new Date().toISOString().substring(0,10)
   onMount(async () => {
-    profileId = getCookie("profileId");
-    profileImage = getCookie("profileImage");
-    profileName = getCookie("profileName");
+    profileId = getCookie("profileId",document);
+    profileImage = getCookie("profileImage",document);
+    profileName = getCookie("profileName",document);
     logged = data.userId ? "si" : "no";
 
     if (profileId.length <= 0 && logged == "si") {
@@ -27,9 +27,10 @@
 
       if (profileId.length > 0) {
         let getAnimesInList = await axios(
-          `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+          `http://localhost:8000/user/profile/${profileId}/list/anime/all`
         );
-        let getHistory = await axios(`https://mitteiru-backend.onrender.com/user/profile/${profileId}/history`)
+        let getHistory = await axios(`http://localhost:8000/user/profile/${profileId}/history`)
+        console.log(getHistory.data)
         animesInList = getAnimesInList.data.animes;
         history = getHistory.data.animes
       }
@@ -47,7 +48,7 @@
     <span>{h.date == today?"Today":h.date}</span>
     <div class="animes_container">
     {#each h.animes as anime}
-        <AnimeCard animeData={anime} saved={animesInList.find((e) => e.id == anime.id) ? true : false}/>
+        <AnimeCard animeData={anime} saved={animesInList.find((e) => e._id == anime._id) ? true : false}/>
     {/each}
 </div>
 {/each}

@@ -17,7 +17,7 @@
     let showModal = false;
     const addToList = async (listId) => {
         await axios.post(
-            `https://mitteiru-backend.onrender.com/anime/${animeData.id}/list/${listId}/add`,
+            `http://localhost:8000/anime/${animeData._id}/list/${listId}/add`,
         );
 
         doesTheAnimeIsInList = true;
@@ -26,8 +26,9 @@
     };
    
     const removeFromList = async (listId) => {
+        
         await axios.delete(
-            `https://mitteiru-backend.onrender.com/user/profile/list/${listId}/anime/${animeData.id}`,
+            `http://localhost:8000/user/profile/list/${listId}/anime/${animeData._id}`,
         );
 
 
@@ -39,13 +40,14 @@
     <h2 slot="header"><LangText p="animeShow" w="chooseAList"/></h2>
     {#each lists as list, index}
         <CheckBox
-            checked={animesInList.find((e) => e.list_id == list.id && e.id==animeData.id)  ? true : false}
+            checked={animesInList.find((e) => e.listId == list._id && e._id==animeData._id)  ? true : false}
             selected={() => {
-                removeFromList(list.id)
+              
+                removeFromList(list._id)
                 
             }}
             notSelected={() => {
-                addToList(list.id);
+                addToList(list._id);
             }}
 
             text={list.name}

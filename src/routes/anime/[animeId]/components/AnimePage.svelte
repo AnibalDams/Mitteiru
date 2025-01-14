@@ -58,14 +58,14 @@
                 >
             </div>
             <h1 class="anime_title">{dataA.anime.name}</h1>
-            <span style="display: block;margin-bottom:15px;font-weight:bold;">{dataA.anime.japanese_name}</span>
+            <span style="display: block;margin-bottom:15px;font-weight:bold;">{dataA.anime.japaneseName}</span>
             <span
                 class="anime_studio_ship"
                 on:click={() => goto(`/anime/studio/${dataA.anime.studio}`)}
                 >{dataA.anime.studio}</span
             >
                
-                <span class="anime_studio_ship" on:click={goto(`/anime/year/${dataA.anime.release_year}`)}>{dataA.anime.release_year}</span>
+                <span class="anime_studio_ship" on:click={goto(`/anime/year/${dataA.anime.releaseYear}`)}>{dataA.anime.releaseYear}</span>
                 {#if logged === "si" && profileId.length >0}
                     <LikeButton likesCount={likesCount} profileLikes={profileLikes} profileId={Number(profileId)} animeId={dataA.anime.id}/>
                 {/if}
@@ -73,8 +73,8 @@
                 {dataA.anime.synopsis}
             </p>
             <div class="genres">
-                {#each dataA.genres as genre}
-                    <GenreShip genre={genre.name} />
+                {#each dataA.anime.genres as genre}
+                    <GenreShip genre={genre} />
                 {/each}
             </div>
             <div class="related_anime">

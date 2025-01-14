@@ -2,6 +2,7 @@
     import Button from "../../components/Button.svelte";
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
+     import { Toaster, toast } from 'svelte-sonner'
 
     let username=""
     let email=""
@@ -17,13 +18,22 @@
         } else{
             logged = false
         }
+        if(form.username){
+        toast.error("The username is already taken")
+    }
+    if (form.email){
+        toast.error("The email is already taken")
+        
+    }
     })
+ 
 </script>
 
 <svelte:head>
     <title>Signup</title>
 </svelte:head>
 
+<Toaster richColors/>
 {#if logged === false}
 <form method="POST" class="container" action="?/signup">
     {#if form?.username}

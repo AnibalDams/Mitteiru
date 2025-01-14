@@ -46,13 +46,13 @@
         animeRandom = data.animes[number];
 
         const genres = await axios(
-          `https://mitteiru-backend.onrender.com/anime/${animeRandom.id}`
+          `http://localhost:8000/anime/${animeRandom.id}`
         );
 
         animeGenres = genres.data.genres;
         if (profileId.length > 0) {
           let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+            `http://localhost:8000/user/profile/${profileId}/list/anime/all`
           );
           animesInList = getAnimesInList.data.animes;
         }

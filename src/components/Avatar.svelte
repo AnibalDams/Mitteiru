@@ -1,10 +1,12 @@
 <script>
     import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
     import LangText from "./LangText.svelte";
     let classes  = "avatar_menu"
     let display = "none"
     export let image
     export let name
+
 </script>
 
 

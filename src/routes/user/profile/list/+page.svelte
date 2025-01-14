@@ -5,7 +5,7 @@
 	import AnimeCard from "../../../../components/AnimeCard.svelte";
 	import Loader from "../../../../components/Loader.svelte";
 	import Header from "../../../Header.svelte";
-	import { getCookie } from "svelte-cookie";
+	import  getCookie  from "$lib/getCookie";
 	import { goto } from "$app/navigation";
 	
 
@@ -39,7 +39,7 @@
 		if (newListName.length >0) {
 			createButtonText ="Creating..."
 			 
-			await axios.post(`https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/new`,{name:newListName})
+			await axios.post(`http://localhost:8000/user/profile/${profileId}/list/new`,{name:newListName})
 			createButtonText = "Created"
 			newListName = ""
 
@@ -49,23 +49,22 @@
 	}
 
 	onMount(async () => {
-		profileId = getCookie("profileId");
-		logged = data.userId ? "si" : "no";
-		profileName = getCookie("profileName");
-		profileImage = getCookie("profileImage");
+		profileId = getCookie("profileId",document);
+		logged = data.userId.user ? "si" : "no";
+		profileName = getCookie("profileName",document);
+		profileImage = getCookie("profileImage",document);
 
 		if (profileId.length <= 0 && logged === "si") {
 			goto("/selectprofile");
 		} else {
 			let listsFetch = await axios(
-				`https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/all`,
+				`http://localhost:8000/user/profile/${profileId}/list/all`,
 			);
 			let animesFetch = await axios(
-				`https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`,
+				`http://localhost:8000/user/profile/${profileId}/list/anime/all`,
 			);
 			lists = listsFetch.data.lists
-			$selectedList = lists[0].id
-
+			$selectedList = lists[0]._id
 			if(animesFetch.data.animes.length<=0){
 				isThereAnime = false
 				loaded = true
@@ -108,9 +107,9 @@
 	
 		<h2 style="margin:10px; display:flex; align-items:center; ">Your lists. Let's watch something! <ComboBox selecteed={$selectedList} data={lists}/> <IconButton on:click={()=>display = display==true?false:true} /> {#if display}<input bind:value={newListName} placeholder="Insert a name for the list"/> <Button marginLeft="10px" onClick={()=>createNewList()}>{createButtonText}</Button>{/if}</h2>
 		<div class="anime_card_container">
-			{#if animes.find(e=>e.list_id===$selectedList)}
+			{#if animes.find(e=>e.listId===$selectedList)}
 				{#each animes as anime}
-					{#if anime.list_id===$selectedList}
+					{#if anime.listId===$selectedList}
 							<AnimeCard animeData={anime} />
 					{/if}
 				{/each}

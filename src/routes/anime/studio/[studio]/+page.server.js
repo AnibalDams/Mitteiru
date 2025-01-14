@@ -6,7 +6,7 @@ export async function load({params,cookies}) {
 
    
     try {
-        const animesOfAStudio = await axios(`https://mitteiru-backend.onrender.com/anime/d/studio/${params.studio}`)
+        const animesOfAStudio = await axios(`http://localhost:8000/anime/d/studio/${params.studio}`)
         
 
  

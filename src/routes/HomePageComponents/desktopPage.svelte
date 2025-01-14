@@ -47,14 +47,15 @@
         animeRandom = data.animes[number];
 
         const genres = await axios(
-          `https://mitteiru-backend.onrender.com/anime/${animeRandom.id}`
+          `http://localhost:8000/anime/${animeRandom._id}`
         );
 
         animeGenres = genres.data.genres;
         if (profileId.length > 0) {
           let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+            `http://localhost:8000/user/profile/${profileId}/list/anime/all`
           );
+          console.log(getAnimesInList)
           animesInList = getAnimesInList.data.animes;
         }
         loaded = true;
@@ -73,7 +74,7 @@
   <AnimeReccomendation
     animeData={animeRandom}
     {animeGenres}
-    inList={animesInList.find((e) => e.id == animeRandom.id) ? true : false}
+    inList={animesInList.find((e) => e._id == animeRandom._id) ? true : false}
   />
 
   <h2 style="margin:10px;">Watch our latest releases!</h2>
@@ -81,7 +82,7 @@
     {#each animes as anime}
       <AnimeCard
         animeData={anime}
-        saved={animesInList.find((e) => e.id == anime.id) ? true : false}
+        saved={animesInList.find((e) => e._id == anime._id) ? true : false}
       />
     {/each}
   </div>
@@ -105,7 +106,7 @@
         animeData={likedAnime}
         profileId={profileId}
         showLikes={true}
-        saved={animesInList.find((e) => e.id == likedAnime.id) ? true : false}
+        saved={animesInList.find((e) => e._id == likedAnime._id) ? true : false}
       />
     {/each}
   </div>

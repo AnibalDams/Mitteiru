@@ -15,7 +15,7 @@
     import ModalWithoutActions from "../../../../../components/ModalWithoutActions.svelte";
 
     export let data;
-    let episodeNumber = data.episode.episode_number;
+    let episodeNumber = data.episode.episodeNumber;
     let profileId = "";
     let profileImage = "";
     let profileName = "";
@@ -27,9 +27,9 @@
     const getEpisode = async (episodeN) => {
         for (let i = 0; i < data.allEpisodes.length; i++) {
             const episode = data.allEpisodes[i];
-            if (episode.episode_number === episodeNumber) {
+            if (episode.episodeNumber === episodeNumber) {
                 episode_ = data.allEpisodes[i]
-                episodeLink =data.anime.studio !="animeFlv"? `https://mitteiru-backend.onrender.com/static/${episode.link}`:episode.link;
+                episodeLink =episode.link;
             }
         }
     };
@@ -58,12 +58,12 @@
     <title>{`${data.status===404?"This anime doesn't have episodes":data.anime.name+" "+"episode"+" "+episodeNumber}`}</title>
 </svelte:head>
 
-{#if data.episode.episode_number}
+{#if data.episode.episodeNumber}
 <ModalWithoutActions bind:showModal>
     <h2 slot="header" style="font-size:20px; margin-bottom:10px;">
         Episode {episodeNumber} - {episode_.name}
     </h2>
-    <p style="display: inline-block; margin-top:10px;margin-bottom:10px;">{episode_.synopsis}</p>
+    <p style="display: inline-block; margin-top:10px;margin-bottom:10px; ">{episode_.synopsis}</p>
 </ModalWithoutActions>
 
 <div class="episode_container">

@@ -9,19 +9,20 @@ export async function load({ params, cookies }) {
 
         const episodeNumber = Number(params.episodeNumber)
         let episode ={}
-        const allEpisodes = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}/episode/all`)
-   
+        const allEpisodes = await axios(`http://localhost:8000/anime/${params.animeId}/episode/all`)
+        console.log(allEpisodes.data)
         if (allEpisodes.data.episodes) {
             for (let i = 0; i < allEpisodes.data.episodes.length; i++) {
                 const episodeI = allEpisodes.data.episodes[i];
          
-                if (episodeI.episode_number === episodeNumber) {
+                if (episodeI.episodeNumber === episodeNumber) {
                     episode = episodeI
                 }
                 
             }            
         }
-        const anime = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}`)
+        const anime = await axios(`http://localhost:8000/anime/${params.animeId}`)
+        console.log(anime.data)
         return {status:episode.status, userId, episode: episode, allEpisodes: allEpisodes.data.episodes, anime: anime.data.animes, animeId: params.animeId }
 
 

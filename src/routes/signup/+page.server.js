@@ -16,7 +16,7 @@ export const actions = {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    const signupQuery = await axios.post("https://mitteiru-backend.onrender.com/user/new", {
+    const signupQuery = await axios.post("http://localhost:8000/user/new", {
       username,
       email,
       password,
@@ -27,11 +27,11 @@ export const actions = {
     } else if (signupQuery.data.message === "email already used") {
       return fail(400, { email: true });
     }
-    const user = await axios.post("https://mitteiru-backend.onrender.com/user/login", {
+    const user = await axios.post("http://localhost:8000/user/login", {
       email,
       password,
     });
-    cookies.set("userId", user.data.user.id, {
+    cookies.set("userId", user.data.user, {
       path: "/",
       httpOnly: true,
       sameSite: "strict",
