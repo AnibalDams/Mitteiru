@@ -8,14 +8,14 @@
 
 <div
 class="related_anime_card"
-on:click={() => goto(`/anime/${dataA.similarAnime.id}`)}
+on:click={() => goto(`/anime/${dataA.similarAnime._id}`)}
 on:mouseover={()=>gradientPosition = 90}
 on:mouseleave={()=>gradientPosition=0}
 >
 <Gradient positionValue={gradientPosition}/>
 <img
     class="related_anime_card_image"
-    src={dataA.similarAnime.studio==="animeFlv"?dataA.similarAnime.cover:dataA.similarAnime.horizontal_image}
+    src={dataA.similarAnime.studio==="animeFlv"?dataA.similarAnime.cover:dataA.similarAnime.horizontalImage}
     alt=""
 />
 <span class="related_anime_card_name"

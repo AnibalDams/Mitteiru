@@ -14,6 +14,7 @@
 	import {language} from "$lib/store"
 	onMount(()=>{
 		//logged = getCookie("userId").length > 0 ? true:false
+		
 	})
 </script>
 
@@ -37,6 +38,7 @@
 			goto("/login")
 		}}>Login</Button>
 	</div>
+	
 	{:else if logged === "si"}
 		{#if profileImage.length>0}
 			<Avatar image={profileImage} {name}/>

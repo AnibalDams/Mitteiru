@@ -8,6 +8,7 @@
   import MobileHeader from "../../../components/MobileHeader.svelte";
   import MobilePage from "./components/MobilePage.svelte"
   import getCookie from '$lib/getCookie'
+  import {afterNavigate} from '$app/navigation'
 
   export let data;
 
@@ -20,6 +21,8 @@
   let likesCount = 0;
   let profileLikes = [];
   let isMobile;
+  let liked
+  
   onMount(async () => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
     isMobile = mediaQuery.matches;
@@ -31,13 +34,14 @@
     mediaQuery.addEventListener("change", handleResize);
 
     const userId = data.userId;
-   
-    if (userId.user._id.length >0) {
+
+      
+
+    if (userId&&userId.user._id.length >0)  {
   
       profileId = getCookie("profileId", document);
       profileImage = getCookie("profileImage", document);
       profileName = getCookie("profileName",document);
-      console.log(profileImage)
       if (profileId.length <= 0) {
         goto("/selectprofile");
       }
@@ -48,13 +52,12 @@
       let getAnimesInList = await axios(
         `http://localhost:8000/user/profile/${profileId}/list/anime/all`
       );
-      console.log(getAnimesInList.data)
       let getLikes = await axios(
         `http://localhost:8000/anime/${data.anime._id}/likes/count`
       );
-      console.log(profileId)
-      likesCount = getLikes.data.likesCount;
+ 
       profileLikes = getLikes.data.profiles;
+      likesCount = getLikes.data.likesCount;
       await axios.post(
         `http://localhost:8000/user/profile/${profileId}/history/${data.anime._id}/0/add`
       );
@@ -69,6 +72,27 @@
       mediaQuery.removeEventListener("change", handleResize);
     };
   });
+
+  afterNavigate(async()=>{
+    const userId = data.userId;
+    if (userId&&userId.user._id.length >0)  {
+    let profileId = getCookie("profileId", document);
+    
+    if(profileId.length <=0){
+      goto("/selectprofile")
+    }else{
+      let getLikes = await axios(
+        `http://localhost:8000/anime/${data.anime._id}/likes/count`
+      );
+      profileLikes = getLikes.data.profiles;
+      likesCount = getLikes.data.likesCount;
+      liked = profileLikes.find(e=>e.profileId==profileId)?true:false
+      await axios.post(
+        `http://localhost:8000/user/profile/${profileId}/history/${data.anime._id}/0/add`
+      );
+    }
+ }
+  }) 
 </script>
 
 <svelte:head>
@@ -89,6 +113,7 @@
 {/if}
 {#if !data.anime}
   <NotFoundError
+  image="http://localhost:8000/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg"
     text="This anime wasn't found. Are you sure that you put the right anime in the url? Check it!"
   />
 {:else}
@@ -97,6 +122,7 @@
 {:else}
 <AnimePage
 dataA={data}
+liked={liked}
 {logged}
 {profileId}
 {profileLists}

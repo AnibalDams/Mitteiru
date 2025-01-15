@@ -7,7 +7,7 @@
   export let animeGenres = [];
   export let inList = false;
   
-  let url = `url(${animeData.cover})`
+  let url = `url(${animeData.image})`
 </script>
 
 <div

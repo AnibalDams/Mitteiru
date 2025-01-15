@@ -3,12 +3,13 @@
     export let text = "404 Not found"
     export let linkText=""
     export let linkDirection="/"
+    export let image
 </script>
 
 
 <div class="not_found_c">
     
-    <img src="https://i.ibb.co/RvBnWLg/404.png" alt="" srcset="">
+    <img src={image} alt="" srcset="">
    
     {#if !link}
     <span class="not_found_text">{text}</span>
@@ -33,8 +34,8 @@
     }
 
     .not_found_c img{
-        width: 450px;
-        height: 450px;
+        width: 200px;
+        height: 200px;
         position: absolute;
         top: 50%;
         right: 50%;
@@ -42,11 +43,10 @@
     }
     .not_found_c span.not_found_text{
         display: inline-block;
-        padding-bottom: 20px;
 
         position: absolute;
         font-weight: bold;
-        top: 100%;
+        top: 75%;
         right: 50%;
         transform: translate(50%,-50%);
 

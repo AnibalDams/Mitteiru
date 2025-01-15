@@ -107,7 +107,7 @@
     </div>
 </div>
 {:else}
-<NotFoundError text="This anime doesn't have the given episode. Sorry for the inconvenience :("/>
+<NotFoundError image="http://localhost:8000/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg" text="This anime doesn't have the given episode. Sorry for the inconvenience :("/>
 {/if}
 <style>
     .episode_container {

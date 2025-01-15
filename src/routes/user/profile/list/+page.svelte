@@ -97,7 +97,7 @@
 
 
 
-	<NotFoundError text={`You don't have any anime here... `} link={true} linkText="Try adding one!" linkDirection="/directory"/>
+	<NotFoundError text={`You don't have any anime here... `} image="http://localhost:8000/static/WhatsApp Image 2025-01-15 at 4.20.42 PM.jpeg" link={true} linkText="Try adding one!" linkDirection="/directory"/>
 	
 	
 

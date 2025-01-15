@@ -10,6 +10,7 @@
     import {language} from '$lib/store'
     import LangText from "../../../../components/LangText.svelte";
   import LikeButton from "../../../../components/LikeButton.svelte";
+  import Likes from "../../../../components/Likes.svelte";
     
     export let logged;
     export let dataA;
@@ -18,6 +19,7 @@
     export let profileId;
     export let likesCount = 0;
     export let profileLikes = []
+    export let liked
     let showCover = false
 
 
@@ -67,7 +69,9 @@
                
                 <span class="anime_studio_ship" on:click={goto(`/anime/year/${dataA.anime.releaseYear}`)}>{dataA.anime.releaseYear}</span>
                 {#if logged === "si" && profileId.length >0}
-                    <LikeButton likesCount={likesCount} profileLikes={profileLikes} profileId={Number(profileId)} animeId={dataA.anime.id}/>
+                    <LikeButton liked={liked} likesCount={likesCount} profileLikes={profileLikes} profileId={profileId} animeId={dataA.anime._id}/>
+                    {:else}
+                    <Likes likesCount={likesCount} profileLikes={profileLikes}  animeId={dataA.anime._id}/>
                 {/if}
                 <p class="anime_synopsis">
                 {dataA.anime.synopsis}

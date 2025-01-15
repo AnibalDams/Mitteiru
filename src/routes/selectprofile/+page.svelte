@@ -50,7 +50,7 @@
       );
       profiles = profilesQuery.data.profiles;
       console.log(profilesQuery.data)
-      logged = userId.length > 0 && userId !== undefined ? "si" : "no";
+      logged = userId && userId.user._id  ? "si" : "no";
     } else {
      
     }
@@ -122,7 +122,7 @@
         refresh={refreshProfiles}
         avatar={profile.photo}
         name={profile.name}
-        profileId={profile.id}
+        profileId={profile._id}
       />
     {/if}
   </div>

@@ -4,22 +4,24 @@
     import formatNumber from "$lib/numberFormatter"
     import axios from "axios";
     export let likesCount = 0
-    export let animeId = 0
+    export let animeId = ""
     export let profileLikes = []
-    export let profileId = 0
-    export let liked = profileLikes.find(e=>e.profile_id==profileId)?true:false
+    export let profileId = ""
+    export let liked;
+
 
 </script>
-<span on:click={async()=>{
+<span  on:click={async()=>{
     await axios.post(`http://localhost:8000/anime/${animeId}/like/${profileId}`)
-    likesCount = liked?likesCount+1:likesCount-1
+    likesCount = !liked?likesCount+1:likesCount-1
+    liked=liked?false:true
     
     
-}} title={likesCount} on:click={()=>{liked=liked?false:true}} style={`color: ${liked?"green":"black"}; box-shadow: 0px 0px 4px ${liked?"green":"black"};border: 1px solid ${liked?"green":"black"};`}>{#if !liked}
+}} title={likesCount} style={`color: ${liked?"green":"black"}; box-shadow: 0px 0px 4px ${liked?"green":"black"};border: 1px solid ${liked?"green":"black"};`}>{#if !liked}
     <Heart style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"/> 
     {:else}
     <HeartFilled color="green" style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"/> 
-{/if} {formatNumber(likesCount)}</span>
+{/if} {formatNumber(likesCount)} </span>
 
 
 <style>

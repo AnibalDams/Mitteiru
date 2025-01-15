@@ -19,10 +19,10 @@ export const actions = {
       password,
       admin: true,
     });
-    if (loginQuery.data.message === "Invalid Email/Password") {
+    if (loginQuery.data.message === "Invalid Email" || loginQuery.data.message ==="Invalid Password") {
       return fail(400, { error: true });
     }
-    cookies.set("userId", loginQuery.data.user.id, {
+    cookies.set("userId", loginQuery.data.user, {
       path: "/",
       httpOnly: true,
       sameSite: "strict",
