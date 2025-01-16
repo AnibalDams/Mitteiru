@@ -43,7 +43,7 @@
     }
     .not_found_c span.not_found_text{
         display: inline-block;
-
+        font-size: 20px;
         position: absolute;
         font-weight: bold;
         top: 75%;

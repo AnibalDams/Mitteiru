@@ -20,7 +20,7 @@
       profileId = getCookie("profileId");
       profileImage = getCookie("profileImage");
       profileName = getCookie("profileName");
-      logged = data.userId ? "si" : "no";
+      logged = data.userId.user ? "si" : "no";
   
       if (profileId.length <= 0 && logged == "si") {
         goto("/selectprofile");
@@ -51,7 +51,7 @@
       {#each animes as anime}
         <AnimeCard
           animeData={anime}
-          saved={animesInList.find((e) => e.id == anime.id) ? true : false}
+          saved={animesInList.find((e) => e._id == anime._id) ? true : false}
         />
       {/each}
     </div>

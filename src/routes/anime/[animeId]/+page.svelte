@@ -7,7 +7,7 @@
   import axios from "axios";
   import MobileHeader from "../../../components/MobileHeader.svelte";
   import MobilePage from "./components/MobilePage.svelte"
-  import getCookie from '$lib/getCookie'
+  import {getCookie} from 'svelte-cookie'
   import {afterNavigate} from '$app/navigation'
 
   export let data;
@@ -34,17 +34,17 @@
     mediaQuery.addEventListener("change", handleResize);
 
     const userId = data.userId;
-
       
 
     if (userId&&userId.user._id.length >0)  {
   
-      profileId = getCookie("profileId", document);
-      profileImage = getCookie("profileImage", document);
-      profileName = getCookie("profileName",document);
+      profileId = getCookie("profileId");
+      profileImage = getCookie("profileImage");
+      profileName = getCookie("profileName");
       if (profileId.length <= 0) {
         goto("/selectprofile");
       }
+     if(data.anime){
       let getLists = await axios(
         `http://localhost:8000/user/profile/${profileId}/list/all`
       );
@@ -63,6 +63,7 @@
       );
       profileLists = getLists.data.lists;
       animesInList = getAnimesInList.data.animes;
+     }
      
       logged = "si";
     } else {
@@ -75,8 +76,9 @@
 
   afterNavigate(async()=>{
     const userId = data.userId;
+    
     if (userId&&userId.user._id.length >0)  {
-    let profileId = getCookie("profileId", document);
+    let profileId = getCookie("profileId");
     
     if(profileId.length <=0){
       goto("/selectprofile")
@@ -106,16 +108,17 @@
   <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
+{#if !data.error}
 {#if isMobile}
-    <MobileHeader/>
+<MobileHeader/>
 {:else}
 <Header {logged} {profileImage} name={profileName} />
 {/if}
 {#if !data.anime}
-  <NotFoundError
-  image="http://localhost:8000/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg"
-    text="This anime wasn't found. Are you sure that you put the right anime in the url? Check it!"
-  />
+<NotFoundError
+image="http://localhost:8000/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg"
+text="This anime wasn't found. Are you sure that you put the right anime in the url? Check it!"
+/>
 {:else}
 {#if isMobile}
 <MobilePage data={data}/>
@@ -131,4 +134,13 @@ liked={liked}
 {profileLikes}
 />
 {/if}
+{/if}
+{:else}
+<Header {logged} {profileImage} name={profileName} />
+
+<NotFoundError image="http://localhost:8000/static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg" text="There was an error while we tried to show the anime. Sorry for the inconvenience :("/>
+<div style="display: flex; flex-direction:column;justify-content:center; align-items:center;">
+  <span style="font-weight: bolder; font-style: italic;">{data.errorMessage1}</span>
+<span style="font-weight: bold; font-size:17px;">{data.errorMessage2}</span>
+</div>
 {/if}

@@ -2,7 +2,8 @@
   import { onMount } from "svelte";
   import axios from "axios";
   import Header from "../../../Header.svelte";
-  import getCookie from "$lib/getCookie";
+  import { getCookie } from "svelte-cookie";
+
   import { goto } from "$app/navigation";
   import Loader from "../../../../components/Loader.svelte";
   import AnimeCard from "../../../../components/AnimeCard.svelte";
@@ -16,9 +17,9 @@
   let loaded = false;
   let today = new Date().toISOString().substring(0,10)
   onMount(async () => {
-    profileId = getCookie("profileId",document);
-    profileImage = getCookie("profileImage",document);
-    profileName = getCookie("profileName",document);
+    profileId = getCookie("profileId");
+    profileImage = getCookie("profileImage");
+    profileName = getCookie("profileName");
     logged = data.userId ? "si" : "no";
 
     if (profileId.length <= 0 && logged == "si") {
