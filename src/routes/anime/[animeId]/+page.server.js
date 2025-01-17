@@ -21,6 +21,7 @@ export async function load({ cookies, params }) {
       const similarAnimes = (
         await axios(`http://localhost:8000/anime/${params.animeId}/similar`)
       ).data.animes;
+      const getReview = await axios(`http://localhost:8000/anime/${params.animeId}/review/all`)
   
       const randomnumber =
         Math.round(Math.random() * (similarAnimes.length - 1)) + 1 - 1;

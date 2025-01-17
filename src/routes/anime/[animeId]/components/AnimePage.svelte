@@ -11,6 +11,7 @@
     import LangText from "../../../../components/LangText.svelte";
   import LikeButton from "../../../../components/LikeButton.svelte";
   import Likes from "../../../../components/Likes.svelte";
+  import ReviewCard from "./ReviewCard.svelte";
     
     export let logged;
     export let dataA;
@@ -105,6 +106,11 @@
             {/each}
         </div>
     </div>
+
+    <div class="reviews">
+        <h2 class="episodes_information_title" >Reviews</h2>
+        <ReviewCard/>
+    </div>
 </div>
 
 <style>
@@ -195,5 +201,9 @@
         display: flex;
         flex-wrap: wrap;
 
+    }
+    .reviews{
+        margin-left:10px;
+        padding-bottom: 20px;
     }
 </style>

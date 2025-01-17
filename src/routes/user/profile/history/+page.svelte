@@ -31,7 +31,7 @@
           `http://localhost:8000/user/profile/${profileId}/list/anime/all`
         );
         let getHistory = await axios(`http://localhost:8000/user/profile/${profileId}/history`)
-        console.log(getHistory.data)
+        
         animesInList = getAnimesInList.data.animes;
         history = getHistory.data.animes
       }
