@@ -22,7 +22,6 @@ export async function load({ cookies, params }) {
         await axios(`http://localhost:8000/anime/${params.animeId}/similar`)
       ).data.animes;
       const getReview = await axios(`http://localhost:8000/anime/${params.animeId}/review/all`)
-  
       const randomnumber =
         Math.round(Math.random() * (similarAnimes.length - 1)) + 1 - 1;
       const similarAnime = similarAnimes[randomnumber];
@@ -32,6 +31,7 @@ export async function load({ cookies, params }) {
         anime: anime.data.animes,
         genres: anime.data.genres,
         episodes: episodes.data.episodes,
+        reviews:getReview.data.reviews,
         similarAnime,
       };
     } else {
