@@ -29,7 +29,7 @@
   let showCover = false;
 
   let type = "slider";
-  $:perMove = 1
+  $:tenperMove = false
 </script>
 
 <div
@@ -128,7 +128,7 @@
     </div>
   </div>
   <div class="episodes_information">
-    <h2 class="episodes_information_title">
+    <h2 class="episodes_information_title" style="margin-bottom: 20px;">
       <LangText p="animeShow" w="episodes" /><TypeSelector option1Click={()=>{
         type = "slider"
       }} option2Click={()=>{
@@ -137,22 +137,16 @@
       {#if type=="slider"}
         
         <AmountSelectror option1Click={()=>{
-          if (perMove == 10) {
-            
-            perMove = 1
-          }
+          tenperMove = false
         }} option2Click={()=>{
-          if (perMove == 1) {
-            
-            perMove = 10
-          }
+          tenperMove = true
         }}/>
       {/if}
        
     </h2>
     {#if type == "slider"}
       <Splide
-        options={{ rewind: true, perPage: 4, perMove: perMove }}
+        options={{ rewind: true, perPage: 4, perMove: tenperMove?10:1 }}
 
         style="margin-top:20px;"
       >
@@ -164,7 +158,6 @@
                 episodeData={episode}
               />
             </SplideSlide>
-           
           {/if}
         {/each}
       </Splide>
@@ -191,6 +184,7 @@
         {#each dataA.reviews as review}
           <SplideSlide>
             <ReviewCard
+            on:click={()=>goto(`/anime/${dataA.anime._id}/review/${review._id}`)}
               avatar={review.profileImage}
               content={review.review}
               name={review.profileName}

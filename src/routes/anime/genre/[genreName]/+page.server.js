@@ -24,7 +24,6 @@ export async function load({ params, cookies }) {
     const animesWithTheGenre = await axios(
       `http://localhost:8000/anime/genre/${params.genreName}`
     );
-    console.log(animesWithTheGenre.data)
 
     const tenGenres = await getTenGenres();
 

@@ -55,7 +55,6 @@
           let getAnimesInList = await axios(
             `http://localhost:8000/user/profile/${profileId}/list/anime/all`
           );
-          console.log(getAnimesInList)
           animesInList = getAnimesInList.data.animes;
         }
         loaded = true;

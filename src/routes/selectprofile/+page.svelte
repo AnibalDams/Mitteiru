@@ -41,7 +41,6 @@
   };
   onMount(async () => {
     userId = data.userId;
-    console.log(userId.user._id)
     if (userId.user._id.length > 0 && userId != undefined) {
       profileImage = getCookie("profileImage");
       pName = getCookie("profileName");
@@ -49,7 +48,6 @@
         `http://localhost:8000/user/${userId.user._id}/profile/d/all`
       );
       profiles = profilesQuery.data.profiles;
-      console.log(profilesQuery.data)
       logged = userId && userId.user._id  ? "si" : "no";
     } else {
      

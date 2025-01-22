@@ -7,11 +7,11 @@
 </script>
 
 
-<div class="container">
+<div on:click class="container">
     <div class="top">
         <img src={avatar} alt="" class="avatar">
         <div class="right_content">
-            <span class="title">{title}</span>
+            <span class="title">{title.length >=29?title.substring(0,27)+"...":title}</span>
             <span class="extra_info"><span style="font-weight: bold;">{name}</span> - {date}</span>
         </div>
     </div>
@@ -26,7 +26,7 @@
         margin-top: 20px;
         margin-left: 25px;
         height: 214px;
-        width: 400px;
+        max-width: 400px;
         padding: 20px;
         border-radius: 10px;
 
@@ -64,8 +64,12 @@
         color: #666;
     }
     .container .content{
-        display: inline-block;
+        display: -webkit-box;
         margin-top: 10px;
         color: #444;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 </style>

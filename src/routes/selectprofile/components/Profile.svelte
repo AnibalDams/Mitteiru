@@ -18,7 +18,6 @@
             const delte  = await axios.delete(
                 `http://localhost:8000/user/profile/${id}/delete`,
             );
-            console.log(delte)
             deleteButtonText = "Deleted";
             secondaryAction();
         } catch (error) {
