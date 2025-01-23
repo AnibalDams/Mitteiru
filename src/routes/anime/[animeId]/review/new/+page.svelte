@@ -67,7 +67,7 @@
   ></textarea>
   <Button onClick={async()=>await addReview()}>Publish</Button>
 </div>
-<div style="margin: 10px; ">
+<div style="margin: 10px; font-size:17px; line-height: 28px;">
   <h2 style="margin-bottom: 20px;">Preview</h2>
   <h1 style="margin-bottom:20px;">{title}</h1>
   <SvelteMarkdown source={content} renderers={{image:Image}} options={{gfm:true}}/>
@@ -82,8 +82,8 @@
     outline: none;
     padding-left: 30px;
     padding-right: 30px;
-    font-weight: bold;
     padding-top: 10px;
+    line-height: 25px;
     padding-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0px 0px 0px black;

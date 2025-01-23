@@ -1,10 +1,11 @@
 <script>
-  import { Calendar } from "radix-icons-svelte";
+  import { Calendar, ArrowLeft } from "radix-icons-svelte";
   import SvelteMarkdown from "svelte-markdown";
   import { onMount } from "svelte";
   import Header from "../../../../Header.svelte";
   import { getCookie } from "svelte-cookie";
   import Image from "./Image.svelte";
+  import {goto} from "$app/navigation"
 
   export let data;
   let profileId;
@@ -42,9 +43,10 @@
     </div>
   </div>
   <div class="review_container">
+    <button on:click={()=>goto(`/anime/${data.anime._id}`)}><ArrowLeft style="margin-right:10px;"/>{data.anime.name} </button>
     <h1>{data.review.title}</h1>
 
-    <div style="margin-top:20px; font-size:17px; line-height: 28px;">
+    <div style="margin-top:20px; font-size:17px; line-height: 28px; ">
       <SvelteMarkdown source={data.review.review} renderers={{image:Image}}/>
     </div>
   </div>
@@ -86,5 +88,24 @@
     
     
   
+  }
+  button{
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.1s;
+  }
+  button:hover{
+    background-color: #eee;
   }
 </style>

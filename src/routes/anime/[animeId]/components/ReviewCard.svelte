@@ -64,11 +64,11 @@
         color: #666;
     }
     .container .content{
-        display: -webkit-box;
+        display: box;
         margin-top: 10px;
         color: #444;
-        -webkit-line-clamp: 5;
-        -webkit-box-orient: vertical;
+        line-clamp: 5;
+        box-orient: vertical;
         text-overflow: ellipsis;
         overflow: hidden;
     }

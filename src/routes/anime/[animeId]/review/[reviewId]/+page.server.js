@@ -9,6 +9,7 @@ export async function load({cookies, params}){
         }
     })
     const review = await axios(`http://localhost:8000/anime/${params.animeId}/review/${params.reviewId}`);
+    const anime = await axios(`http://localhost:8000/anime/${params.animeId}`);
 
-    return {userId:decodedUser.data.user, review:review.data.reviews}
+    return {userId:decodedUser.data.user, review:review.data.reviews, anime:anime.data.animes}
 }
