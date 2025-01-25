@@ -5,12 +5,13 @@
   import Header from "../../../../Header.svelte";
   import { getCookie } from "svelte-cookie";
   import Image from "./Image.svelte";
+  import NotFoundError from '../../../../../components/NotFoundError.svelte'
   import {goto} from "$app/navigation"
 
   export let data;
-  let profileId;
-  let profileImage;
-  let profileName;
+  let profileId="";
+  let profileImage="";
+  let profileName="";
   let logged = "nosesabe";
   onMount(async () => {
     const userId = data.userId;
@@ -30,6 +31,12 @@
 
 <Header {logged} {profileImage} name={profileName} />
 
+{#if data.error}
+<div style="width: 100%; display:flex;justify-content:center;flex-direction:column;">
+<NotFoundError image="http://localhost:8000/static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg" text="There was an error while we tried to show the anime. Sorry for the inconvenience :("/>
+<span style="text-align: center;font-weight:bold;">{data.errorMessage}</span>
+</div>
+{:else}
 <div class="container">
   <div class="profile_Container">
     <img src={data.review.profileImage} alt="" />
@@ -52,6 +59,7 @@
   </div>
 </div>
 
+{/if}
 <style>
   div.container {
     margin: 50px;

@@ -8,6 +8,7 @@
   import { goto } from "$app/navigation";
   import axios from "axios";
   import Image from "../[reviewId]/Image.svelte";
+
   let content = ``;
   let title = "";
   let profileId;
