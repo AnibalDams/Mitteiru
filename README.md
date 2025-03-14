@@ -6,7 +6,7 @@ An app made using svelte for watching anime, using [Mitteiru-backend](https://gi
 > This app was made for practicing my abilities with svelte and javascript
 
 ### Why am I doing this?
-I am creating this web app mainly to practice my skills in Svelte, Typescript, and programming in general. That’s why I always try to use very few third-party libraries and aim to do most things from scratch to learn the existing ways to solve certain types of problems.
+I am creating this web app mainly to practice my skills in Svelte, Typescript, Javascript, and programming in general. That’s why I always try to use very few third-party libraries and aim to do most things from scratch to learn the existing ways to solve certain types of problems.
 
 # Some Screenshots
 
