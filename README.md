@@ -23,7 +23,7 @@ I am creating this web app mainly to practice my skills in Svelte, Typescript, J
 ![Home page logged](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Opera%20Captura%20de%20pantalla_2024-09-02_153445_localhost.png)
 
 ### Anime page
-![Anime Page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Screenshot%202024-10-03%20at%2001-06-35%20Laid-Back%20Campp.png)
+![Anime Page](https://i.ibb.co/LXgvLvn5/2025-03-14-15-25-30-localhost-e28ee606965c.png)
 
 ### Results of the search
 ![Results of the search](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-40-04.png)
