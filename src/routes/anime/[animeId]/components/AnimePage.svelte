@@ -93,7 +93,7 @@
 
       <span
         class="anime_studio_ship"
-        on:click={goto(`/anime/year/${dataA.anime.releaseYear}`)}
+        on:click={()=>{goto(`/anime/year/${dataA.anime.releaseYear}`)}}
         >{dataA.anime.releaseYear}</span
       >
       {#if logged === "si" && profileId.length > 0}

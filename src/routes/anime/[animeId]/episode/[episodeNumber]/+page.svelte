@@ -14,6 +14,7 @@
   import NotFoundError from "../../../../../components/NotFoundError.svelte";
 
   import ModalWithoutActions from "../../../../../components/ModalWithoutActions.svelte";
+  import CommentCard from "../../components/commentCard.svelte";
 
   export let data;
   let episodeNumber = data.episode.episodeNumber;
@@ -128,7 +129,7 @@
       {/if}
     </div>
     <span
-      style="display: inline-block; margin-left:10px; margin-top:20px;margin-bottom:20px; padding:5px; font-weight:bold; border-radius:5px; background-color:rgba(61, 61, 61, 0.3);"
+      style="display: inline-block; margin-left:10px; margin-top:20px;margin-bottom:20px; padding:5px; font-weight:bold; border-radius:5px; background-color:rgba(218, 218, 218, 0.534);"
       >Discussion</span
     >
     <h3 style="margin:10px;">Comments</h3>
@@ -158,6 +159,9 @@
         </div>
       </div>
     {/if}
+    <div class="comments_container">
+      <CommentCard/>
+    </div>
   </div>
 {:else}
   <NotFoundError
