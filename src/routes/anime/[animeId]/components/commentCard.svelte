@@ -1,28 +1,26 @@
 <script>
+  export let content =""
+  export let name =""
+  export let date =""
+  export let avatar  =""
 </script>
 
 <div class="comment">
   <div class="right">
     <img
-      src="https://i.ibb.co/b7XFdQC/59afdf34673fcfaf6b22272229b122d9.png"
+      src={avatar}
       alt=""
       class="avatar"
     />
   </div>
   <div class="left">
     <div class="top">
-      <span class="name">Anibal Dams</span>
-      <span class="date">1 day ago</span>
+      <span class="name">{name}</span>
+      <span class="date">{date}</span>
     </div>
     <div class="bottom">
       <p class="text">
-        Este episodio fue simplemente increíble. La narrativa alcanzó su punto
-        más alto con giros inesperados que me mantuvieron pegado a la pantalla
-        de principio a fin. La animación fue impecable, especialmente en las
-        escenas de acción, donde cada movimiento estaba cargado de dinamismo y
-        emoción. Además, los personajes mostraron una profundidad increíble, y
-        los momentos de tensión emocional realmente conectaron. Sin duda, uno de
-        los mejores episodios de toda la serie. ¡Totalmente imperdible!
+        {content}
       </p>
       <div class="actions">
         <button>
@@ -61,7 +59,7 @@
   .comment {
     display: flex;
     margin: 10px;
-    min-height: 150px;
+    min-height: 100px;
     border: 1px solid #c4c3c3;
     border-radius: 10px;
     padding: 10px;

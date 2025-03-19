@@ -34,8 +34,8 @@
     }
 
     .not_found_c img{
-        width: 200px;
-        height: 200px;
+        width: 300px;
+        height: 300px;
         position: absolute;
         top: 50%;
         right: 50%;
@@ -46,7 +46,7 @@
         font-size: 20px;
         position: absolute;
         font-weight: bold;
-        top: 75%;
+        top: 80%;
         right: 50%;
         transform: translate(50%,-50%);
 

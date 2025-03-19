@@ -24,6 +24,7 @@
 
 <style>
     .button_primary {
+        
         padding: 10px 20px 10px 20px;
         background-color: black;
         border-radius: 5px;
@@ -41,6 +42,7 @@
         box-shadow: 4px 4px 0px black;
     }
     .button_primary_mobile{
+        
         padding: 10px 15px 10px 15px;
         background-color: black;
         border-radius: 5px;

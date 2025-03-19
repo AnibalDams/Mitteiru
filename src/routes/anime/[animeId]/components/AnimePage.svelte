@@ -174,7 +174,7 @@
   </div>
 
   <div class="reviews">
-    <h2 class="episodes_information_title" style="display: flex; align-items:center;">Reviews {#if logged === "si" && profileId.length > 0}
+    <h2 class="episodes_information_title" style="display: flex; align-items:center;">Reviews ({dataA.reviews.length}) {#if logged === "si" && profileId.length > 0}
       <IconButton on:click={()=>{goto(`/anime/${dataA.anime._id}/review/new`)}}/>
     {/if}</h2>
     {#if dataA.reviews && dataA.reviews.length > 0}
@@ -192,6 +192,7 @@
               date={new Date(review.createdAt).toISOString().split("T")[0]}
             />
           </SplideSlide>
+          
         {/each}
       </Splide>
     {/if}

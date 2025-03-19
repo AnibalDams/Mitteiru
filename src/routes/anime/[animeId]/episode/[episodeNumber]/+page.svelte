@@ -15,6 +15,7 @@
 
   import ModalWithoutActions from "../../../../../components/ModalWithoutActions.svelte";
   import CommentCard from "../../components/commentCard.svelte";
+  import axios from "axios";
 
   export let data;
   let episodeNumber = data.episode.episodeNumber;
@@ -25,6 +26,7 @@
   let showModal = false;
   let episodeLink = data.episode.link;
   let episode_ = data.episode;
+  $: comments = data.comments
   let commentContent = ""
 
   const getEpisode = async (episodeN) => {
@@ -33,12 +35,35 @@
       if (episode.episodeNumber === episodeNumber) {
         episode_ = data.allEpisodes[i];
         episodeLink = episode.link;
+        comments  =(await axios(`http://localhost:8000/anime/episode/${episode._id}/comment/all`)).data.comments
+
+
       }
     }
   };
 
+  const sendComment = async()=>{
+    if(commentContent.length >0){
+      await axios.post(`http://localhost:8000/anime/episode/${episode_._id}/comment/new`,{
+        profileId:profileId,
+        content:commentContent,
+        profileName:profileName,
+        profileImage:profileImage,
+    })
+    const newComment = {
+      content: commentContent,
+      date: new Date(),
+      profileName: profileName,
+      profileImage: profileImage
+    }
+    comments = [newComment,...comments ];
+    commentContent = ""; 
+    }
+  }
+
   onMount(async () => {
     const userId = data.userId;
+
     if (userId && userId.length > 0) {
       const { getCookie } = await import("svelte-cookie");
       profileId = getCookie("profileId");
@@ -132,7 +157,7 @@
       style="display: inline-block; margin-left:10px; margin-top:20px;margin-bottom:20px; padding:5px; font-weight:bold; border-radius:5px; background-color:rgba(218, 218, 218, 0.534);"
       >Discussion</span
     >
-    <h3 style="margin:10px;">Comments</h3>
+    <h3 style="margin:10px;">Comments ({comments.length})</h3>
     {#if profileId?.length > 0}
       <span
         style="display: inline-block; margin-left:10px;margin-bottom:10px; color:grey;"
@@ -148,19 +173,29 @@
           <span style="margin-left:10px; font-weight:bold;">{profileName}</span>
         </div>
         <textarea
-          style="width:100%; height:100px; margin-top:10px; border-radius:5px; border:1px solid black; padding:10px;"
+          style="width:100%; height:100px; margin-top:10px; border-radius:5px; border:1px solid black; padding:10px;transition:0.1s;"
           placeholder="Write your comment here..."
           bind:value={commentContent}
         ></textarea>
-        <div style="display: flex; justify-content:flex-end;">
-          <Button variant="primary" onClick={()=>{
-            console.log(commentContent)
-          }}>Send Comment</Button>
+        <div style="display: flex; margin-top:5px; justify-content:flex-end;">
+          <Button variant="primary"  onClick={async()=>{
+            await sendComment()
+          }}><div style="display: flex; align-items:center; justify-content: center;">Send Comment <svg xmlns="http://www.w3.org/2000/svg" style="margin-left: 5px;" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/></svg></div></Button>
         </div>
       </div>
     {/if}
     <div class="comments_container">
-      <CommentCard/>
+      {#if comments.length > 0}
+        {#each comments as comment}
+          <CommentCard content={comment.content} date={new Date(comment.date).toISOString().split("T")[0]} name={comment.profileName} avatar={comment.profileImage}/>
+        {/each}
+        {:else}
+        <NotFoundError
+        image="https://res.cloudinary.com/dkxmn4neg/image/upload/v1742400074/wv9vtv4fzlvou3topwuk.png"
+        text={`This episode doesn't have any comments yet. ${profileId?.length > 0?"Be the first one to comment!":"Log in and be the first one to comment!"}`}
+      />
+      
+      {/if}
     </div>
   </div>
 {:else}
@@ -220,5 +255,9 @@
     border-radius: 5px;
     background-color: white;
     cursor: pointer;
+  }
+  textarea:focus{
+    outline:none; 
+    box-shadow: 4px 4px 0px black;
   }
 </style>

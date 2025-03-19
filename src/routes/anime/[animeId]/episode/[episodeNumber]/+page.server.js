@@ -6,7 +6,7 @@ export async function load({ params, cookies }) {
 
 
     try {
-
+        let comments = []
         const episodeNumber = Number(params.episodeNumber)
         let episode ={}
         const allEpisodes = await axios(`http://localhost:8000/anime/${params.animeId}/episode/all`)
@@ -18,10 +18,13 @@ export async function load({ params, cookies }) {
                     episode = episodeI
                 }
                 
-            }            
+            }
+            comments  =await axios(`http://localhost:8000/anime/episode/${episode._id}/comment/all`) 
+
         }
+        
         const anime = await axios(`http://localhost:8000/anime/${params.animeId}`)
-        return {status:episode.status, userId, episode: episode, allEpisodes: allEpisodes.data.episodes, anime: anime.data.animes, animeId: params.animeId }
+        return {status:episode.status, userId, episode: episode,comments:comments.data.comments, allEpisodes: allEpisodes.data.episodes, anime: anime.data.animes, animeId: params.animeId }
 
 
 
