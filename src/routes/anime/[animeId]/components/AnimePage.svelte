@@ -30,6 +30,7 @@
 
   let type = "slider";
   $:tenperMove = false
+
 </script>
 
 <div
@@ -105,7 +106,7 @@
           animeId={dataA.anime._id}
         />
       {:else}
-        <Likes {likesCount} {profileLikes} animeId={dataA.anime._id} />
+        <Likes {likesCount}  />
       {/if}
       <p class="anime_synopsis">
         {dataA.anime.synopsis}

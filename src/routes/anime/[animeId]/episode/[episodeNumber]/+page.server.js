@@ -7,6 +7,7 @@ export async function load({ params, cookies }) {
 
     try {
         let comments = []
+        let commentsLikes = []
         const episodeNumber = Number(params.episodeNumber)
         let episode ={}
         const allEpisodes = await axios(`http://localhost:8000/anime/${params.animeId}/episode/all`)
@@ -20,11 +21,11 @@ export async function load({ params, cookies }) {
                 
             }
             comments  =await axios(`http://localhost:8000/anime/episode/${episode._id}/comment/all`) 
-
+            commentsLikes  =await axios(`http://localhost:8000/anime/episode/${episode._id}/comment/likes/all`) 
         }
         
         const anime = await axios(`http://localhost:8000/anime/${params.animeId}`)
-        return {status:episode.status, userId, episode: episode,comments:comments.data.comments, allEpisodes: allEpisodes.data.episodes, anime: anime.data.animes, animeId: params.animeId }
+        return {status:episode.status, userId, episode: episode,comments:comments.data.comments, commentsLikes:commentsLikes.data, allEpisodes: allEpisodes.data.episodes, anime: anime.data.animes, animeId: params.animeId }
 
 
 
@@ -38,5 +39,4 @@ export async function load({ params, cookies }) {
     }
 
 }
-
 

@@ -28,6 +28,7 @@
   let episode_ = data.episode;
   $: comments = data.comments
   let commentContent = ""
+  let commentsLikes = []
 
   const getEpisode = async (episodeN) => {
     for (let i = 0; i < data.allEpisodes.length; i++) {
@@ -36,6 +37,7 @@
         episode_ = data.allEpisodes[i];
         episodeLink = episode.link;
         comments  =(await axios(`http://localhost:8000/anime/episode/${episode._id}/comment/all`)).data.comments
+        commentsLikes  =await axios(`http://localhost:8000/anime/episode/${episode._id}/comment/likes/all`)
 
 
       }
@@ -153,10 +155,7 @@
         <div></div>
       {/if}
     </div>
-    <span
-      style="display: inline-block; margin-left:10px; margin-top:20px;margin-bottom:20px; padding:5px; font-weight:bold; border-radius:5px; background-color:rgba(218, 218, 218, 0.534);"
-      >Discussion</span
-    >
+ 
     <h3 style="margin:10px;">Comments ({comments.length})</h3>
     {#if profileId?.length > 0}
       <span
