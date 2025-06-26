@@ -26,9 +26,10 @@
   let showModal = false;
   let episodeLink = data.episode.link;
   let episode_ = data.episode;
-  $: comments = data.comments
-  let commentContent = ""
-  let commentsLikes = []
+  $: comments = data.comments;
+  let commentContent = "";
+  let commentsLikes = data.commentsLikes;
+  let commentsLoaded = true;
 
   const getEpisode = async (episodeN) => {
     for (let i = 0; i < data.allEpisodes.length; i++) {
@@ -36,32 +37,44 @@
       if (episode.episodeNumber === episodeNumber) {
         episode_ = data.allEpisodes[i];
         episodeLink = episode.link;
-        comments  =(await axios(`http://localhost:8000/anime/episode/${episode._id}/comment/all`)).data.comments
-        commentsLikes  =await axios(`http://localhost:8000/anime/episode/${episode._id}/comment/likes/all`)
-
-
+        commentsLoaded = false;
+        comments = (
+          await axios(
+            `http://localhost:8000/anime/episode/${episode._id}/comment/all`
+          )
+        ).data.comments;
+        commentsLikes = (
+          await axios(
+            `http://localhost:8000/anime/episode/${episode._id}/comment/likes/all`
+          )
+        ).data;
+        commentsLoaded = true;
       }
     }
   };
 
-  const sendComment = async()=>{
-    if(commentContent.length >0){
-      await axios.post(`http://localhost:8000/anime/episode/${episode_._id}/comment/new`,{
-        profileId:profileId,
-        content:commentContent,
-        profileName:profileName,
-        profileImage:profileImage,
-    })
-    const newComment = {
-      content: commentContent,
-      date: new Date(),
-      profileName: profileName,
-      profileImage: profileImage
+  const sendComment = async () => {
+    if (commentContent.length > 0) {
+      await axios.post(
+        `http://localhost:8000/anime/episode/${episode_._id}/comment/new`,
+        {
+          profileId: profileId,
+          content: commentContent,
+          profileName: profileName,
+          profileImage: profileImage,
+        }
+      );
+      const newComment = {
+        content: commentContent,
+        date: new Date(),
+        profileName: profileName,
+        profileImage: profileImage,
+        sync: true,
+      };
+      comments = [newComment, ...comments];
+      commentContent = "";
     }
-    comments = [newComment,...comments ];
-    commentContent = ""; 
-    }
-  }
+  };
 
   onMount(async () => {
     const userId = data.userId;
@@ -155,7 +168,7 @@
         <div></div>
       {/if}
     </div>
- 
+
     <h3 style="margin:10px;">Comments ({comments.length})</h3>
     {#if profileId?.length > 0}
       <span
@@ -177,23 +190,66 @@
           bind:value={commentContent}
         ></textarea>
         <div style="display: flex; margin-top:5px; justify-content:flex-end;">
-          <Button variant="primary"  onClick={async()=>{
-            await sendComment()
-          }}><div style="display: flex; align-items:center; justify-content: center;">Send Comment <svg xmlns="http://www.w3.org/2000/svg" style="margin-left: 5px;" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/></svg></div></Button>
+          <Button
+            variant="primary"
+            onClick={async () => {
+              await sendComment();
+            }}
+            ><div
+              style="display: flex; align-items:center; justify-content: center;"
+            >
+              Send Comment <svg
+                xmlns="http://www.w3.org/2000/svg"
+                style="margin-left: 5px;"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#ffffff"
+                ><path
+                  d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"
+                /></svg
+              >
+            </div></Button
+          >
         </div>
       </div>
     {/if}
     <div class="comments_container">
-      {#if comments.length > 0}
-        {#each comments as comment}
-          <CommentCard content={comment.content} date={new Date(comment.date).toISOString().split("T")[0]} name={comment.profileName} avatar={comment.profileImage}/>
-        {/each}
+      {#if commentsLoaded}
+        {#if comments.length > 0}
+          {#each comments as comment}
+            <CommentCard
+              logged={logged === "si" ? true : false}
+              notSync={comment.sync ? true : false}
+              content={comment.content}
+              commentId={comment._id}
+              episodeId={episode_._id}
+              {profileId}
+              likes={commentsLikes.commentsLikes.filter(
+                (e) => e.commentId === comment._id
+              ).length}
+              liked={commentsLikes.commentsLikes.find(
+                (e) => e.commentId === comment._id && e.profileId == profileId
+              )
+                ? true
+                : false}
+              date={new Date(comment.date).toISOString().split("T")[0]}
+              name={comment.profileName}
+              avatar={comment.profileImage}
+            />
+          {/each}
         {:else}
-        <NotFoundError
-        image="https://res.cloudinary.com/dkxmn4neg/image/upload/v1742400074/wv9vtv4fzlvou3topwuk.png"
-        text={`This episode doesn't have any comments yet. ${profileId?.length > 0?"Be the first one to comment!":"Log in and be the first one to comment!"}`}
-      />
-      
+          <NotFoundError
+            image="http://localhost:8000/static/comment.png"
+            text={`This episode doesn't have any comments yet. ${profileId?.length > 0 ? "Be the first one to comment!" : "Log in and be the first one to comment!"}`}
+          />
+        {/if}
+      {:else}
+        <div
+          style="display: flex; justify-content: center; align-items: center; height: 100px;"
+        >
+          <div class="loader"></div>
+        </div>
       {/if}
     </div>
   </div>
@@ -255,8 +311,43 @@
     background-color: white;
     cursor: pointer;
   }
-  textarea:focus{
-    outline:none; 
+  textarea:focus {
+    outline: none;
     box-shadow: 4px 4px 0px black;
+  }
+  /* HTML: <div class="loader"></div> */
+  .loader {
+    width: 40px;
+    height: 26px;
+    --c: no-repeat linear-gradient(#000 0 0);
+    background:
+      var(--c) 0 100%,
+      var(--c) 50% 100%,
+      var(--c) 100% 100%;
+    background-size: 8px calc(100% - 4px);
+    position: relative;
+  }
+  .loader:before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #000;
+    left: 0;
+    top: 0;
+    animation:
+      l3-1 1.5s linear infinite alternate,
+      l3-2 0.75s cubic-bezier(0, 200, 0.8, 200) infinite;
+  }
+  @keyframes l3-1 {
+    100% {
+      left: calc(100% - 8px);
+    }
+  }
+  @keyframes l3-2 {
+    100% {
+      top: -0.1px;
+    }
   }
 </style>

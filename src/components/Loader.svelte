@@ -1,30 +1,32 @@
 <div class="loader"></div>
 
-
-
 <style>
-    .loader{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        width: 50px;
-        height: 50px;
-        border: 1px solid black;
-        border-radius: 10px;
-        animation-duration: 2s;
-        animation-name: load;
-        animation-timing-function: ease-out;
-        animation-iteration-count: infinite;
-    }
 
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 30px;
+    background: linear-gradient(90deg, #000 50%, #0000 0) right/200% 100%;
+    animation: l21 2s infinite linear;
+  }
+  .loader::before {
+    content: "Loading...";
+    color: #0000;
+    padding: 0 5px;
+    background: inherit;
+    background-image: linear-gradient(90deg, #fff 50%, #000 0);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
 
-    @keyframes load{
-        from{
-            transform: rotate(0deg);
-        }
-        to{
-            transform: rotate(360deg);
-        }
+  @keyframes l21 {
+    100% {
+      background-position: left;
     }
+  }
 </style>

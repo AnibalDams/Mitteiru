@@ -1,55 +1,91 @@
 <script>
-  export let content =""
-  export let name =""
-  export let date =""
-  export let avatar  =""
+  import axios from "axios";
+  export let content = "";
+  export let name = "";
+  export let date = "";
+  export let avatar = "";
+  export let profileId;
+  export let commentId;
+  export let episodeId;
+  export let likes = 0;
+  export let liked = false;
+  export let logged = false;
+  export let notSync = false;
 </script>
 
 <div class="comment">
   <div class="right">
-    <img
-      src={avatar}
-      alt=""
-      class="avatar"
-    />
+    <img src={avatar} alt="" class="avatar" />
   </div>
   <div class="left">
     <div class="top">
       <span class="name">{name}</span>
       <span class="date">{date}</span>
+      {#if notSync}
+        <span class="sync_alert">Not synced version</span>
+      {/if}
     </div>
     <div class="bottom">
       <p class="text">
         {content}
       </p>
       <div class="actions">
-        <button>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 -960 960 960"
-            width="20px"
-            style="margin-right: 5px;"
-            fill="#1f1f1f"
-            ><path
-              d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Zm0-406v406-406Zm-80-34v80H160v360h120v80H80v-520h200Z"
-            /></svg
+        {#if logged}
+          <div
+            style={liked ? "background-color:#76f09f98;" : ""}
+            class="button"
+            on:click={async () => {
+              await axios.post(
+                `http://localhost:8000/anime/episode/${episodeId}/comment/${commentId}/like/${profileId}`
+              );
+              likes = liked ? likes - 1 : likes + 1;
+              liked = liked ? false : true;
+            }}
           >
-          10
-        </button>
-        <button
-          ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 -960 960 960"
-            width="20px"
-            style="margin-right: 5px;"
-            fill="#1f1f1f"
-            ><path
-              d="M240-840h440v520L400-40l-50-50q-7-7-11.5-19t-4.5-23v-14l44-174H120q-32 0-56-24t-24-56v-80q0-7 2-15t4-15l120-282q9-20 30-34t44-14Zm360 80H240L120-480v80h360l-54 220 174-174v-406Zm0 406v-406 406Zm80 34v-80h120v-360H680v-80h200v520H680Z"
-            /></svg
-          > 50</button
-        >
+            {#if liked}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                style="margin-right: 5px;"
+                height="20px"
+                viewBox="0 -960 960 960"
+                width="20px"
+                fill="#1f1f1f"
+                ><path
+                  d="M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z"
+                /></svg
+              >
+            {:else}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 -960 960 960"
+                width="20px"
+                style="margin-right: 5px;"
+                fill="#1f1f1f"
+                ><path
+                  d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Zm0-406v406-406Zm-80-34v80H160v360h120v80H80v-520h200Z"
+                /></svg
+              >
+            {/if}
+
+            {likes}
+          </div>
+        {:else}
+          <div class="button" style="cursor: default;">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20px"
+              viewBox="0 -960 960 960"
+              width="20px"
+              style="margin-right: 5px;"
+              fill="#1f1f1f"
+              ><path
+                d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Zm0-406v406-406Zm-80-34v80H160v360h120v80H80v-520h200Z"
+              /></svg
+            >
+            {likes}
+          </div>
+        {/if}
       </div>
     </div>
   </div>
@@ -91,19 +127,29 @@
     align-items: flex-end;
     justify-content: flex-start;
   }
-  button {
+  div.button {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 5px;
     border-radius: 5px;
-    background: none;
     border: none;
     margin-right: 10px;
     font-weight: bold;
+    font-size: 14px;
     cursor: pointer;
   }
-  button:hover {
+  div.button:hover {
     background-color: rgba(218, 218, 218, 0.534);
+  }
+  span.sync_alert {
+    display: inline-block;
+    padding: 2px;
+    border-radius: 5px;
+    margin-left: 10px;
+    background-color: rgb(255, 85, 85);
+    color: rgb(82, 2, 2);
+    font-weight: bold;
+    font-size: 12px;
   }
 </style>
