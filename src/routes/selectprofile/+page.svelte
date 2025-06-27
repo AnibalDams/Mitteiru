@@ -136,6 +136,8 @@
     margin-top: 25vh;
   }
   .title {
+    position: relative;
+    align-items: center;
     font-weight: bold;
     font-size: 20px;
   }
@@ -149,12 +151,16 @@
     width: 90%;
   }
   .reload_button {
+
     margin-top: 10px;
     cursor: pointer;
     background: none;
-    border: 1px solid black;
     padding: 5px;
-    box-shadow: 2px 2px 0px black;
+    border:none;
     border-radius: 5px;
+    transition: 0.1s;
+  }
+  .reload_button:hover{
+    box-shadow: 2px 2px 0px black;
   }
 </style>

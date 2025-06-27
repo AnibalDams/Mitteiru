@@ -119,7 +119,7 @@
       <div class="related_anime">
         <h2><LangText p="animeShow" w="similarAnime" /></h2>
         {#if dataA.similarAnime}
-          <RelatedAnimeCard {dataA} />
+          <RelatedAnimeCard {dataA} inList={animesInList.find((e) => e._id == dataA.similarAnime._id) ? true : false}/>
         {:else}
           <span style="display:inline-block; margin-top:20px;font-weight:bold;"
             ><LangText p="animeShow" w="animeSimilarNoFound" /> :(</span

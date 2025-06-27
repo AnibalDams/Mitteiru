@@ -86,6 +86,22 @@
       if (profileId.length <= 0) {
         goto("/selectprofile");
       } else {
+        if (data.anime) {
+          let getLists = await axios(
+            `http://localhost:8000/user/profile/${profileId}/list/all`
+          );
+
+          let getAnimesInList = await axios(
+            `http://localhost:8000/user/profile/${profileId}/list/anime/all`
+          );
+
+          await axios.post(
+            `http://localhost:8000/user/profile/${profileId}/history/${data.anime._id}/0/add`
+          );
+          profileLists = getLists.data.lists;
+          animesInList = getAnimesInList.data.animes;
+        }
+
         liked = profileLikes.find((e) => e.profileId == profileId)
           ? true
           : false;

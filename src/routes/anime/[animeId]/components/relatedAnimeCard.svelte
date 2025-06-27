@@ -2,8 +2,10 @@
     import Gradient from "../../../../components/Gradient.svelte";
     let gradientPosition = 0
     import { goto } from "$app/navigation";
+  import SavedCheck from "./SavedCheck.svelte";
 
     export let dataA = {similarAnime:{id:0,horizontalImage:"",name:"" }}
+    export let inList = false
 </script>
 
 <div
@@ -19,8 +21,11 @@ on:mouseleave={()=>gradientPosition=0}
     alt=""
 />
 <span class="related_anime_card_name"
-    >{dataA.similarAnime.name.length > 45?`${dataA.similarAnime.name.substring(0,45)}...`:dataA.similarAnime.name}</span
+    >{dataA.similarAnime.name.length > 45?`${dataA.similarAnime.name.substring(0,45)}...`:dataA.similarAnime.name}{#if inList}
+        <SavedCheck/>
+    {/if}</span
 >
+
 </div>
 
 <style>
@@ -42,17 +47,21 @@ on:mouseleave={()=>gradientPosition=0}
         box-shadow: 4px 4px 0px black;
     }
     .related_anime_card .related_anime_card_name {
-        position: absolute;
-        left: 5%;
-        top: 85%;
-        opacity: 0;
-        z-index: 99;
-        color: white;
-        width: 330px;
-        display: inline-block;
-        margin-top: 5px;
-        font-weight: bold;
-        transition: 0.1s;
+          position: absolute;
+    left: 5%;
+    top: 85%;
+    opacity: 0;
+    z-index: 99;
+    color: white;
+    width: 330px;
+    /* margin-top: 5px; */ /* El gap lo hará innecesario */
+    font-weight: bold;
+    transition: 0.1s;
+
+    /* --- NUEVAS PROPIEDADES --- */
+    display: flex; /* ¡La clave! Convierte el span en un contenedor flex. */
+    align-items: center; /* Alinea verticalmente el texto y el icono al centro. */
+    gap: 8px; /* Crea un espacio de 8px entre el texto y el icono. Mucho mejor que usar márgenes. */
     }
      .related_anime_card:hover .related_anime_card_name{
         opacity: 1;
