@@ -11,7 +11,7 @@ I am creating this web app mainly to practice my skills in Svelte, Typescript, J
 # Some Screenshots
 
 ### Select a profile
-![select a profile page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Screenshot%202024-10-03%20at%2001-22-51%20Who's%20watching.png)
+![select a profile page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/2025-06-27%2015.08.32%20localhost%201689cd85a87a.png)
 
 ### Create a new profile
 ![Create a new profile](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-42-48.png)
