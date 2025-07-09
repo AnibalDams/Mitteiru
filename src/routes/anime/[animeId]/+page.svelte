@@ -9,6 +9,7 @@
   import MobilePage from "./components/MobilePage.svelte";
   import { getCookie } from "svelte-cookie";
   import { afterNavigate } from "$app/navigation";
+  import Loader from "../../../components/Loader.svelte";
 
   export let data;
 
@@ -22,8 +23,10 @@
   let profileLikes = [];
   let isMobile;
   let liked;
+  let loading = true 
 
   onMount(async () => {
+    loading = true
     const mediaQuery = window.matchMedia("(max-width: 768px)");
     isMobile = mediaQuery.matches;
 
@@ -62,6 +65,7 @@
         );
         profileLists = getLists.data.lists;
         animesInList = getAnimesInList.data.animes;
+        loading = false
       }
 
       logged = "si";
@@ -74,6 +78,7 @@
   });
 
   afterNavigate(async () => {
+    loading = true
     const userId = data.userId;
     let getLikes = await axios(
       `http://localhost:8000/anime/${data.anime._id}/likes/count`
@@ -108,6 +113,7 @@
         await axios.post(
           `http://localhost:8000/user/profile/${profileId}/history/${data.anime._id}/0/add`
         );
+        loading = false
       }
     }
   });
@@ -138,6 +144,7 @@
   {:else if isMobile}
     <MobilePage {data} />
   {:else}
+   {#if !loading}
     <AnimePage
       dataA={data}
       {liked}
@@ -148,6 +155,13 @@
       {likesCount}
       {profileLikes}
     />
+    {:else}
+        <div
+      style="position:relative;width:100%;height:500px; "
+    >
+      <Loader />
+    </div>
+   {/if}
   {/if}
 {:else}
   <Header {logged} {profileImage} name={profileName} />
