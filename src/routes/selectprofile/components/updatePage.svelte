@@ -2,7 +2,7 @@
     import Button from "../../../components/Button.svelte";
     import axios from "axios";
     export let refresh
-    const avatars = [
+     const avatars = [
         "https://i.ibb.co/pnkd1F0/itadori.jpg",
         "https://i.ibb.co/6WXRy9h/new-game-001.jpg",
         "https://i.ibb.co/PhD35TJ/avatar.jpg",
@@ -39,7 +39,9 @@
         "https://i.ibb.co/FYrmW6K/Skip-And-Loafer-Episode-3-But-Why-Tho.jpg",
         "https://i.ibb.co/K5bgZkK/toji-fushiguro-jujutsu-kaisen.jpg",
         "https://i.ibb.co/kSDqqN6/imw-5000-imh-5000-ima-fit-impolicy-Letterbox-imcolor-000000-letterbox-false.gif",
-        "https://i.ibb.co/FqvtSpv/NxjWrSr.gif"
+        "https://i.ibb.co/FqvtSpv/NxjWrSr.gif",
+        "https://ik.imagekit.io/n8hq0zmzsg/bocchi_the_rock_free_pfp__not_mine__by_ayaadrawz_dgs6d8n-fullview.jpg",
+        "https://ik.imagekit.io/n8hq0zmzsg/gtNzYzW.jpg"
     ];
    
     export let name = "";

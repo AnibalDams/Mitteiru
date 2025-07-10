@@ -42,7 +42,8 @@
         "https://i.ibb.co/K5bgZkK/toji-fushiguro-jujutsu-kaisen.jpg",
         "https://i.ibb.co/kSDqqN6/imw-5000-imh-5000-ima-fit-impolicy-Letterbox-imcolor-000000-letterbox-false.gif",
         "https://i.ibb.co/FqvtSpv/NxjWrSr.gif",
-        "https://ik.imagekit.io/n8hq0zmzsg/bocchi_the_rock_free_pfp__not_mine__by_ayaadrawz_dgs6d8n-fullview.jpg"
+        "https://ik.imagekit.io/n8hq0zmzsg/bocchi_the_rock_free_pfp__not_mine__by_ayaadrawz_dgs6d8n-fullview.jpg",
+        "https://ik.imagekit.io/n8hq0zmzsg/gtNzYzW.jpg"
     ];
    
     export let name = "";
