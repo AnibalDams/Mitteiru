@@ -14,7 +14,7 @@
   import { selectedList } from "./store";
   import IconButton from "./components/IconButton.svelte";
   import Button from "../../../../components/Button.svelte";
-
+  import { Chart } from "chart.js/auto";
   export let data;
   let isThereAnime = null;
   let animeRandom;
@@ -30,6 +30,9 @@
   let logged = "nosesabe";
   let newListName = "";
   let createButtonText = "Create";
+  let analyticsPage = false;
+  let canvasElement;
+  let chart;
   function randomNumber(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
   }
@@ -49,6 +52,39 @@
       createButtonText = "Create";
     }
   };
+
+  function createChart() {
+    if (analyticsPage) {
+      let data = [];
+      let listNames = [];
+
+      for (let i = 0; i < lists.length; i++) {
+        const list = lists[i];
+        let animesInList = animes.filter((e) => e.listId === list._id);
+        data.push(animesInList.length);
+        listNames.push(list.name);
+      }
+      const chartCtx = canvasElement.getContext("2d");
+      if (chart) {
+        chart.destroy();
+      }
+      chart = new Chart(chartCtx, {
+        type: "doughnut",
+        options: {
+          responsive: true,
+        },
+        data: {
+          labels: listNames,
+          datasets: [
+            {
+              label: "Animes",
+              data: data,
+            },
+          ],
+        },
+      });
+    }
+  }
 
   onMount(async () => {
     profileId = getCookie("profileId", document);
@@ -78,6 +114,7 @@
           animes.push(anime);
         }
         animeRandom = animesFetch.data.animes[number];
+
         isThereAnime = true;
         loaded = true;
       }
@@ -89,7 +126,6 @@
   <title>Your List</title>
   <meta name="description" content="Svelte demo app" />
 </svelte:head>
-
 {#if loaded}
   {#if !isThereAnime}
     <Header {logged} {profileImage} name={profileName} />
@@ -118,8 +154,32 @@
         <Button marginLeft="10px" onClick={() => createNewList()}
           >{createButtonText}</Button
         >{/if}
+      <button
+        class="analyticsButton"
+        title="Visualize your list stats"
+        on:click={() => {
+          analyticsPage = analyticsPage ? false : true;
+          if (analyticsPage) {
+            createChart();
+          }
+        }}
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          style="margin-right: 3px;"
+          height="20px"
+          viewBox="0 -960 960 960"
+          width="20px"
+          fill="#1f1f1f"
+          ><path
+            d="M441-82Q287-97 184-211T81-480q0-155 103-269t257-129v120q-104 14-172 93t-68 185q0 106 68 185t172 93v120Zm80 0v-120q94-12 159-78t79-160h120q-14 143-114.5 243.5T521-82Zm238-438q-14-94-79-160t-159-78v-120q143 14 243.5 114.5T879-520H759Z"
+          /></svg
+        >Analytics</button
+      >
     </h2>
-    <div class="anime_card_container">
+    <div
+      class="anime_card_container"
+      style={`display:${analyticsPage ? "none" : "flex"};`}
+    >
       {#if animes.find((e) => e.listId === $selectedList)}
         {#each animes as anime}
           {#if anime.listId === $selectedList}
@@ -138,6 +198,13 @@
         </div>
       {/if}
     </div>
+    <div
+      class="chartContainer"
+      style={`opacity:${analyticsPage ? 1 : 0}; position:${analyticsPage ? "relative" : "absolute"};`}
+    >
+      <h2 style="margin-bottom: 10px;">Amount of animes per list</h2>
+      <canvas bind:this={canvasElement}></canvas>
+    </div>
   {/if}
 {:else}
   <div
@@ -150,6 +217,7 @@
 <style>
   .anime_card_container {
     display: flex;
+    align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
     margin-left: 10px;
@@ -172,5 +240,33 @@
   input:focus {
     border: 1px solid gray;
     box-shadow: 4px 4px 0px gray;
+  }
+  div.chartContainer {
+    width: 100%;
+    height: 500px;
+    top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  button.analyticsButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    background: none;
+    cursor: pointer;
+  }
+  button.analyticsButton:hover {
+    box-shadow: 4px 4px 1px black;
   }
 </style>
