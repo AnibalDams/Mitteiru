@@ -45,6 +45,10 @@
         `http://localhost:8000/user/profile/${profileId}/list/new`,
         { name: newListName }
       );
+          let listsFetch = await axios(
+        `http://localhost:8000/user/profile/${profileId}/list/all`
+      );
+      lists = listsFetch.data.lists;
       createButtonText = "Created";
       newListName = "";
 
@@ -151,8 +155,9 @@
           bind:value={newListName}
           placeholder="Insert a name for the list"
         />
+        
         <Button marginLeft="10px" onClick={() => createNewList()}
-          >{createButtonText}</Button
+          ><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff"><path d="M444-444H240v-72h204v-204h72v204h204v72H516v204h-72v-204Z"/></svg>{createButtonText}</Button
         >{/if}
       <button
         class="analyticsButton"
