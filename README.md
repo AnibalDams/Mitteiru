@@ -43,4 +43,4 @@ I am creating this web app mainly to practice my skills in Svelte, Typescript, J
 ![Profile options](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-42-09.png)
 
 ### Your list page
-![Your list page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Screenshot%202024-10-03%20at%2001-18-51%20Your%20List.png)
+![Your list page](https://github.com/AnibalDams/Mitteiru/blob/main/static/2025-07-10%2015.19.37%20localhost%2069bb384a12ba.png)
