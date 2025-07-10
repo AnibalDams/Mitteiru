@@ -11,7 +11,7 @@
 <button
     type={type}
     class={`button ${variant === "primary" ? "button_primary" : variant === "light" ? "button_light" :variant ==="primaryMobile" ? "button_primary_mobile":variant ==="lightMobile" ?"button_light_mobile" :"button_primary"}`}
-    style={`margin-left:${marginLeft}; margin-right:${marginRight} `}
+    style={`margin-left:${marginLeft}; margin-right:${marginRight}; `}
     on:click={onClick}
 
     >
@@ -34,6 +34,7 @@
         border:none;
     }
     .button .button_text {
+        display:flex; align-items:center; justify-content:center;
         font-weight: bold;
         font-size: 15px;
     }
