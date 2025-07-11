@@ -60,7 +60,7 @@
 </svelte:head>
 
 {#if logged}
-  <Header {logged} {profileImage} name={pName} />
+
 
   <div class="container">
     {#if newProfile === false}
@@ -134,6 +134,7 @@
     align-items: center;
     flex-direction: column;
     margin-top: 25vh;
+    animation: fadeIn-slideUp 1s ease-in-out forwards;
   }
   .title {
     position: relative;
@@ -163,4 +164,15 @@
   .reload_button:hover{
     box-shadow: 2px 2px 0px black;
   }
+
+  @keyframes fadeIn-slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px); 
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); 
+  }
+}
 </style>
