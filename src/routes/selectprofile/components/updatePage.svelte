@@ -1,49 +1,9 @@
 <script>
     import Button from "../../../components/Button.svelte";
     import axios from "axios";
+    import avatars from '../avatars'
     export let refresh
-     const avatars = [
-        "https://i.ibb.co/pnkd1F0/itadori.jpg",
-        "https://i.ibb.co/6WXRy9h/new-game-001.jpg",
-        "https://i.ibb.co/PhD35TJ/avatar.jpg",
-        "https://i.ibb.co/BChyQmf/elaina.jpg",
-        "https://i.ibb.co/RbGq17Y/The-Great-Jahy-Will-Not-Be-Defeated-10-17-2021.jpg",
-        "https://i.ibb.co/0BmPX29/3a95db3e63c3b1482c74092e78e8f214.jpg",
-        "https://i.ibb.co/y4M0z05/03kotoha-mitsuboshi-CS-0112rgb.jpg",
-        "https://i.ibb.co/RgL46KG/8bdae1042d536c1c1921eec5e0bf40c4.jpg",
-        "https://i.ibb.co/ww3pdRS/57f9c4f43709b4bbe0eb3e018253b95c.png",
-        "https://i.ibb.co/b7XFdQC/59afdf34673fcfaf6b22272229b122d9.png",
-        "https://i.ibb.co/tPZZ5TD/76ded5cf566572b7c2468adab778b7a9.jpg",
-        "https://i.ibb.co/6yNzQh1/93b6be8e9e82d2a67ffc935ecbaee7b7.jpg",
-        "https://i.ibb.co/NLTfW1b/640.jpg",
-        "https://i.ibb.co/XZLMNwQ/838ecd220ab56904af3c95f7e80b6573.jpg",
-        "https://i.ibb.co/3hDQSZc/81645-dv-D1-Ac67-Ikp-J.png",
-        "https://i.ibb.co/KWRchY0/290836.jpg",
-        "https://i.ibb.co/brdQ9Hs/Boku-no-Kokoro-no-Yabai-Yatsu-06-55.jpg",
-        "https://i.ibb.co/mCG6Ycj/d55baaeea7677977d61a0509e19dc9dd.jpg",
-        "https://i.ibb.co/0XpRZj2/d91a112d9e8a3afcb9df560f501ab79c.jpg",
-        "https://i.ibb.co/rbPk7ym/e769c55b9ce0ef74bac3f0d9b99e5c99.jpg",
-        "https://i.ibb.co/8rmrVHN/f46786db0303de2789c8185045228a741620725303-full.png",
-        "https://i.ibb.co/7W1cQrv/image.jpg",
-        "https://i.ibb.co/DW2tD75/Jump-Force-Shinra-Kusakabe.jpg",
-        "https://i.ibb.co/4sjm6pD/kaoruhana.jpg",
-        "https://i.ibb.co/0XLgCpm/Kimi-wa-Houkago-Insomnia-04-Large-33.jpg",
-        "https://i.ibb.co/7JdWD71/Kimi-wa-Houkago-Insomnia-02-Large-05.jpg",
-        "https://i.ibb.co/QrsjmG8/maxresdefault-0.jpg",
-        "https://i.ibb.co/M1cYfqM/maxresdefault-1.jpg",
-        "https://i.ibb.co/7XzQbgN/o0780044314763469521.jpg",
-        "https://i.ibb.co/PZJ7TJm/portada-boku-no-kokoro-no-yabai-6.jpg",
-        "https://i.ibb.co/N3BzYjH/portada-spy-x-family-79.jpg",
-        "https://i.ibb.co/QmLtcDX/qqe1tji.png",
-        "https://i.ibb.co/0GyN5Xw/Rin.png",
-        "https://i.ibb.co/FYrmW6K/Skip-And-Loafer-Episode-3-But-Why-Tho.jpg",
-        "https://i.ibb.co/K5bgZkK/toji-fushiguro-jujutsu-kaisen.jpg",
-        "https://i.ibb.co/kSDqqN6/imw-5000-imh-5000-ima-fit-impolicy-Letterbox-imcolor-000000-letterbox-false.gif",
-        "https://i.ibb.co/FqvtSpv/NxjWrSr.gif",
-        "https://ik.imagekit.io/n8hq0zmzsg/bocchi_the_rock_free_pfp__not_mine__by_ayaadrawz_dgs6d8n-fullview.jpg",
-        "https://ik.imagekit.io/n8hq0zmzsg/gtNzYzW.jpg"
-    ];
-   
+     
     export let name = "";
     export let avatar = "https://i.ibb.co/pnkd1F0/itadori.jpg";
     export let cancel;
