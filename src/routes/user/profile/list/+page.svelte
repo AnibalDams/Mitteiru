@@ -31,8 +31,10 @@
   let newListName = "";
   let createButtonText = "Create";
   let analyticsPage = false;
-  let canvasElement;
-  let chart;
+  let listCanvasElement;
+  let listChart;
+  let genreChartCanvas;
+  let genreChart;
   function randomNumber(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
   }
@@ -45,7 +47,7 @@
         `http://localhost:8000/user/profile/${profileId}/list/new`,
         { name: newListName }
       );
-          let listsFetch = await axios(
+      let listsFetch = await axios(
         `http://localhost:8000/user/profile/${profileId}/list/all`
       );
       lists = listsFetch.data.lists;
@@ -61,21 +63,61 @@
     if (analyticsPage) {
       let data = [];
       let listNames = [];
+      let genres = [];
+      let amountAnimesGenres = [];
+      let animeChecker = [];
 
+      for (let i = 0; i < animes.length; i++) {
+        const anime = animes[i];
+        if (!animeChecker.find((e) => e.name === anime.name)) {
+          animeChecker.push({ name: anime.name, added: false });
+        }
+      }
+      for (let i = 0; i < animes.length; i++) {
+        const animeGenres = animes[i].genres;
+        if (
+          animeChecker.find((e) => e.name === animes[i].name).added === false
+        ) {
+          animeChecker.find((e) => e.name === animes[i].name).added = true;
+          for (let j = 0; j < animeGenres.length; j++) {
+            const genre = animeGenres[j];
+            if (!genres.includes(genre)) {
+              genres.push(genre);
+              amountAnimesGenres.push(1);
+            } else {
+              let index = genres.indexOf(genre);
+              amountAnimesGenres[index]++;
+            }
+          }
+        }
+      }
       for (let i = 0; i < lists.length; i++) {
         const list = lists[i];
         let animesInList = animes.filter((e) => e.listId === list._id);
         data.push(animesInList.length);
         listNames.push(list.name);
       }
-      const chartCtx = canvasElement.getContext("2d");
-      if (chart) {
-        chart.destroy();
+      const genreChartCtx = genreChartCanvas.getContext("2d");
+      const listChartCtx = listCanvasElement.getContext("2d");
+      if (listChart) {
+        listChart.destroy();
       }
-      chart = new Chart(chartCtx, {
+      if (genreChart) {
+        genreChart.destroy();
+      }
+      listChart = new Chart(listChartCtx, {
         type: "doughnut",
         options: {
           responsive: true,
+          plugins: {
+            legend: {
+              position: "top",
+            },
+            title: {
+              display: true,
+              text: "Amount of animes per list",
+            },
+          },
         },
         data: {
           labels: listNames,
@@ -83,6 +125,30 @@
             {
               label: "Animes",
               data: data,
+            },
+          ],
+        },
+      });
+      genreChart = new Chart(genreChartCtx, {
+        type: "doughnut",
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "top",
+            },
+            title: {
+              display: true,
+              text: "Distribution of genres",
+            },
+          },
+        },
+        data: {
+          labels: genres,
+          datasets: [
+            {
+              label: "Animes",
+              data: amountAnimesGenres,
             },
           ],
         },
@@ -155,9 +221,18 @@
           bind:value={newListName}
           placeholder="Insert a name for the list"
         />
-        
+
         <Button marginLeft="10px" onClick={() => createNewList()}
-          ><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff"><path d="M444-444H240v-72h204v-204h72v204h204v72H516v204h-72v-204Z"/></svg>{createButtonText}</Button
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            viewBox="0 -960 960 960"
+            width="20px"
+            fill="#fff"
+            ><path
+              d="M444-444H240v-72h204v-204h72v204h204v72H516v204h-72v-204Z"
+            /></svg
+          >{createButtonText}</Button
         >{/if}
       <button
         class="analyticsButton"
@@ -178,7 +253,7 @@
           ><path
             d="M441-82Q287-97 184-211T81-480q0-155 103-269t257-129v120q-104 14-172 93t-68 185q0 106 68 185t172 93v120Zm80 0v-120q94-12 159-78t79-160h120q-14 143-114.5 243.5T521-82Zm238-438q-14-94-79-160t-159-78v-120q143 14 243.5 114.5T879-520H759Z"
           /></svg
-        >Analytics</button
+        >{analyticsPage ? "Hide Analytics" : "Show Analytics"}</button
       >
     </h2>
     <div
@@ -205,10 +280,14 @@
     </div>
     <div
       class="chartContainer"
-      style={`opacity:${analyticsPage ? 1 : 0}; position:${analyticsPage ? "relative" : "absolute"};`}
+      style={`visibility: ${analyticsPage ? "visible" : "hidden"}`}
     >
-      <h2 style="margin-bottom: 10px;">Amount of animes per list</h2>
-      <canvas bind:this={canvasElement}></canvas>
+      <div class="chartItem" style="margin-right: 30px;">
+        <canvas bind:this={listCanvasElement}></canvas>
+      </div>
+      <div class="chartItem">
+        <canvas bind:this={genreChartCanvas}></canvas>
+      </div>
     </div>
   {/if}
 {:else}
@@ -247,13 +326,13 @@
     box-shadow: 4px 4px 0px gray;
   }
   div.chartContainer {
+    display: block;
     width: 100%;
-    height: 500px;
-    top: 40px;
+    margin-top: 50px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-bottom: 30px;
   }
   button.analyticsButton {
     display: flex;
@@ -274,5 +353,9 @@
   }
   button.analyticsButton:hover {
     box-shadow: 4px 4px 1px black;
+  }
+  canvas {
+    width: 400px;
+    height: 400px;
   }
 </style>
