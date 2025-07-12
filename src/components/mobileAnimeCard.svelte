@@ -9,6 +9,8 @@
     export let title = ""
     export let likes = 0
     export let showLikes = false
+
+    
 </script>
 
 

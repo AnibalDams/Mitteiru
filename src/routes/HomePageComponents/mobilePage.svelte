@@ -46,7 +46,7 @@
         animeRandom = data.animes[number];
 
         const genres = await axios(
-          `http://localhost:8000/anime/${animeRandom.id}`
+          `http://localhost:8000/anime/${animeRandom._id}`
         );
 
         animeGenres = genres.data.genres;
@@ -87,7 +87,7 @@
   </h3>
   <div class="card_container">
     {#each data.mostLikedAnimes as anime}
-      <MobileAnimeCard anime={anime} id={anime.id} cover={anime.cover} title={anime.name} likes={anime.like_count} showLikes={true}/>
+      <MobileAnimeCard anime={anime} id={anime.id} cover={anime.cover} title={anime.name} likes={anime.likes} showLikes={true}/>
     
       {/each}
   </div>
