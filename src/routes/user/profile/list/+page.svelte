@@ -60,51 +60,63 @@
   };
 
   function createChart() {
-    if (analyticsPage) {
-      let data = [];
-      let listNames = [];
-      let genres = [];
-      let amountAnimesGenres = [];
-      let animeChecker = [];
+  if (analyticsPage) {
+    // Usamos Map para un conteo y búsqueda mucho más rápidos (O(1) en promedio)
+    const genreCount = new Map();
+    const listCount = new Map();
+    const processedAnimes = new Set(); // Para evitar procesar animes duplicados
 
-      for (let i = 0; i < animes.length; i++) {
-        const anime = animes[i];
-        if (!animeChecker.find((e) => e.name === anime.name)) {
-          animeChecker.push({ name: anime.name, added: false });
-        }
+    // --- 1. Procesamiento de géneros ---
+    for (const anime of animes) {
+      // Si el nombre del anime ya fue procesado, lo saltamos.
+      if (processedAnimes.has(anime.name)) {
+        continue;
       }
-      for (let i = 0; i < animes.length; i++) {
-        const animeGenres = animes[i].genres;
-        if (
-          animeChecker.find((e) => e.name === animes[i].name).added === false
-        ) {
-          animeChecker.find((e) => e.name === animes[i].name).added = true;
-          for (let j = 0; j < animeGenres.length; j++) {
-            const genre = animeGenres[j];
-            if (!genres.includes(genre)) {
-              genres.push(genre);
-              amountAnimesGenres.push(1);
-            } else {
-              let index = genres.indexOf(genre);
-              amountAnimesGenres[index]++;
-            }
-          }
-        }
+      processedAnimes.add(anime.name); // Marcamos este anime como procesado
+
+      // Recorremos los géneros del anime actual
+      for (const genre of anime.genres) {
+        // Obtenemos el conteo actual (o 0 si no existe) y le sumamos 1
+        const count = (genreCount.get(genre) || 0) + 1;
+        genreCount.set(genre, count);
       }
-      for (let i = 0; i < lists.length; i++) {
-        const list = lists[i];
-        let animesInList = animes.filter((e) => e.listId === list._id);
-        data.push(animesInList.length);
-        listNames.push(list.name);
+    }
+
+    // --- 2. Procesamiento de animes por lista ---
+    // Primero, mapeamos los nombres de las listas por su ID para fácil acceso
+    const listIdToName = new Map();
+    for (const list of lists) {
+      listIdToName.set(list._id, list.name);
+      listCount.set(list.name, 0); // Inicializamos el contador de cada lista en 0
+    }
+
+    // Contamos los animes en cada lista
+    for (const anime of animes) {
+      if (listIdToName.has(anime.listId)) {
+        const listName = listIdToName.get(anime.listId);
+        // Incrementamos el contador para esa lista
+        const count = listCount.get(listName) + 1;
+        listCount.set(listName, count);
       }
-      const genreChartCtx = genreChartCanvas.getContext("2d");
-      const listChartCtx = listCanvasElement.getContext("2d");
-      if (listChart) {
-        listChart.destroy();
-      }
-      if (genreChart) {
-        genreChart.destroy();
-      }
+    }
+
+    // --- 3. Preparación de datos para los gráficos ---
+    // Extraemos los datos de los Map para pasarlos a Chart.js
+    const genreLabels = [...genreCount.keys()];
+    const genreData = [...genreCount.values()];
+    const listLabels = [...listCount.keys()];
+    const listData = [...listCount.values()];
+
+    // --- 4. Creación de los gráficos (esta parte es igual) ---
+    const genreChartCtx = genreChartCanvas.getContext("2d");
+    const listChartCtx = listCanvasElement.getContext("2d");
+
+    if (listChart) {
+      listChart.destroy();
+    }
+    if (genreChart) {
+      genreChart.destroy();
+    }
       listChart = new Chart(listChartCtx, {
         type: "doughnut",
         options: {
@@ -120,11 +132,11 @@
           },
         },
         data: {
-          labels: listNames,
+          labels: listLabels,
           datasets: [
             {
               label: "Animes",
-              data: data,
+              data: listData,
             },
           ],
         },
@@ -144,11 +156,11 @@
           },
         },
         data: {
-          labels: genres,
+          labels: genreLabels,
           datasets: [
             {
               label: "Animes",
-              data: amountAnimesGenres,
+              data: genreData,
             },
           ],
         },
