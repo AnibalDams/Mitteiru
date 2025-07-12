@@ -13,7 +13,7 @@ I am creating this web app mainly to practice my skills in Svelte, Typescript, J
 # Some Screenshots
 
 ### Select a profile
-![select a profile page](https://github.com/AnibalDams/Mitteiru/blob/main/static/2025-07-11%2016.08.40%20localhost%2060d670d073e8.png)
+![select a profile page](https://github.com/AnibalDams/Mitteiru/blob/main/static/2025-07-12%2014.01.15%20localhost%20931f756ee5a9.png)
 
 ### Create a new profile
 ![Create a new profile](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-42-48.png)
