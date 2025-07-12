@@ -15,18 +15,18 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
     <img src={data.anime.cover} alt="">
     <div class="title_container">
         <span class="name">{data.anime.name}</span>
-        <span class="japanese_name">{data.anime.japanese_name}</span>
+        <span class="japanese_name">{data.anime.japaneseName}</span>
     </div>
     <div class="extra_info">
         <span class="extra_info studio">{data.anime.studio}</span>
-        <span class="extra_info year">{data.anime.release_year}</span>
-        <span class="extra_info on_going" style={`background-color:${data.anime.on_going ===1?"#90EE90":"#ADD8E6"}`}>{data.anime.on_going===1?"Releasing":"Finished"}</span>
+        <span class="extra_info year">{data.anime.releaseYear}</span>
+        <span class="extra_info on_going" style={`background-color:${data.anime.onGoing ===1?"#90EE90":"#ADD8E6"}`}>{data.anime.onGoing===1?"Releasing":"Finished"}</span>
     </div>
 </div>
 <p>{data.anime.synopsis}</p>
 <div class="genres">
-    {#each data.genres as genre}
-    <span class="extra_info">{genre.name}</span>
+    {#each data.anime.genres as genre}
+    <span class="extra_info">{genre}</span>
         
     {/each}
 </div>
@@ -34,7 +34,7 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
 <div class="episodes">
     {#each data.episodes as episode}
         {#if episode.episode_number != 0}
-        <MobileEpisodeCard episodeNumber={episode.episode_number} episodeTitle={episode.name} thumbnail={episode.thumbnail} animeId={data.anime.id}/>
+        <MobileEpisodeCard episodeNumber={episode.episodeNumber} episodeTitle={episode.name} thumbnail={episode.thumbnail} animeId={data.anime.id}/>
             
         {/if}    
     {/each}

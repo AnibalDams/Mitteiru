@@ -34,7 +34,7 @@ span{
         font-size: 15px;
     }
     span.selected{
-        background-color: rgb(154, 210, 255);
+        border: 1px solid black;
         border-radius: 10px;
     }
 

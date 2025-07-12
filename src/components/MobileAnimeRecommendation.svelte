@@ -10,8 +10,8 @@
     <h1 class="title">{animeData.name.length >=58?animeData.name.substring(0,55)+"...":animeData.name}</h1>
     <p class="synopsis">{animeData.synopsis.length >= 250?animeData.synopsis.substring(0,247)+"...":animeData.synopsis}</p>
     <div class="actions">
-        <Button variant="primaryMobile" onClick={()=>goto(`/anime/${animeData.id}/episode/1`)}>Watch Now!</Button>
-        <Button variant="lightMobile" onClick={()=>goto(`/anime/${animeData.id}`)}>More Details</Button>
+        <Button variant="primaryMobile" onClick={()=>goto(`/anime/${animeData._id}/episode/1`)}>Watch Now!</Button>
+        <Button variant="lightMobile" onClick={()=>goto(`/anime/${animeData._id}`)}>More Details</Button>
     </div>
 </div>
 
