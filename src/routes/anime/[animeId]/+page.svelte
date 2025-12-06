@@ -23,10 +23,10 @@
   let profileLikes = [];
   let isMobile;
   let liked;
-  let loading = true 
+  let loading = true;
 
   onMount(async () => {
-    loading = true
+    loading = true;
     const mediaQuery = window.matchMedia("(max-width: 768px)");
     isMobile = mediaQuery.matches;
 
@@ -38,12 +38,12 @@
 
     const userId = data.userId;
     let getLikes = await axios(
-      `http://localhost:8000/anime/${data.anime._id}/likes/count`
+      `https://mitteiru-backend.onrender.com//anime/${data.anime._id}/likes/count`,
     );
 
     profileLikes = getLikes.data.profiles;
     likesCount = getLikes.data.likesCount;
-
+    
     if (userId && userId.user._id.length > 0) {
       profileId = getCookie("profileId");
       profileImage = getCookie("profileImage");
@@ -52,36 +52,41 @@
         goto("/selectprofile");
       }
       if (data.anime) {
-        let getLists = await axios(
-          `http://localhost:8000/user/profile/${profileId}/list/all`
-        );
+        if (profileId.length <= 0 && profileId) {
+          
+          let getLists = await axios(
+            `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/all`,
+          );
 
-        let getAnimesInList = await axios(
-          `http://localhost:8000/user/profile/${profileId}/list/anime/all`
-        );
+          let getAnimesInList = await axios(
+            `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/anime/all`,
+          );
 
-        await axios.post(
-          `http://localhost:8000/user/profile/${profileId}/history/${data.anime._id}/0/add`
-        );
-        profileLists = getLists.data.lists;
-        animesInList = getAnimesInList.data.animes;
-        loading = false
+          await axios.post(
+            `https://mitteiru-backend.onrender.com//user/profile/${profileId}/history/${data.anime._id}/0/add`,
+          );
+          profileLists = getLists.data.lists;
+          animesInList = getAnimesInList.data.animes;
+        }
+
       }
 
       logged = "si";
     } else {
       logged = "no";
     }
+      loading = false;
+
     return () => {
       mediaQuery.removeEventListener("change", handleResize);
     };
   });
 
   afterNavigate(async () => {
-    loading = true
+    loading = true;
     const userId = data.userId;
     let getLikes = await axios(
-      `http://localhost:8000/anime/${data.anime._id}/likes/count`
+      `https://mitteiru-backend.onrender.com//anime/${data.anime._id}/likes/count`,
     );
     profileLikes = getLikes.data.profiles;
     likesCount = getLikes.data.likesCount;
@@ -93,15 +98,15 @@
       } else {
         if (data.anime) {
           let getLists = await axios(
-            `http://localhost:8000/user/profile/${profileId}/list/all`
+            `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/all`,
           );
 
           let getAnimesInList = await axios(
-            `http://localhost:8000/user/profile/${profileId}/list/anime/all`
+            `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/anime/all`,
           );
 
           await axios.post(
-            `http://localhost:8000/user/profile/${profileId}/history/${data.anime._id}/0/add`
+            `https://mitteiru-backend.onrender.com//user/profile/${profileId}/history/${data.anime._id}/0/add`,
           );
           profileLists = getLists.data.lists;
           animesInList = getAnimesInList.data.animes;
@@ -111,9 +116,9 @@
           ? true
           : false;
         await axios.post(
-          `http://localhost:8000/user/profile/${profileId}/history/${data.anime._id}/0/add`
+          `https://mitteiru-backend.onrender.com//user/profile/${profileId}/history/${data.anime._id}/0/add`,
         );
-        loading = false
+        loading = false;
       }
     }
   });
@@ -138,13 +143,12 @@
   {/if}
   {#if !data.anime}
     <NotFoundError
-      image="http://localhost:8000/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg"
+      image="https://mitteiru-backend.onrender.com//static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg"
       text="This anime wasn't found. Are you sure that you put the right anime in the url? Check it!"
     />
   {:else if isMobile}
     <MobilePage {data} />
-  {:else}
-   {#if !loading}
+  {:else if !loading}
     <AnimePage
       dataA={data}
       {liked}
@@ -155,19 +159,16 @@
       {likesCount}
       {profileLikes}
     />
-    {:else}
-        <div
-      style="position:relative;width:100%;height:500px; "
-    >
+  {:else}
+    <div style="position:relative;width:100%;height:500px; ">
       <Loader />
     </div>
-   {/if}
   {/if}
 {:else}
   <Header {logged} {profileImage} name={profileName} />
 
   <NotFoundError
-    image="http://localhost:8000/static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg"
+    image="https://mitteiru-backend.onrender.com//static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg"
     text="There was an error while we tried to show the anime. Sorry for the inconvenience :("
   />
   <div

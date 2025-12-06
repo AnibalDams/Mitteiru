@@ -22,7 +22,7 @@
   export let dataA;
   export let profileLists = [[0, ""]];
   export let animesInList = [[0, ""]];
-  export let profileId;
+  export let profileId="";
   export let likesCount = 0;
   export let profileLikes = [];
   export let liked;

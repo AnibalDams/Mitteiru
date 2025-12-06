@@ -5,7 +5,7 @@ export async function load({ cookies, params }) {
 
   
   if (userId && userId.length > 0) {
-    const decodedUser = await axios.get(`http://localhost:8000/user/decode`, {
+    const decodedUser = await axios.get(`https://mitteiru-backend.onrender.com//user/decode`, {
       headers: {
         Authorization: `Bearer ${userId}`,
       },
@@ -13,15 +13,15 @@ export async function load({ cookies, params }) {
     userId = decodedUser.data.user;
   }
   try {
-    const anime = await axios(`http://localhost:8000/anime/${params.animeId}`);
+    const anime = await axios(`https://mitteiru-backend.onrender.com//anime/${params.animeId}`);
     if (anime.data.animes) {
       const episodes = await axios(
-        `http://localhost:8000/anime/${params.animeId}/episode/all`
+        `https://mitteiru-backend.onrender.com//anime/${params.animeId}/episode/all`
       );
       const similarAnimes = (
-        await axios(`http://localhost:8000/anime/${params.animeId}/similar`)
+        await axios(`https://mitteiru-backend.onrender.com//anime/${params.animeId}/similar`)
       ).data.animes;
-      const getReview = await axios(`http://localhost:8000/anime/${params.animeId}/review/all`)
+      const getReview = await axios(`https://mitteiru-backend.onrender.com//anime/${params.animeId}/review/all`)
       const randomnumber =
         Math.round(Math.random() * (similarAnimes.length - 1)) + 1 - 1;
       const similarAnime = similarAnimes[randomnumber];
@@ -35,7 +35,9 @@ export async function load({ cookies, params }) {
         similarAnime,
       };
     } else {
-      return {userId}
+      return {
+        
+        userId}
     }
   } catch (error) {
     return {userId, error:true, errorMessage1:error.message, errorMessage2:error.response.data.error}

@@ -22,7 +22,7 @@
   const search = async () => {
     loaded = false;
     animes = [];
-    let getAnimes = await axios("http://localhost:8000/anime/d/all");
+    let getAnimes = await axios("https://mitteiru-backend.onrender.com//anime/d/all");
 
     for (const anime of getAnimes.data.animes) {
       const animeNameLower = anime.name.toLowerCase();
@@ -43,7 +43,7 @@
 
     if (profileId.length > 0) {
       let getAnimesInList = await axios(
-        `http://localhost:8000/user/profile/${profileId}/list/anime/all`
+        `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/anime/all`
       );
       animesInList = getAnimesInList.data.animes;
     }

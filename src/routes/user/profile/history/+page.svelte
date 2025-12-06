@@ -28,9 +28,9 @@
 
       if (profileId.length > 0) {
         let getAnimesInList = await axios(
-          `http://localhost:8000/user/profile/${profileId}/list/anime/all`
+          `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/anime/all`
         );
-        let getHistory = await axios(`http://localhost:8000/user/profile/${profileId}/history`)
+        let getHistory = await axios(`https://mitteiru-backend.onrender.com//user/profile/${profileId}/history`)
         
         animesInList = getAnimesInList.data.animes;
         history = getHistory.data.animes
@@ -56,7 +56,7 @@
 {/each}
 {:else}
   <div class="no_history">
-    <img src="http://localhost:8000/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg" alt="">
+    <img src="https://mitteiru-backend.onrender.com//static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg" alt="">
     <span>You haven't visited an anime yet</span>
   </div>
 {/if}

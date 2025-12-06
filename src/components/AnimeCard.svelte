@@ -12,12 +12,12 @@
   export let saved = false;
   export let animeData = [];
   export let liked = false
-  export let profileId;
+  export let profileId="";
   let likesPerProfile = [];
 
   onMount(async()=>{
     if (showLikes) {
-      let getLikesPerProfile = await axios(`http://localhost:8000/anime/${animeData._id}/likes/count`)
+      let getLikesPerProfile = await axios(`https://mitteiru-backend.onrender.com//anime/${animeData._id}/likes/count`)
       let likesPerProfile = getLikesPerProfile.data.profiles
       liked = likesPerProfile.find((e)=>e.profileId == profileId)?true:false
       

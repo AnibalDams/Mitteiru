@@ -21,7 +21,7 @@
   const refreshProfiles = async () => {
     if (userId.user._id.length > 0 && userId != undefined) {
       const profilesQuery = await axios(
-        `http://localhost:8000/user/${userId.user._id}/profile/d/all`
+        `https://mitteiru-backend.onrender.com//user/${userId.user._id}/profile/d/all`
       );
       profiles = profilesQuery.data.profiles;
     } else {
@@ -45,7 +45,7 @@
       profileImage = getCookie("profileImage");
       pName = getCookie("profileName");
       const profilesQuery = await axios(
-        `http://localhost:8000/user/${userId.user._id}/profile/d/all`
+        `https://mitteiru-backend.onrender.com//user/${userId.user._id}/profile/d/all`
       );
       profiles = profilesQuery.data.profiles;
       logged = userId && userId.user._id  ? "si" : "no";

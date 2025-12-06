@@ -44,11 +44,11 @@
       createButtonText = "Creating...";
 
       await axios.post(
-        `http://localhost:8000/user/profile/${profileId}/list/new`,
+        `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/new`,
         { name: newListName }
       );
       let listsFetch = await axios(
-        `http://localhost:8000/user/profile/${profileId}/list/all`
+        `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/all`
       );
       lists = listsFetch.data.lists;
       createButtonText = "Created";
@@ -178,10 +178,10 @@
       goto("/selectprofile");
     } else {
       let listsFetch = await axios(
-        `http://localhost:8000/user/profile/${profileId}/list/all`
+        `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/all`
       );
       let animesFetch = await axios(
-        `http://localhost:8000/user/profile/${profileId}/list/anime/all`
+        `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/anime/all`
       );
       lists = listsFetch.data.lists;
       $selectedList = lists[0]._id;
@@ -214,7 +214,7 @@
 
     <NotFoundError
       text={`You don't have any anime here... `}
-      image="http://localhost:8000/static/WhatsApp Image 2025-01-15 at 4.20.42 PM.jpeg"
+      image="https://mitteiru-backend.onrender.com//static/WhatsApp Image 2025-01-15 at 4.20.42 PM.jpeg"
       link={true}
       linkText="Try adding one!"
       linkDirection="/directory"
@@ -283,7 +283,7 @@
           style="display:flex; justify-content:center; align-items:center; width:100%; height: 500px;"
         >
           <img
-            src="http://localhost:8000/static/notFound.png"
+            src="https://mitteiru-backend.onrender.com//static/notFound.png"
             style="width: 400px; height:400px;"
             alt="animes not found"
           />

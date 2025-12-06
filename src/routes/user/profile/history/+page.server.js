@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export async function load({cookies}){
     let userId = cookies.get("userId")
-    const decodedUser =  await axios.get(`http://localhost:8000/user/decode`, {
+    const decodedUser =  await axios.get(`https://mitteiru-backend.onrender.com//user/decode`, {
         headers:{
             Authorization: `Bearer ${userId}`
         }
