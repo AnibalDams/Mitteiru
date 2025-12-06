@@ -14,7 +14,7 @@
         if (name.length > 0) {
             buttonCreatetext = "Updating...";
             await axios.put(
-                `https://mitteiru-backend.onrender.com//user/profile/${profileId}`,
+                `https://mitteiru-backend.onrender.com/user/profile/${profileId}`,
 
                 {
                     admin:true,

@@ -24,7 +24,7 @@
             }
             if (profileId.length >0){
                 let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com//user/profile/${profileId}/list/anime/all`
+            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
           );
           animesInList = getAnimesInList.data.animes;
             }

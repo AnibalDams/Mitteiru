@@ -36,7 +36,7 @@
             class="button"
             on:click={async () => {
               await axios.post(
-                `https://mitteiru-backend.onrender.com//anime/episode/${episodeId}/comment/${commentId}/like/${profileId}`
+                `https://mitteiru-backend.onrender.com/anime/episode/${episodeId}/comment/${commentId}/like/${profileId}`
               );
               likes = liked ? likes - 1 : likes + 1;
               liked = liked ? false : true;

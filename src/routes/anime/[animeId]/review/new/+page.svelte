@@ -35,7 +35,7 @@
   async function addReview() {
     if (title.length > 0 && content.length > 0) {
       toast.loading("Adding...")
-      await axios.post(`https://mitteiru-backend.onrender.com//anime/${data.anime._id}/review/new`,{
+      await axios.post(`https://mitteiru-backend.onrender.com/anime/${data.anime._id}/review/new`,{
         review:content,
         profileImage:profileImage,
         profileId:profileId,

@@ -12,7 +12,7 @@
 
 </script>
 <span  on:click={async()=>{
-    await axios.post(`https://mitteiru-backend.onrender.com//anime/${animeId}/like/${profileId}`)
+    await axios.post(`https://mitteiru-backend.onrender.com/anime/${animeId}/like/${profileId}`)
     likesCount = !liked?likesCount+1:likesCount-1
     liked=liked?false:true
     

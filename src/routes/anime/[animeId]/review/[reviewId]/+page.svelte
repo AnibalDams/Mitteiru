@@ -33,7 +33,7 @@
 
 {#if data.error}
 <div style="width: 100%; display:flex;justify-content:center;flex-direction:column;">
-<NotFoundError image="https://mitteiru-backend.onrender.com//static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg" text="There was an error while we tried to show the anime. Sorry for the inconvenience :("/>
+<NotFoundError image="https://mitteiru-backend.onrender.com/static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg" text="There was an error while we tried to show the anime. Sorry for the inconvenience :("/>
 <span style="text-align: center;font-weight:bold;">{data.errorMessage}</span>
 </div>
 {:else}

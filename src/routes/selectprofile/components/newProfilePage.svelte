@@ -17,7 +17,7 @@
         if (name.length > 0) {
             buttonCreatetext = "creating...";
             await axios.post(
-                `https://mitteiru-backend.onrender.com//user/${userId}/profile/d/new`,
+                `https://mitteiru-backend.onrender.com/user/${userId}/profile/d/new`,
 
                 {
                     name: name,

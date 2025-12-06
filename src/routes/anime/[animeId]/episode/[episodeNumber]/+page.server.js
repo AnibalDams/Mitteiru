@@ -9,7 +9,7 @@ export async function load({ params, cookies }) {
     const episodeNumber = Number(params.episodeNumber);
     let episode = {};
     const allEpisodes = await axios(
-      `https://mitteiru-backend.onrender.com//anime/${params.animeId}/episode/all`
+      `https://mitteiru-backend.onrender.com/anime/${params.animeId}/episode/all`
     );
     if (allEpisodes.data.episodes) {
       for (let i = 0; i < allEpisodes.data.episodes.length; i++) {
@@ -20,15 +20,15 @@ export async function load({ params, cookies }) {
         }
       }
       comments = await axios(
-        `https://mitteiru-backend.onrender.com//anime/episode/${episode._id}/comment/all`
+        `https://mitteiru-backend.onrender.com/anime/episode/${episode._id}/comment/all`
       );
       commentsLikes = await axios(
-        `https://mitteiru-backend.onrender.com//anime/episode/${episode._id}/comment/likes/all`
+        `https://mitteiru-backend.onrender.com/anime/episode/${episode._id}/comment/likes/all`
       );
       console.log(commentsLikes.data);
     }
 
-    const anime = await axios(`https://mitteiru-backend.onrender.com//anime/${params.animeId}`);
+    const anime = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}`);
     return {
       status: episode.status,
       userId,

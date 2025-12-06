@@ -6,7 +6,7 @@ export async function load({params,cookies}) {
 
    
     try {
-        const animesOfAYear = await axios(`https://mitteiru-backend.onrender.com//anime/d/year/${params.year}`)
+        const animesOfAYear = await axios(`https://mitteiru-backend.onrender.com/anime/d/year/${params.year}`)
         
 
  
