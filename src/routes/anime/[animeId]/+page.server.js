@@ -1,4 +1,5 @@
 import axios from "axios";
+import { get } from "svelte/store";
 
 export async function load({ cookies, params }) {
   let userId = cookies.get("userId");
@@ -15,6 +16,9 @@ export async function load({ cookies, params }) {
   try {
     const anime = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}`);
     if (anime.data.animes) {
+          let getLikes = await axios(
+      `https://mitteiru-backend.onrender.com/anime/${params.animeId}/likes/count`,
+    );
       const episodes = await axios(
         `https://mitteiru-backend.onrender.com/anime/${params.animeId}/episode/all`
       );
@@ -32,6 +36,8 @@ export async function load({ cookies, params }) {
         genres: anime.data.genres,
         episodes: episodes.data.episodes,
         reviews:getReview.data.reviews,
+        profileLikes: getLikes.data.profiles,
+        likes:getLikes.data.likesCount,
         similarAnime,
       };
     } else {

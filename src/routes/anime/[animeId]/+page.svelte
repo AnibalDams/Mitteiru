@@ -37,12 +37,10 @@
     mediaQuery.addEventListener("change", handleResize);
 
     const userId = data.userId;
-    let getLikes = await axios(
-      `https://mitteiru-backend.onrender.com/anime/${data.anime._id}/likes/count`,
-    );
 
-    profileLikes = getLikes.data.profiles;
-    likesCount = getLikes.data.likesCount;
+
+    profileLikes = data.profilesLikes;
+    likesCount = data.likes;
     
     if (userId && userId.user._id.length > 0) {
       profileId = getCookie("profileId");
@@ -85,11 +83,9 @@
   afterNavigate(async () => {
     loading = true;
     const userId = data.userId;
-    let getLikes = await axios(
-      `https://mitteiru-backend.onrender.com/anime/${data.anime._id}/likes/count`,
-    );
-    profileLikes = getLikes.data.profiles;
-    likesCount = getLikes.data.likesCount;
+    profileLikes = data.profileLikes;
+
+    likesCount = data.likes;
     if (userId && userId.user._id.length > 0) {
       let profileId = getCookie("profileId");
 
@@ -159,7 +155,7 @@
       {likesCount}
       {profileLikes}
     />
-  {:else}
+  {:else} 
     <div style="position:relative;width:100%;height:500px; ">
       <Loader />
     </div>
