@@ -126,10 +126,10 @@
           style="position:absolute;top:50%; left:50%;transform:translate(-50%,-50%)"
         /></button
       >
-      {#if data.anime.studio === "animeFlv"}<span
+      {#if episode_.external}<span
           style="display: inline-block;font-size:16px; padding:10px;background-color:rgb(255, 79, 79);color:darkred; border-radius:10px; margin-left:10px;"
           >Anime obtained from an external page. This episode may contain some
-          ads.</span
+          ads and break the video.</span
         >{/if}
     </h2>
 
