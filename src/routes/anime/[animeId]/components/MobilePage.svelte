@@ -34,7 +34,7 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
 <div class="episodes">
     {#each data.episodes as episode}
         {#if episode.episode_number != 0}
-        <MobileEpisodeCard episodeNumber={episode.episodeNumber} episodeTitle={episode.name} thumbnail={episode.thumbnail} animeId={data.anime.id}/>
+        <MobileEpisodeCard episodeNumber={episode.episodeNumber} episodeTitle={episode.name} thumbnail={episode.thumbnail} animeId={data.anime._id}/>
             
         {/if}    
     {/each}
