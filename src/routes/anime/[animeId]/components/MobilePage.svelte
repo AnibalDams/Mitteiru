@@ -1,6 +1,7 @@
 
 <script>
     import MobileEpisodeCard from "./mobileEpisodeCard.svelte";
+    import Likes from "../../../../components/Likes.svelte"
     export let data;
 </script>
 
@@ -21,6 +22,7 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         <span class="extra_info studio">{data.anime.studio}</span>
         <span class="extra_info year">{data.anime.releaseYear}</span>
         <span class="extra_info on_going" style={`background-color:${data.anime.onGoing ===1?"#90EE90":"#ADD8E6"}`}>{data.anime.onGoing===1?"Releasing":"Finished"}</span>
+        <Likes likesCount={data.likes}/>
     </div>
 </div>
 <p>{data.anime.synopsis}</p>

@@ -60,7 +60,7 @@
           let getAnimesInList = await axios(
             `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`,
           );
-
+          console.log(data.anime)
           await axios.post(
             `${PUBLIC_API_URL}/user/profile/${profileId}/history/${data.anime._id}/0/add`,
           );
@@ -108,7 +108,7 @@
           profileLists = getLists.data.lists;
           animesInList = getAnimesInList.data.animes;
         }
-
+        console.log(data.anime)
         liked = profileLikes.find((e) => e.profileId == profileId)
           ? true
           : false;
