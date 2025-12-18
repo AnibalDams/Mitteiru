@@ -128,7 +128,7 @@
       >
       {#if episode_.external}<span
           style="display: inline-block;font-size:16px; padding:10px;background-color:rgb(255, 79, 79);color:darkred; border-radius:10px; margin-left:10px;"
-          >Anime obtained from an external page. This episode may contain some
+          >Episode obtained from an external page. This episode may contain some
           ads and break the video.</span
         >{/if}
     </h2>
