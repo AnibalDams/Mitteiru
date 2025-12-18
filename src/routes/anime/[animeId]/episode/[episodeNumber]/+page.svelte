@@ -21,6 +21,5 @@ import DesktopPage from "./components/DesktopPage.svelte";
 {#if !isMobile}
   <DesktopPage {data} />
 {:else}
-<span>In construction</span>
 <MobilePage {data}/>
 {/if}
