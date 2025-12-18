@@ -11,7 +11,7 @@ An app for watching anime.
 - `CSS`
 
 ### Back-end Technologies
-- *It uses its own back-end* -> [`Mitteiru-backend`](https://github.com/AnibalDams/Mitteiru-backend)
+- *It uses its own back-end.* -> [`Mitteiru-backend`](https://github.com/AnibalDams/Mitteiru-backend)
 
 
 # Some Screenshots
