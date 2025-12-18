@@ -2,6 +2,8 @@
     import DeleteModal from "./deleteModal.svelte";
     import {Pencil1, Trash} from "radix-icons-svelte"
     import axios from "axios";
+ import {PUBLIC_API_URL} from "$env/static/public"
+
     export let image;
     export let name;
     export let id;
@@ -16,7 +18,7 @@
             document.cookie = "profileName=;max-age=-1;path=/;";
             document.cookie = "profileImage=;max-age=-1;path=/;";
             const delte  = await axios.delete(
-                `https://mitteiru-backend.onrender.com/user/profile/${id}/delete`,
+                `${PUBLIC_API_URL}/user/profile/${id}/delete`,
             );
             deleteButtonText = "Deleted";
             secondaryAction();

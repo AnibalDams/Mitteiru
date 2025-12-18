@@ -8,6 +8,7 @@
     import { goto } from "$app/navigation";
   import MobileHeader from "../../../components/MobileHeader.svelte";
   import MobileAnimeCard from "../../../components/mobileAnimeCard.svelte";
+ import {PUBLIC_API_URL} from "$env/static/public"
   
     let animes = [];
     let loaded = false;
@@ -26,11 +27,11 @@
       if (profileId.length <= 0 && logged == "si") {
         goto("/selectprofile");
       } else {
-        let getAnimes = await axios("https://mitteiru-backend.onrender.com/anime/d/all");
+        let getAnimes = await axios(`${PUBLIC_API_URL}/anime/d/all`);
         animes = getAnimes.data.animes;
         if (profileId.length > 0) {
           let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+            `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`
           );
           animesInList = getAnimesInList.data.animes;
         }

@@ -1,6 +1,7 @@
 import { redirect, fail } from "@sveltejs/kit";
 import axios from "axios";
 import { setCookie, getCookie } from "svelte-cookie";
+ import {PUBLIC_API_URL} from "$env/static/public"
 
 export async function load({ cookies }) {
   let userId = cookies.get("userId");
@@ -16,7 +17,7 @@ export const actions = {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    const signupQuery = await axios.post("https://mitteiru-backend.onrender.com/user/new", {
+    const signupQuery = await axios.post(`${PUBLIC_API_URL}/user/new`, {
       username,
       email,
       password,
@@ -27,7 +28,7 @@ export const actions = {
     } else if (signupQuery.data.message === "email already used") {
       return fail(400, { email: true });
     }
-    const user = await axios.post("https://mitteiru-backend.onrender.com/user/login", {
+    const user = await axios.post(`${PUBLIC_API_URL}/user/login`, {
       email,
       password,
     });

@@ -5,6 +5,7 @@
   import formatNumber from '$lib/numberFormatter'
   import axios from "axios";
   import { onMount } from "svelte";
+  import {PUBLIC_API_URL} from "$env/static/public"
   
 
   let bgPer = 0;
@@ -17,7 +18,7 @@
 
   onMount(async()=>{
     if (showLikes) {
-      let getLikesPerProfile = await axios(`https://mitteiru-backend.onrender.com/anime/${animeData._id}/likes/count`)
+      let getLikesPerProfile = await axios(`${PUBLIC_API_URL}/anime/${animeData._id}/likes/count`)
       let likesPerProfile = getLikesPerProfile.data.profiles
       liked = likesPerProfile.find((e)=>e.profileId == profileId)?true:false
       

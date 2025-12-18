@@ -15,6 +15,8 @@
   import IconButton from "./components/IconButton.svelte";
   import Button from "../../../../components/Button.svelte";
   import { Chart } from "chart.js/auto";
+ import {PUBLIC_API_URL} from "$env/static/public"
+
   export let data;
   let isThereAnime = null;
   let animeRandom;
@@ -44,11 +46,11 @@
       createButtonText = "Creating...";
 
       await axios.post(
-        `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/new`,
+        `${PUBLIC_API_URL}/user/profile/${profileId}/list/new`,
         { name: newListName }
       );
       let listsFetch = await axios(
-        `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/all`
+        `${PUBLIC_API_URL}/user/profile/${profileId}/list/all`
       );
       lists = listsFetch.data.lists;
       createButtonText = "Created";
@@ -178,10 +180,10 @@
       goto("/selectprofile");
     } else {
       let listsFetch = await axios(
-        `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/all`
+        `${PUBLIC_API_URL}/user/profile/${profileId}/list/all`
       );
       let animesFetch = await axios(
-        `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+        `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`
       );
       lists = listsFetch.data.lists;
       $selectedList = lists[0]._id;
@@ -214,7 +216,7 @@
 
     <NotFoundError
       text={`You don't have any anime here... `}
-      image="https://mitteiru-backend.onrender.com/static/WhatsApp Image 2025-01-15 at 4.20.42 PM.jpeg"
+      image={`${PUBLIC_API_URL}/static/WhatsApp Image 2025-01-15 at 4.20.42 PM.jpeg`}
       link={true}
       linkText="Try adding one!"
       linkDirection="/directory"
@@ -283,7 +285,7 @@
           style="display:flex; justify-content:center; align-items:center; width:100%; height: 500px;"
         >
           <img
-            src="https://mitteiru-backend.onrender.com/static/notFound.png"
+            src={`${PUBLIC_API_URL}/static/notFound.png`}
             style="width: 400px; height:400px;"
             alt="animes not found"
           />

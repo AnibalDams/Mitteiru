@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import Header from "../../../../Header.svelte";
   import { goto } from "$app/navigation";
-
+ import {PUBLIC_API_URL} from "$env/static/public"
   import {
     TrackNext,
     TrackPrevious,
@@ -40,12 +40,12 @@
         commentsLoaded = false;
         comments = (
           await axios(
-            `https://mitteiru-backend.onrender.com/anime/episode/${episode._id}/comment/all`
+            `${PUBLIC_API_URL}/anime/episode/${episode._id}/comment/all`
           )
         ).data.comments;
         commentsLikes = (
           await axios(
-            `https://mitteiru-backend.onrender.com/anime/episode/${episode._id}/comment/likes/all`
+            `${PUBLIC_API_URL}/anime/episode/${episode._id}/comment/likes/all`
           )
         ).data;
         commentsLoaded = true;
@@ -56,7 +56,7 @@
   const sendComment = async () => {
     if (commentContent.length > 0) {
       await axios.post(
-        `https://mitteiru-backend.onrender.com/anime/episode/${episode_._id}/comment/new`,
+        `${PUBLIC_API_URL}/anime/episode/${episode_._id}/comment/new`,
         {
           profileId: profileId,
           content: commentContent,
@@ -240,7 +240,7 @@
           {/each}
         {:else}
           <NotFoundError
-            image="https://mitteiru-backend.onrender.com/static/comment.png"
+            image={`${PUBLIC_API_URL}/static/comment.png`}
             text={`This episode doesn't have any comments yet. ${profileId?.length > 0 ? "Be the first one to comment!" : "Log in and be the first one to comment!"}`}
           />
         {/if}
@@ -255,7 +255,7 @@
   </div>
 {:else}
   <NotFoundError
-    image="https://mitteiru-backend.onrender.com/static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg"
+    image={`${PUBLIC_API_URL}/static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg`}
     text="This anime doesn't have the given episode. Sorry for the inconvenience :("
   />
 {/if}

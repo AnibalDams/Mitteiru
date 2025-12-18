@@ -11,6 +11,7 @@
   export let liked = false;
   export let logged = false;
   export let notSync = false;
+  import {PUBLIC_API_URL} from "$env/static/public"
 </script>
 
 <div class="comment">
@@ -36,7 +37,7 @@
             class="button"
             on:click={async () => {
               await axios.post(
-                `https://mitteiru-backend.onrender.com/anime/episode/${episodeId}/comment/${commentId}/like/${profileId}`
+                `${PUBLIC_API_URL}/anime/episode/${episodeId}/comment/${commentId}/like/${profileId}`
               );
               likes = liked ? likes - 1 : likes + 1;
               liked = liked ? false : true;

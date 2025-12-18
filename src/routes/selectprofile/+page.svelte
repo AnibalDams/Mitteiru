@@ -9,6 +9,8 @@
   import Header from "../Header.svelte";
   import NewProfilePage from "./components/newProfilePage.svelte";
   import UpdatePage from "./components/updatePage.svelte";
+ import {PUBLIC_API_URL} from "$env/static/public"
+
   export let data;
   let userId;
   let newProfile = false;
@@ -21,7 +23,7 @@
   const refreshProfiles = async () => {
     if (userId.user._id.length > 0 && userId != undefined) {
       const profilesQuery = await axios(
-        `https://mitteiru-backend.onrender.com/user/${userId.user._id}/profile/d/all`
+        `${PUBLIC_API_URL}/user/${userId.user._id}/profile/d/all`
       );
       profiles = profilesQuery.data.profiles;
     } else {
@@ -45,7 +47,7 @@
       profileImage = getCookie("profileImage");
       pName = getCookie("profileName");
       const profilesQuery = await axios(
-        `https://mitteiru-backend.onrender.com/user/${userId.user._id}/profile/d/all`
+        `${PUBLIC_API_URL}/user/${userId.user._id}/profile/d/all`
       );
       profiles = profilesQuery.data.profiles;
       logged = userId && userId.user._id  ? "si" : "no";

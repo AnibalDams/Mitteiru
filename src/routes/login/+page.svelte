@@ -2,6 +2,7 @@
     import Button from "../../components/Button.svelte";
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
+    import { Toaster, toast } from "svelte-sonner";
 
     export let data
     let email=""
@@ -18,20 +19,27 @@
         } else{
             logged = false
         }
+        if (form) {
+           if(form.error){
+            toast.error("Invalid email or password",{
+                position:"top-center"
+            })
+           } 
+        }
     })
 </script>
 
 <svelte:head>
     <title>Login</title>
 </svelte:head>
-
+<Toaster richColors/>
 {#if logged === false}
 <form method="POST" class="container" action="?/login">
-    {#if form?.error}
+    <!-- {#if form?.error}
         <p class="error">Invalid email or password</p>
     
 
-    {/if}
+    {/if} -->
     <h2 class="title">Login</h2>
     <input type="email" bind:value={email} class="input" name="email" placeholder="email" required/>
     <input type="password" bind:value={password} class="input" name="password" placeholder="password" required/>

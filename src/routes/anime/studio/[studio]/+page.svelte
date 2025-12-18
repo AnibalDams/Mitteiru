@@ -4,6 +4,7 @@
     import Header from "../../../Header.svelte";
     import axios from "axios";
     import { onMount } from "svelte";
+ import {PUBLIC_API_URL} from "$env/static/public"
 
     export let data;
 
@@ -24,7 +25,7 @@
             }
             if (profileId.length >0){
                 let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+            `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`
           );
           animesInList = getAnimesInList.data.animes;
             }

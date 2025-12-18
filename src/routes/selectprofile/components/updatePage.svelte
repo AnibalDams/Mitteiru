@@ -2,6 +2,8 @@
     import Button from "../../../components/Button.svelte";
     import axios from "axios";
     import avatars from '../avatars'
+ import {PUBLIC_API_URL} from "$env/static/public"
+
     export let refresh
      
     export let name = "";
@@ -14,7 +16,7 @@
         if (name.length > 0) {
             buttonCreatetext = "Updating...";
             await axios.put(
-                `https://mitteiru-backend.onrender.com/user/profile/${profileId}`,
+                `${PUBLIC_API_URL}/user/profile/${profileId}`,
 
                 {
                     admin:true,

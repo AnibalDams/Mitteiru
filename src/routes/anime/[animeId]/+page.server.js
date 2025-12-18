@@ -1,12 +1,13 @@
 import axios from "axios";
 import { get } from "svelte/store";
+import {PUBLIC_API_URL} from "$env/static/public"
 
 export async function load({ cookies, params }) {
   let userId = cookies.get("userId");
 
   
   if (userId && userId.length > 0) {
-    const decodedUser = await axios.get(`https://mitteiru-backend.onrender.com/user/decode`, {
+    const decodedUser = await axios.get(`${PUBLIC_API_URL}/user/decode`, {
       headers: {
         Authorization: `Bearer ${userId}`,
       },
@@ -14,18 +15,18 @@ export async function load({ cookies, params }) {
     userId = decodedUser.data.user;
   }
   try {
-    const anime = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}`);
+    const anime = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}`);
     if (anime.data.animes) {
           let getLikes = await axios(
-      `https://mitteiru-backend.onrender.com/anime/${params.animeId}/likes/count`,
+      `${PUBLIC_API_URL}/anime/${params.animeId}/likes/count`,
     );
       const episodes = await axios(
-        `https://mitteiru-backend.onrender.com/anime/${params.animeId}/episode/all`
+        `${PUBLIC_API_URL}/anime/${params.animeId}/episode/all`
       );
       const similarAnimes = (
-        await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}/similar`)
+        await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/similar`)
       ).data.animes;
-      const getReview = await axios(`https://mitteiru-backend.onrender.com/anime/${params.animeId}/review/all`)
+      const getReview = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/review/all`)
       const randomnumber =
         Math.round(Math.random() * (similarAnimes.length - 1)) + 1 - 1;
       const similarAnime = similarAnimes[randomnumber];

@@ -3,6 +3,8 @@
     import axios from "axios";
   import MiniLoader from "../../../components/miniLoader.svelte";
   import avatars from '../avatars' 
+ import {PUBLIC_API_URL} from "$env/static/public"
+
   export let userId;
     export let refresh
    
@@ -17,7 +19,7 @@
         if (name.length > 0) {
             buttonCreatetext = "creating...";
             await axios.post(
-                `https://mitteiru-backend.onrender.com/user/${userId}/profile/d/new`,
+                `${PUBLIC_API_URL}/user/${userId}/profile/d/new`,
 
                 {
                     name: name,

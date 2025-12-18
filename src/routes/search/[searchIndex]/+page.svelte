@@ -8,6 +8,7 @@
   import { goto } from "$app/navigation";
 
   import { searchIndex } from "./searchIndex";
+ import {PUBLIC_API_URL} from "$env/static/public"
 
   export let data;
   let loaded = false;
@@ -22,7 +23,7 @@
   const search = async () => {
     loaded = false;
     animes = [];
-    let getAnimes = await axios("https://mitteiru-backend.onrender.com/anime/d/all");
+    let getAnimes = await axios(`${PUBLIC_API_URL}/anime/d/all`);
 
     for (const anime of getAnimes.data.animes) {
       const animeNameLower = anime.name.toLowerCase();
@@ -43,7 +44,7 @@
 
     if (profileId.length > 0) {
       let getAnimesInList = await axios(
-        `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+        `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`
       );
       animesInList = getAnimesInList.data.animes;
     }

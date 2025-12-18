@@ -10,6 +10,7 @@
   import { getCookie } from "svelte-cookie";
   import { afterNavigate } from "$app/navigation";
   import Loader from "../../../components/Loader.svelte";
+  import {PUBLIC_API_URL} from "$env/static/public"
 
   export let data;
 
@@ -53,15 +54,15 @@
         if (profileId.length <= 0 && profileId) {
           
           let getLists = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/all`,
+            `${PUBLIC_API_URL}/user/profile/${profileId}/list/all`,
           );
 
           let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`,
+            `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`,
           );
 
           await axios.post(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/history/${data.anime._id}/0/add`,
+            `${PUBLIC_API_URL}/user/profile/${profileId}/history/${data.anime._id}/0/add`,
           );
           profileLists = getLists.data.lists;
           animesInList = getAnimesInList.data.animes;
@@ -94,15 +95,15 @@
       } else {
         if (data.anime) {
           let getLists = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/all`,
+            `${PUBLIC_API_URL}/user/profile/${profileId}/list/all`,
           );
 
           let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`,
+            `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`,
           );
 
           await axios.post(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/history/${data.anime._id}/0/add`,
+            `${PUBLIC_API_URL}/user/profile/${profileId}/history/${data.anime._id}/0/add`,
           );
           profileLists = getLists.data.lists;
           animesInList = getAnimesInList.data.animes;
@@ -112,7 +113,7 @@
           ? true
           : false;
         await axios.post(
-          `https://mitteiru-backend.onrender.com/user/profile/${profileId}/history/${data.anime._id}/0/add`,
+          `${PUBLIC_API_URL}/user/profile/${profileId}/history/${data.anime._id}/0/add`,
         );
         loading = false;
       }
@@ -139,7 +140,7 @@
   {/if}
   {#if !data.anime}
     <NotFoundError
-      image="https://mitteiru-backend.onrender.com/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg"
+      image={`${PUBLIC_API_URL}/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg`}
       text="This anime wasn't found. Are you sure that you put the right anime in the url? Check it!"
     />
   {:else if isMobile}
@@ -164,7 +165,7 @@
   <Header {logged} {profileImage} name={profileName} />
 
   <NotFoundError
-    image="https://mitteiru-backend.onrender.com/static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg"
+    image={`${PUBLIC_API_URL}/static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg`}
     text="There was an error while we tried to show the anime. Sorry for the inconvenience :("
   />
   <div

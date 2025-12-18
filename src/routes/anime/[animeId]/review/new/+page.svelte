@@ -8,7 +8,7 @@
   import { goto } from "$app/navigation";
   import axios from "axios";
   import Image from "../[reviewId]/Image.svelte";
-
+ import {PUBLIC_API_URL} from "$env/static/public"
   let content = ``;
   let title = "";
   let profileId;
@@ -35,7 +35,7 @@
   async function addReview() {
     if (title.length > 0 && content.length > 0) {
       toast.loading("Adding...")
-      await axios.post(`https://mitteiru-backend.onrender.com/anime/${data.anime._id}/review/new`,{
+      await axios.post(`${PUBLIC_API_URL}/anime/${data.anime._id}/review/new`,{
         review:content,
         profileImage:profileImage,
         profileId:profileId,

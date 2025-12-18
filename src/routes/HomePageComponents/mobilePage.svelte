@@ -7,6 +7,7 @@
   import { goto } from "$app/navigation";
   import axios from "axios";
   import MobileAnimeCard from "../../components/mobileAnimeCard.svelte";
+ import {PUBLIC_API_URL} from "$env/static/public"
 
   export let data;
   let animeRandom;
@@ -46,13 +47,13 @@
         animeRandom = data.animes[number];
 
         const genres = await axios(
-          `https://mitteiru-backend.onrender.com/anime/${animeRandom._id}`
+          `${PUBLIC_API_URL}/anime/${animeRandom._id}`
         );
 
         animeGenres = genres.data.genres;
         if (profileId.length > 0) {
           let getAnimesInList = await axios(
-            `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+            `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`
           );
           animesInList = getAnimesInList.data.animes;
         }

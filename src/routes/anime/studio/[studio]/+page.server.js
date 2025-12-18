@@ -1,12 +1,14 @@
 import axios from "axios"
 
+ import {PUBLIC_API_URL} from "$env/static/public"
+
 
 export async function load({params,cookies}) {
     const userId = cookies.get("userId")
 
    
     try {
-        const animesOfAStudio = await axios(`https://mitteiru-backend.onrender.com/anime/d/studio/${params.studio}`)
+        const animesOfAStudio = await axios(`${PUBLIC_API_URL}/anime/d/studio/${params.studio}`)
         
 
  

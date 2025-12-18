@@ -7,6 +7,8 @@
   import { goto } from "$app/navigation";
   import Loader from "../../../../components/Loader.svelte";
   import AnimeCard from "../../../../components/AnimeCard.svelte";
+ import {PUBLIC_API_URL} from "$env/static/public"
+
   export let data;
   let profileId;
   let profileImage;
@@ -28,9 +30,9 @@
 
       if (profileId.length > 0) {
         let getAnimesInList = await axios(
-          `https://mitteiru-backend.onrender.com/user/profile/${profileId}/list/anime/all`
+          `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`
         );
-        let getHistory = await axios(`https://mitteiru-backend.onrender.com/user/profile/${profileId}/history`)
+        let getHistory = await axios(`${PUBLIC_API_URL}/user/profile/${profileId}/history`)
         
         animesInList = getAnimesInList.data.animes;
         history = getHistory.data.animes
@@ -56,7 +58,7 @@
 {/each}
 {:else}
   <div class="no_history">
-    <img src="https://mitteiru-backend.onrender.com/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg" alt="">
+    <img src={`${PUBLIC_API_URL}/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg`} alt="">
     <span>You haven't visited an anime yet</span>
   </div>
 {/if}

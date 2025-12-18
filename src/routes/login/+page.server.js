@@ -1,5 +1,6 @@
 import { redirect, fail } from "@sveltejs/kit";
 import axios from "axios";
+ import {PUBLIC_API_URL} from "$env/static/public"
 
 export async function load({ cookies }) {
   let userId = cookies.get("userId");
@@ -14,7 +15,7 @@ export const actions = {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    const loginQuery = await axios.post("https://mitteiru-backend.onrender.com/user/login", {
+    const loginQuery = await axios.post(`${PUBLIC_API_URL}/user/login`, {
       email,
       password,
       admin: true,
