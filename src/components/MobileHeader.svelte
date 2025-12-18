@@ -7,6 +7,8 @@
     let visible = false;
     export let profileImage =
         "https://i.ibb.co/Tx5165mR/1000-F-160282536-phkm-QJ06k-Ty-A8m-AYn-CXv-WKrfup1-HJVCz.jpg";
+    export let profileName = "";
+
     export let logged = "no";
 
     // Cerrar menú al hacer clic fuera (opcional pero recomendado)
@@ -43,6 +45,8 @@
                     <a href="/login">Login</a>
                     <a href="/signup">Register</a>
                 {:else}
+                    <span>{profileName}</span>
+                    <hr />
                     <a href="/user/profile/list">My list</a>
                     <a href="/user/profile/history">History</a>
                     <a href="/selectprofile">Change Profile</a>
@@ -132,7 +136,7 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-    .dropdown_menu a {
+    .dropdown_menu a, .dropdown_menu span{
         color: #eee;
         text-decoration: none;
         font-size: 14px;

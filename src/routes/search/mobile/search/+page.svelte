@@ -1,9 +1,16 @@
 <script>
+    import { onMount } from "svelte";
   import MobileHeader from "../../../../components/MobileHeader.svelte";
   import MobileAnimeCard from "../../../../components/mobileAnimeCard.svelte";
+    import { getCookie } from "svelte-cookie";
+
   export let data;
   let searchIndex = "";
   let animes = data.animes;
+  let profileId = "";
+  let profileImage = "";
+  let profileName = "";
+  let logged = "nosesabe";
   let putAnimes = () => {
     const _animes = [];
     for (const anime of data.animes) {
@@ -14,9 +21,18 @@
     }
     animes = _animes
   };
+  onMount(()=>{
+          profileImage = getCookie("profileImage");
+      profileName = getCookie("profileName");
+      logged = data.userId ? "si" : "no";
+  
+      if (profileId.length <= 0 && logged == "si") {
+        goto("/selectprofile");
+      }
+  })
 </script>
 
-<MobileHeader />
+<MobileHeader {logged} {profileImage}{profileName}/>
 <div style="display: flex; justify-content:center; margin-bottom:20px;">
     <input placeholder="Search an anime" type="text" bind:value={searchIndex} on:change={()=>putAnimes()}/>
 </div>

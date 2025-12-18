@@ -134,7 +134,7 @@
 
 {#if !data.error}
   {#if isMobile}
-    <MobileHeader {logged} {profileImage}/>
+    <MobileHeader {profileName} {logged} {profileImage}/>
   {:else}
     <Header {logged} {profileImage} name={profileName} />
   {/if}

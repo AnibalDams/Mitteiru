@@ -64,7 +64,7 @@
 </script>
 
 {#if loaded}
-  <MobileHeader {logged} {profileImage}/>
+  <MobileHeader {profileName} {logged} {profileImage}/>
   <MobileAnimeRecommendation animeData={animeRandom} />
   <h3 style="margin-left: 10px; margin-top:20px;">
     Watch our latest releases!

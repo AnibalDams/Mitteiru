@@ -47,7 +47,7 @@
   </svelte:head>
   
   {#if loaded}
-    <MobileHeader {logged} {profileImage}/>
+    <MobileHeader {logged} {profileImage} {profileName}/>
     <h2 ><LangText p="navBar" w="directory"/> ({animes.length})</h2>
     <div class="animes_container">
       {#each animes as anime}
