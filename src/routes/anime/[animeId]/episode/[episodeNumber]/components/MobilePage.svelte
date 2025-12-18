@@ -96,7 +96,7 @@
     });
 </script>
 
-<MobileHeader />
+<MobileHeader {logged} {profileImage}/>
 <svelte:head>
   <title
     >{`${data.status === 404 ? "This anime doesn't have episodes" : data.anime.name + " " + "episode" + " " + episodeNumber}`}</title

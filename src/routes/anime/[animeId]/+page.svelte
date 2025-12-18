@@ -134,7 +134,7 @@
 
 {#if !data.error}
   {#if isMobile}
-    <MobileHeader />
+    <MobileHeader {logged} {profileImage}/>
   {:else}
     <Header {logged} {profileImage} name={profileName} />
   {/if}
@@ -144,7 +144,7 @@
       text="This anime wasn't found. Are you sure that you put the right anime in the url? Check it!"
     />
   {:else if isMobile}
-    <MobilePage {data} />
+    <MobilePage {data} {logged} {profileImage} />
   {:else if !loading}
     <AnimePage
       dataA={data}
