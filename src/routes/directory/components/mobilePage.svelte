@@ -47,11 +47,11 @@
   </svelte:head>
   
   {#if loaded}
-    <MobileHeader/>
+    <MobileHeader {logged} {profileImage}/>
     <h2 ><LangText p="navBar" w="directory"/> ({animes.length})</h2>
     <div class="animes_container">
       {#each animes as anime}
-        <MobileAnimeCard cover={anime.cover} id={anime.id} title={anime.name} /> 
+        <MobileAnimeCard cover={anime.cover} id={anime._id} title={anime.name} /> 
       {/each}
     </div>
   {:else}
