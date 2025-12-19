@@ -130,6 +130,11 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         margin-right: 10px;
         margin-top: 25px;
     }
+    p{
+        display: inline-block;
+        font-size: 12pt;
+        padding: 20px;
+    }
 </style>
 
 
