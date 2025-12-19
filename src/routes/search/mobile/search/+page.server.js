@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 export async function load({cookies}) {
-        let userId = cookies.get("userId")
+    let userId = cookies.get("userId")
     
     const animes = (await axios(`${PUBLIC_API_URL}/anime/d/all`)).data.animes;
 

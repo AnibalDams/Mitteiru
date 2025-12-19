@@ -11,18 +11,13 @@
   let profileImage = "";
   let profileName = "";
   let logged = "nosesabe";
-  let putAnimes = () => {
-    const _animes = [];
-    for (const anime of data.animes) {
-      const animeNameLower = anime.name.toLowerCase();
-      if (animeNameLower.includes(searchIndex.toLowerCase())) {
-        _animes.push(anime);
-      }
-    }
-    animes = _animes
-  };
+  $: animes = data.animes.filter(anime => 
+    anime.name.toLowerCase().includes(searchIndex.toLowerCase())
+  );
+
   onMount(()=>{
-          profileImage = getCookie("profileImage");
+      profileId = getCookie("profileId");
+      profileImage = getCookie("profileImage");
       profileName = getCookie("profileName");
       logged = data.userId ? "si" : "no";
   
@@ -34,11 +29,11 @@
 
 <MobileHeader {logged} {profileImage}{profileName}/>
 <div style="display: flex; justify-content:center; margin-bottom:20px;">
-    <input placeholder="Search an anime" type="text" bind:value={searchIndex} on:change={()=>putAnimes()}/>
+    <input placeholder="Search an anime" type="text" bind:value={searchIndex} />
 </div>
 <div class="container">
   {#each animes as anime}
-    <MobileAnimeCard cover={anime.cover} id={anime.id} title={anime.name} />
+    <MobileAnimeCard cover={anime.cover} id={anime._id} title={anime.name} />
   {/each}
 </div>
 
@@ -60,10 +55,10 @@
     padding-bottom: 10px;
     border-radius: 10px;
     outline: none;
-    border:1px solid black;
+    border:1px solid #333;
     font-weight: bold;
 }
 input:focus{
-    border-color: blue;
+    box-shadow: 4px 4px 0px #333;
 }
 </style>
