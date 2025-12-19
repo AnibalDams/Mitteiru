@@ -3,10 +3,12 @@ import axios from 'axios'
 
 export async function load({cookies}){
     let userId = cookies.get("userId")
+    let getAnimes = await axios(`${PUBLIC_API_URL}/anime/d/all`);
+    let animes = getAnimes.data.animes;
     const decodedUser =  await axios.get(`${PUBLIC_API_URL}/user/decode`, {
         headers:{
             Authorization: `Bearer ${userId}`
         }
     })
-    return {userId:decodedUser.data.user}
+    return {userId:decodedUser.data.user, animes}
 }

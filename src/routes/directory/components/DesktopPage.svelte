@@ -9,7 +9,7 @@
     import { goto } from "$app/navigation";
  import {PUBLIC_API_URL} from "$env/static/public"
   
-    let animes = [];
+    //let animes = [];
     let loaded = false;
     let profileId = "";
     let profileImage = "";
@@ -26,8 +26,7 @@
       if (profileId.length <= 0 && logged == "si") {
         goto("/selectprofile");
       } else {
-        let getAnimes = await axios(`${PUBLIC_API_URL}/anime/d/all`);
-        animes = getAnimes.data.animes;
+
         if (profileId.length > 0) {
           let getAnimesInList = await axios(
             `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`
@@ -47,9 +46,9 @@
   
   {#if loaded}
     <Header {logged} {profileImage} name={profileName} />
-    <h2 ><LangText p="navBar" w="directory"/> ({animes.length})</h2>
+    <h2 ><LangText p="navBar" w="directory"/> ({data.animes.length})</h2>
     <div class="animes_container">
-      {#each animes as anime}
+      {#each data.animes as anime}
         <AnimeCard
           animeData={anime}
           saved={animesInList.find((e) => e._id == anime._id) ? true : false}
