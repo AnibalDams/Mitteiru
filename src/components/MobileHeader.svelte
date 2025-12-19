@@ -134,6 +134,7 @@
         padding: 10px 0;
         z-index: 100;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        animation: appear 0.2s ease-in-out;
     }
 
     .dropdown_menu a, .dropdown_menu span{
@@ -184,6 +185,16 @@
     @media (max-width: 400px) {
         .nav_bar {
             padding: 10px;
+        }
+    }
+    @keyframes appear{
+        from{
+            top: calc(100% + 5px);
+            opacity: 0;
+        }
+        to{
+            top: calc(100% + 10px);
+            opacity: 1;
         }
     }
 </style>
