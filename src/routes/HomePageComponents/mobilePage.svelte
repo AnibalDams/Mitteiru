@@ -11,7 +11,7 @@
 
   export let data;
   let animeRandom;
-  let animes = [];
+  let animes = data.animes.sort((a, b) => b.createdAt - a.createdAt);
 
   let animesInList = [];
   let loaded = false;
