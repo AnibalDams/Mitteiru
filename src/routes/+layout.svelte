@@ -1,7 +1,11 @@
 <script>
-	import Header from './Header.svelte';
+    import { onMount } from 'svelte';
 	import './styles.css';
-	export let data
+	import { injectAnalytics } from '@vercel/analytics/sveltekit'
+	onMount(()=>{
+		injectAnalytics()
+	}
+	)
 </script>
 
 <div class="app">

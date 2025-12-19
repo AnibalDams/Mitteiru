@@ -4,7 +4,8 @@ import axios from 'axios'
 export async function load({cookies}){
     let userId = cookies.get("userId")
     let getAnimes = await axios(`${PUBLIC_API_URL}/anime/d/all`);
-    let animes = getAnimes.data.animes;
+    let animes = getAnimes.data.animes.sort((a, b) => b.createdAt - a.createdAt);
+
     const decodedUser =  await axios.get(`${PUBLIC_API_URL}/user/decode`, {
         headers:{
             Authorization: `Bearer ${userId}`
