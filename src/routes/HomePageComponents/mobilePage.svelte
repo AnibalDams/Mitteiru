@@ -20,9 +20,7 @@
   let profileImage = "";
   let profileName = "";
   let logged = "nosesabe";
-  function randomNumber(min, max) {
-    return Math.round(Math.random() * (max - min)) + min;
-  }
+
   onMount(async () => {
     profileId = getCookie("profileId");
     logged = data.userId ? "si" : "no";
@@ -33,18 +31,8 @@
       goto("/selectprofile");
     } else {
       if (data.animes.length >= 1) {
-        let number = randomNumber(0, data.animes.length - 1);
-
-        for (let i = 0; i < data.animes.length; i++) {
-          const anime = data.animes[i];
-          if (animes.length < 10) {
-  
-
-            animes.push(anime);
-          }
-        }
-
-        animeRandom = data.animes[number];
+       
+        animeRandom = data.randomAnime;
 
         const genres = await axios(
           `${PUBLIC_API_URL}/anime/${animeRandom._id}`
