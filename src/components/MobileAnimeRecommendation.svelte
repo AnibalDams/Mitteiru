@@ -52,6 +52,7 @@
         color: #333;
         max-width: 80%;
         text-wrap: pretty;
+        margin-left: 5px;
     }
     .container .actions {
         margin-top: 15px;
