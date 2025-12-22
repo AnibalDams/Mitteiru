@@ -100,6 +100,7 @@
         appearance: none;
         font-weight: bold;
         outline: none;
+        background: none;
     }
     .anime_card_container {
         margin-top: 30px;
