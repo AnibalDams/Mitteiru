@@ -115,9 +115,9 @@
         await axios.post(
           `${PUBLIC_API_URL}/user/profile/${profileId}/history/${data.anime._id}/0/add`,
         );
-        loading = false;
       }
     }
+        loading = false;
   });
 </script>
 
