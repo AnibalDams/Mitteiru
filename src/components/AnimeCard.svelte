@@ -40,9 +40,9 @@
   <Gradient positionValue={bgPer} />
   <div class="data_container">
     <span class="anime_title"
-      >{animeData.name.length <= 36
+      >{animeData.name.length <= 26
         ? animeData.name
-        : animeData.name.substring(0, 33) + "..."}</span
+        : animeData.name.substring(0, 23) + "..."}</span
     >
     <div class="chip_container">
       <span class="card_ship">{animeData.studio}</span>
@@ -83,8 +83,8 @@
   }
   .container .anime_title {
     display: inline-block;
-    color: #eeeeee;
-    font-size: 18px;
+    color: hsl(0, 0%, 80%);
+    font-size: 20px;
     margin-top: 5px;
     font-weight: bold;
   }
@@ -104,14 +104,14 @@
   }
   span.card_ship {
     display: inline-block;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    color: #eee;
-    border: 1px solid #eee;
+    color: hsl(0, 0%, 70%);
+    border: 1px solid hsl(0, 0%,70%);
     border-radius: 5px;
     margin-top: 5px;
   }

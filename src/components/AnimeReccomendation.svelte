@@ -54,7 +54,7 @@
     align-items: center;
   }
   h1.content_title {
-    font-size: 2.5rem;
+    font-size: 2.9rem;
   }
   .container .content {
     margin: 10px;
@@ -70,7 +70,7 @@
   .container .content .content_description {
     font-size: 18px;
     font-weight: 500;
-    color: #111;
+    color: hsl(0, 0%, 10%);
   }
   .container .content .content_buttons {
     margin-top: 20px;

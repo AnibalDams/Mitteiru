@@ -34,6 +34,7 @@
     .container p.synopsis{
         display: inline-block;
         max-width: 80%;
+        color: hsl(0, 0%, 20%);
 
     }
     .container .actions{
