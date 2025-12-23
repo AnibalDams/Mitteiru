@@ -11,7 +11,6 @@
     let doesTheAnimeIsInList = false;
     export let lists = [[0, ""]];
     export let animesInList = [[0, ""]];
-    console.log(animesInList)
 
     //let buttonText = "Select a list to add this anime";
     export let profileId;

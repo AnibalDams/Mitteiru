@@ -10,7 +10,7 @@
   import { getCookie } from "svelte-cookie";
   import { afterNavigate } from "$app/navigation";
   import Loader from "../../../components/Loader.svelte";
-  import {PUBLIC_API_URL} from "$env/static/public"
+  import { PUBLIC_API_URL } from "$env/static/public";
 
   export let data;
 
@@ -21,7 +21,7 @@
   let animesInList = [];
   let profileLists = [];
   let likesCount = 0;
-  let profileLikes = [];
+
   let isMobile;
   let liked;
   let loading = true;
@@ -39,21 +39,21 @@
 
     const userId = data.userId;
 
-
-    profileLikes = data.profilesLikes;
+    liked = data.profileLikes.find((e) => e.profileId == profileId)
+      ? true
+      : false;
     likesCount = data.likes;
-    
+
     if (userId && userId.user._id.length > 0) {
       profileId = getCookie("profileId");
       profileImage = getCookie("profileImage");
       profileName = getCookie("profileName");
       if (profileId.length <= 0) {
         goto("/selectprofile");
-        return
+        return;
       }
       if (data.anime) {
         if (profileId.length > 0) {
-          
           let getLists = await axios(
             `${PUBLIC_API_URL}/user/profile/${profileId}/list/all`,
           );
@@ -61,21 +61,19 @@
           let getAnimesInList = await axios(
             `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`,
           );
-          console.log(data.anime)
           await axios.post(
             `${PUBLIC_API_URL}/user/profile/${profileId}/history/${data.anime._id}/0/add`,
           );
           profileLists = getLists.data.lists;
           animesInList = getAnimesInList.data.animes;
         }
-
       }
 
       logged = "si";
     } else {
       logged = "no";
     }
-      loading = false;
+    loading = false;
 
     return () => {
       mediaQuery.removeEventListener("change", handleResize);
@@ -85,7 +83,9 @@
   afterNavigate(async () => {
     loading = true;
     const userId = data.userId;
-    profileLikes = data.profileLikes;
+    liked = data.profileLikes.find((e) => e.profileId == profileId)
+      ? true
+      : false;
 
     likesCount = data.likes;
     if (userId && userId.user._id.length > 0) {
@@ -93,7 +93,7 @@
 
       if (profileId.length <= 0) {
         goto("/selectprofile");
-        return
+        return;
       } else {
         if (data.anime) {
           let getLists = await axios(
@@ -110,16 +110,9 @@
           profileLists = getLists.data.lists;
           animesInList = getAnimesInList.data.animes;
         }
-        console.log(data.anime)
-        liked = profileLikes.find((e) => e.profileId == profileId)
-          ? true
-          : false;
-        await axios.post(
-          `${PUBLIC_API_URL}/user/profile/${profileId}/history/${data.anime._id}/0/add`,
-        );
       }
     }
-        loading = false;
+    loading = false;
   });
 </script>
 
@@ -136,7 +129,7 @@
 
 {#if !data.error}
   {#if isMobile}
-    <MobileHeader {profileName} {logged} {profileImage}/>
+    <MobileHeader {profileName} {logged} {profileImage} />
   {:else}
     <Header {logged} {profileImage} name={profileName} />
   {/if}
@@ -156,9 +149,8 @@
       {profileLists}
       {animesInList}
       {likesCount}
-      {profileLikes}
     />
-  {:else} 
+  {:else}
     <div style="position:relative;width:100%;height:500px; ">
       <Loader />
     </div>

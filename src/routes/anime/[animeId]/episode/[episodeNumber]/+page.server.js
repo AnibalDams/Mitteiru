@@ -25,7 +25,6 @@ export async function load({ params, cookies }) {
       commentsLikes = await axios(
         `${PUBLIC_API_URL}/anime/episode/${episode._id}/comment/likes/all`
       );
-      console.log(commentsLikes.data);
     }
 
     const anime = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}`);

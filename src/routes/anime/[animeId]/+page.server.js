@@ -16,7 +16,6 @@ export async function load({ cookies, params }) {
   }
   try {
     const anime = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}`);
-    console.log(anime)
     if (anime.data.animes) {
           let getLikes = await axios(
       `${PUBLIC_API_URL}/anime/${params.animeId}/likes/count`,

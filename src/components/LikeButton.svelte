@@ -5,7 +5,6 @@
     import axios from "axios";
     export let likesCount = 0
     export let animeId = ""
-    export let profileLikes = []
     export let profileId = ""
     export let liked;
     import {PUBLIC_API_URL} from "$env/static/public"

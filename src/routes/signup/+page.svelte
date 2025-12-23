@@ -17,7 +17,7 @@
         } else {
             logged = false;
         }
-        console.log(form)
+    
         if (form) {
             if (form.username) {
                 toast.error("The username is already taken",{position:"top-center"});

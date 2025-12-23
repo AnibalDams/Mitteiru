@@ -24,7 +24,6 @@
   export let animesInList = [[0, ""]];
   export let profileId="";
   export let likesCount = 0;
-  export let profileLikes = [];
   export let liked;
   let showCover = false;
 
@@ -102,7 +101,7 @@
         <LikeButton
           {liked}
           {likesCount}
-          {profileLikes}
+
           {profileId}
           animeId={dataA.anime._id}
         />
