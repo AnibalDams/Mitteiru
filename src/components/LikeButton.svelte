@@ -17,7 +17,7 @@
     liked=liked?false:true
     
     
-}} title={likesCount} style={`color: ${liked?"green":"black"}; box-shadow: 0px 0px 4px ${liked?"green":"black"};border: 1px solid ${liked?"green":"black"};`}>{#if !liked}
+}} title={likesCount} style={`color: ${liked?"hsl(53, 50%, 10%)":"black"}; box-shadow: 2px 2px 0px ${liked?" hsl(145 100% 22%)":"black"};border: 1px solid ${liked?"hsl(145 100% 22%)":"black"};`}>{#if !liked}
     <Heart style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"/> 
     {:else}
     <HeartFilled color="green" style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"/> 

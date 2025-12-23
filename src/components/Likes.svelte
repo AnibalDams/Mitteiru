@@ -1,11 +1,15 @@
 <script>
   import { Heart, HeartFilled } from "radix-icons-svelte";
   import formatNumber from "$lib/numberFormatter";
+  import {Toaster, toast} from "svelte-sonner"
   export let likesCount = 0;
+  
 
 </script>
-
 <span
+on:click={()=>{
+  toast.info("To perform this action, please login first!", {position:"top-center"})
+}}
   title={likesCount}
   style={`color:black; box-shadow: 0px 0px 4px "black";border: 1px solid black;`}
 >
@@ -32,5 +36,6 @@
     cursor: default;
     border-radius: 5px;
     transition: 0.1s;
+    box-shadow: 2px 2px 0px black;
   }
 </style>

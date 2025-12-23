@@ -17,7 +17,7 @@
   import TypeSelector from "./TypeSelector.svelte";
   import AmountSelectror from "./AmountSelectror.svelte";
   import IconButton from "../../../user/profile/list/components/IconButton.svelte";
-
+  import {Toaster} from "svelte-sonner"
   export let logged;
   export let dataA;
   export let profileLists = [[0, ""]];
@@ -32,6 +32,7 @@
   $:tenperMove = false
 
 </script>
+<Toaster richColors />
 
 <div
   class="anime_container"
