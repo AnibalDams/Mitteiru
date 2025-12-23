@@ -35,13 +35,13 @@ An app for watching anime.
 ![Results of the search](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-40-04.png)
 
 ### Directory page
-![Directory page](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-40-29.png)
+![Directory page](https://i.ibb.co/Xfh1p0Xt/Captura-de-pantalla-2025-12-23-154749.png)
 
 ### Animes of a certain studio
-![Animes of a certain studio](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-41-02.png)
+![Animes of a certain studio](https://i.ibb.co/nMp3kqgR/Captura-de-pantalla-2025-12-23-154940.png)
 
 ### Animes of a certain genre
-![Animes of a certain genre](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-41-33.png)
+![Animes of a certain genre](https://i.ibb.co/gLndkz0v/Captura-de-pantalla-2025-12-23-154826.png)
 
 ### Profile Options
 ![Profile options](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-42-09.png)
