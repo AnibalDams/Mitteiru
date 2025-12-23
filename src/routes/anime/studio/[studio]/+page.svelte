@@ -22,6 +22,7 @@
             profileName = getCookie("profileName");
             if (profileId.length <= 0) {
                 goto("/selectprofile");
+                return
             }
             if (profileId.length >0){
                 let getAnimesInList = await axios(

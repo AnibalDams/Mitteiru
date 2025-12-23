@@ -29,6 +29,7 @@
 
     if (profileId.length <= 0 && logged === "si") {
       goto("/selectprofile");
+      return
     } else {
 
       if (data.animes.length >= 1) {

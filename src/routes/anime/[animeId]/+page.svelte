@@ -49,9 +49,10 @@
       profileName = getCookie("profileName");
       if (profileId.length <= 0) {
         goto("/selectprofile");
+        return
       }
       if (data.anime) {
-        if (profileId.length <= 0 && profileId) {
+        if (profileId.length > 0) {
           
           let getLists = await axios(
             `${PUBLIC_API_URL}/user/profile/${profileId}/list/all`,
@@ -92,6 +93,7 @@
 
       if (profileId.length <= 0) {
         goto("/selectprofile");
+        return
       } else {
         if (data.anime) {
           let getLists = await axios(

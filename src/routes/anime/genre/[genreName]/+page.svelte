@@ -23,6 +23,7 @@
             profileName = getCookie("profileName");
             if (profileId.length <= 0) {
                 goto("/selectprofile");
+                return
             }
             let getAnimesInList = await axios(
 				`${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`,
