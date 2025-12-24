@@ -2,9 +2,12 @@
     import MobileHeader from "../../../../../components/MobileHeader.svelte";
     import MobileAnimeRecommendation from "../../../../../components/MobileAnimeRecommendation.svelte";
     import MobileAnimeCard from "../../../../../components/mobileAnimeCard.svelte";
+    import ModalWithActions from "../../../../../components/ModalWithActions.svelte";
+    import {Plus} from "radix-icons-svelte"
     import { onMount } from "svelte";
 
     import { PUBLIC_API_URL } from "$env/static/public";
+    import { Toaster,toast } from "svelte-sonner";
 
     export let loaded = false;
     export let profileId = "";
@@ -24,9 +27,26 @@
     export let genreChartCanvas;
     export let genreChart;
     export let animeGenres;
-    export let display = false;
+    $: displayModal = false;
 </script>
+<Toaster richColors position="top-center"/>
 {#if isThereAnime}
+<ModalWithActions bind:showModal={displayModal} buttonText="Create" action={()=>{
+    toast.info("This functionality is being developed")
+    displayModal=false
+}}>
+     <h2 slot="header" style="font-size:20px; margin-bottom:10px;">
+        Let's create a new list!
+    </h2>
+    <div class="modal_information">
+        <p class="modal_information_text">
+            This section is under construction.
+            <span style="font-weight: bold;">
+                Please be patient.</span
+            >
+        </p>
+    </div>
+</ModalWithActions>
  <MobileHeader {logged} {profileImage} {profileName} />
 
 <MobileAnimeRecommendation animeData={animeRandom} />
@@ -38,6 +58,9 @@
             <option value={list._id}>{list.name}</option>
         {/each}
     </select>
+    <button on:click={()=>{
+        displayModal=!displayModal?true:false
+        }} style="background-color:hsl(0,0%,10%); color:#eee; display:flex;justify-content:center;align-items:center; gap:4px"><Plus/> New List</button>
 </div>
 <div
     class="anime_card_container"
@@ -79,13 +102,15 @@
 <style>
     .select_container {
         display: flex;
+        flex-direction: column;
+        gap: 4px;
         justify-content: center;
         align-items: center;
         margin-top: 15px;
         margin-bottom: 15px;
         width: 100%;
     }
-    select {
+    select, button {
         width: 70%;
         padding-right: 10px;
         padding-left: 10px;
@@ -115,4 +140,10 @@
         width: 100%;
         height: 100%;
     }
+
+    .modal_information {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
 </style>
