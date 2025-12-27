@@ -89,20 +89,20 @@
   <MobilePage
     {profileId}
     {animeRandom}
-    {analyticsPage}
+
     {selectedList}
-    {animeGenres}
+
     {animes}
     {createButtonText}
-    {genreChart}
-    {genreChartCanvas}
+
+
     {isThereAnime}
-    {listCanvasElement}
-    {listChart}
+
+
     {lists}
     {loaded}
     {logged}
-    {newListName}
+
     {profileImage}
     {profileName}
     {display}

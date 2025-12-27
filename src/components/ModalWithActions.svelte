@@ -34,7 +34,7 @@
 
 <style>
     dialog {
-        max-width: 32em;
+        width: 45em;
         border-radius: 5px;
         border: none;
         padding: 0;
