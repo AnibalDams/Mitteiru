@@ -39,7 +39,7 @@
             lists = listsFetch.data.lists;
             createButtonText = "Created";
             newListName = "";
-            
+
             createButtonText = "Create";
         }
     }
@@ -58,7 +58,7 @@
                 displayModal = false;
             } catch (error) {
                 toast.error("An error has occurred.");
-                console.error(error)
+                console.error(error);
                 displayModal = false;
             }
         }}
@@ -69,11 +69,11 @@
         <div class="modal_information">
             <label for="listName">Type a name for your list</label>
             <input
-            name="listName"
-            type="text"
-            placeholder="Your list's name"
-            bind:value={newListName}
-            on:input={newListName}
+                name="listName"
+                type="text"
+                placeholder="Your list's name"
+                bind:value={newListName}
+                on:input={newListName}
             />
         </div>
     </ModalWithActions>
@@ -96,10 +96,7 @@
             ><Plus /> New List</button
         >
     </div>
-    <div
-        class="anime_card_container"
-       
-    >
+    <div class="anime_card_container">
         {#if animes.find((e) => e.listId === $selectedList)}
             {#each animes as anime}
                 {#if anime.listId === $selectedList}
@@ -181,22 +178,20 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
-    input{
+    input {
         margin-top: 12px;
         width: 100%;
-        padding:10px;
+        padding: 10px;
         border: 1px solid #333;
         font-weight: bold;
         border-radius: 5px;
         outline: none;
     }
-    label{
+    label {
         font-weight: bold;
         margin-bottom: 5px;
     }
-    input:focus{
+    input:focus {
         box-shadow: 4px 4px 0px #111;
-        
-
     }
 </style>

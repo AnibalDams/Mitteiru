@@ -7,7 +7,9 @@
   import { goto } from "$app/navigation";
   import Loader from "../../../../components/Loader.svelte";
   import AnimeCard from "../../../../components/AnimeCard.svelte";
- import {PUBLIC_API_URL} from "$env/static/public"
+  import { PUBLIC_API_URL } from "$env/static/public";
+  import DesktopPage from "./components/DesktopPage.svelte";
+  import MobilePage from "./components/MobilePage.svelte";
 
   export let data;
   let profileId;
@@ -17,8 +19,18 @@
   let animesInList = [];
   let history = [];
   let loaded = false;
-  let today = new Date().toISOString().substring(0,10)
+  let today = new Date().toISOString().substring(0, 10);
+  let isMobile = false;
+
   onMount(async () => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    isMobile = mediaQuery.matches;
+
+    const handleResize = () => {
+      isMobile = mediaQuery.matches;
+    };
+
+    mediaQuery.addEventListener("change", handleResize);
     profileId = getCookie("profileId");
     profileImage = getCookie("profileImage");
     profileName = getCookie("profileName");
@@ -27,81 +39,51 @@
     if (profileId.length <= 0 && logged == "si") {
       goto("/selectprofile");
     } else {
-
       if (profileId.length > 0) {
         let getAnimesInList = await axios(
-          `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`
+          `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`,
         );
-        let getHistory = await axios(`${PUBLIC_API_URL}/user/profile/${profileId}/history`)
-        
+        let getHistory = await axios(
+          `${PUBLIC_API_URL}/user/profile/${profileId}/history`,
+        );
+
         animesInList = getAnimesInList.data.animes;
-        history = getHistory.data.animes
+        history = getHistory.data.animes;
+        loaded = true;
       }
 
-      loaded = true;
+      return () => {
+        mediaQuery.removeEventListener("change", handleResize);
+      };
     }
   });
 </script>
 
-<Header {logged} name={profileName} {profileImage} searchPage={false} />
-{#if loaded}
+<svelte:head>
+  <title>Your history</title>
+</svelte:head>
 
-<div class="container">
-{#if history.length >0}
-{#each history as h}
-<span>{h.date == today?"Today":h.date}</span>
-<div class="animes_container">
-{#each h.animes as anime}
-    <AnimeCard animeData={anime} saved={animesInList.find((e) => e._id == anime._id) ? true : false}/>
-{/each}
-</div>
-{/each}
+{#if !loaded}
+  <Loader/>
 {:else}
-  <div class="no_history">
-    <img src={`${PUBLIC_API_URL}/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg`} alt="">
-    <span>You haven't visited an anime yet</span>
-  </div>
-{/if}
-</div>
+{#if !isMobile}
+  <DesktopPage
+    {profileImage}
+    {profileName}
+    {logged}
+    {animesInList}
+    {history}
+    {loaded}
+  />
 {:else}
-<div
-style="width:100%;height:100%; display:flex; justify-content:center;margin-top:100px;"
->
-<Loader />
-</div>
+  <MobilePage
+    {loaded}
+    {profileImage}
+    {profileName}
+    {logged}
+    {animesInList}
+    {history}
+  />
 {/if}
 
-<style>
-    .container{
-      position: relative;
-        display: flex;
-        flex-direction: column;
-    }
-    span{
-        font-size: 20px;
-        margin: 10px;
-        font-weight: bold;
-    }
-    .animes_container{
-        margin: 10px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    }
-    .no_history {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,50%);
-
-    }
-    .no_history img {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-    }
-</style>
+{/if}
