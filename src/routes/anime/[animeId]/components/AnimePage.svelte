@@ -226,16 +226,6 @@
                 animeStudio={dataA.anime.studio}
                 episodeData={episode}
               />
-            </SplideSlide><SplideSlide>
-              <EpisodeCard
-                animeStudio={dataA.anime.studio}
-                episodeData={episode}
-              />
-            </SplideSlide><SplideSlide>
-              <EpisodeCard
-                animeStudio={dataA.anime.studio}
-                episodeData={episode}
-              />
             </SplideSlide>
           {/if}
         {/each}
