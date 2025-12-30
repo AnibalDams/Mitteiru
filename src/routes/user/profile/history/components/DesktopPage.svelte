@@ -2,11 +2,10 @@
     import Header from "../../../../Header.svelte";
     import AnimeCard from "../../../../../components/AnimeCard.svelte";
     import { PUBLIC_API_URL } from "$env/static/public";
-    import Loader from "../../../../../components/Loader.svelte";
+    import DaysAgo from "./daysAgo.js";
     export let logged   
     export let profileName=""
     export let profileImage=""
-    export let loaded=false
     export let animesInList=[]
     export let history=[]
     let today = new Date().toISOString().substring(0, 10);
@@ -19,7 +18,7 @@
   <div class="container">
     {#if history.length > 0}
       {#each history as h}
-        <span>{h.date == today ? "Today" : h.date}</span>
+        <span>{h.date == today ? "Today" :DaysAgo.get(h.date).value <15?DaysAgo.get(h.date).text:h.date}</span>
         <div class="animes_container">
           {#each h.animes as anime}
             <AnimeCard
@@ -50,7 +49,7 @@
     flex-direction: column;
   }
   span {
-    font-size: 20px;
+    font-size: 24px;
     margin: 10px;
     font-weight: bold;
   }
