@@ -17,20 +17,83 @@
   import TypeSelector from "./TypeSelector.svelte";
   import AmountSelectror from "./AmountSelectror.svelte";
   import IconButton from "../../../user/profile/list/components/IconButton.svelte";
-  import {Toaster} from "svelte-sonner"
+  import { Toaster } from "svelte-sonner";
   export let logged;
   export let dataA;
   export let profileLists = [[0, ""]];
   export let animesInList = [[0, ""]];
-  export let profileId="";
+  export let profileId = "";
   export let likesCount = 0;
   export let liked;
   let showCover = false;
 
-  let type = "slider";
-  $:tenperMove = false
+  const splideOptions = {
+    rewind: true,
+    perPage: 7,
+    perMove: tenperMove ? 10 : 1,
+    width: "100%",
+    breakpoints: {
+      2550: {
+        perMove: 1,
+        perPage: 6.7,
+      },
+      2420: {
+        perMove: 1,
+        perPage: 6.4},
+      2335: {
+        perMove: 1,
+        perPage: 6.1,
+      },
 
+      2150: {
+        perMove: 1,
+        perPage: 5.5,
+      },
+      1980: {
+        perMove: 1,
+        perPage: 5.2,
+      },
+      1880: {
+        perMove: 1,
+        perPage: 4.8,
+      },
+      1770: {
+        perMove: 1,
+        perPage: 4.5,
+      },
+      1600: {
+        perMove: 1,
+        perPage: 4
+      },
+
+      1400: {
+        perMove: 1,
+        perPage: 3.5,
+      },
+      1280: {
+        perMove: 1,
+        perPage: 3.2,
+      },
+
+      1150: {
+        perMove: 1,
+        perPage: 2.7,
+      },
+      980: {
+        perMove: 1,
+        perPage: 2.4,
+      },
+      880: {
+        perMove: 1,
+        perPage: 2.1,
+      },
+    },
+  };
+
+  let type = "slider";
+  $: tenperMove = false;
 </script>
+
 <Toaster richColors />
 
 <div
@@ -94,19 +157,19 @@
 
       <span
         class="anime_studio_ship"
-        on:click={()=>{goto(`/anime/year/${dataA.anime.releaseYear}`)}}
-        >{dataA.anime.releaseYear}</span
+        on:click={() => {
+          goto(`/anime/year/${dataA.anime.releaseYear}`);
+        }}>{dataA.anime.releaseYear}</span
       >
       {#if logged === "si" && profileId.length > 0}
         <LikeButton
           {liked}
           {likesCount}
-
           {profileId}
           animeId={dataA.anime._id}
         />
       {:else}
-        <Likes {likesCount}  />
+        <Likes {likesCount} />
       {/if}
       <p class="anime_synopsis">
         {dataA.anime.synopsis}
@@ -119,7 +182,12 @@
       <div class="related_anime">
         <h2><LangText p="animeShow" w="similarAnime" /></h2>
         {#if dataA.similarAnime}
-          <RelatedAnimeCard {dataA} inList={animesInList.find((e) => e._id == dataA.similarAnime._id) ? true : false}/>
+          <RelatedAnimeCard
+            {dataA}
+            inList={animesInList.find((e) => e._id == dataA.similarAnime._id)
+              ? true
+              : false}
+          />
         {:else}
           <span style="display:inline-block; margin-top:20px;font-weight:bold;"
             ><LangText p="animeShow" w="animeSimilarNoFound" /> :(</span
@@ -130,30 +198,40 @@
   </div>
   <div class="episodes_information">
     <h2 class="episodes_information_title" style="margin-bottom: 20px;">
-      <LangText p="animeShow" w="episodes" /><TypeSelector option1Click={()=>{
-        type = "slider"
-      }} option2Click={()=>{
-        type="grid"
-      }}/>
-      {#if type=="slider"}
-        
-        <AmountSelectror option1Click={()=>{
-          tenperMove = false
-        }} option2Click={()=>{
-          tenperMove = true
-        }}/>
+      <LangText p="animeShow" w="episodes" /><TypeSelector
+        option1Click={() => {
+          type = "slider";
+        }}
+        option2Click={() => {
+          type = "grid";
+        }}
+      />
+      {#if type == "slider"}
+        <AmountSelectror
+          option1Click={() => {
+            tenperMove = false;
+          }}
+          option2Click={() => {
+            tenperMove = true;
+          }}
+        />
       {/if}
-       
     </h2>
     {#if type == "slider"}
-      <Splide
-        options={{ rewind: true, perPage: 4, perMove: tenperMove?10:1 }}
-
-        style="margin-top:20px;"
-      >
+      <Splide options={splideOptions} style="margin-top:20px;">
         {#each dataA.episodes as episode}
           {#if episode.episode_number != 0}
             <SplideSlide>
+              <EpisodeCard
+                animeStudio={dataA.anime.studio}
+                episodeData={episode}
+              />
+            </SplideSlide><SplideSlide>
+              <EpisodeCard
+                animeStudio={dataA.anime.studio}
+                episodeData={episode}
+              />
+            </SplideSlide><SplideSlide>
               <EpisodeCard
                 animeStudio={dataA.anime.studio}
                 episodeData={episode}
@@ -165,19 +243,30 @@
     {:else if type == "grid"}
       <div class="episodes_information_list">
         {#each dataA.episodes as episode}
-        {#if episode.episode_number != 0}
-          <EpisodeCard animeStudio={dataA.anime.studio} episodeData={episode} />
-          
-        {/if}
+          {#if episode.episode_number != 0}
+            <EpisodeCard
+              animeStudio={dataA.anime.studio}
+              episodeData={episode}
+            />
+          {/if}
         {/each}
       </div>
     {/if}
   </div>
 
   <div class="reviews">
-    <h2 class="episodes_information_title" style="display: flex; align-items:center;">Reviews ({dataA.reviews.length}) {#if logged === "si" && profileId.length > 0}
-      <IconButton on:click={()=>{goto(`/anime/${dataA.anime._id}/review/new`)}}/>
-    {/if}</h2>
+    <h2
+      class="episodes_information_title"
+      style="display: flex; align-items:center;"
+    >
+      Reviews ({dataA.reviews.length}) {#if logged === "si" && profileId.length > 0}
+        <IconButton
+          on:click={() => {
+            goto(`/anime/${dataA.anime._id}/review/new`);
+          }}
+        />
+      {/if}
+    </h2>
     {#if dataA.reviews && dataA.reviews.length > 0}
       <Splide
         options={{ rewind: true, perPage: 3, perMove: 1, autoplay: true }}
@@ -185,7 +274,8 @@
         {#each dataA.reviews as review}
           <SplideSlide>
             <ReviewCard
-            on:click={()=>goto(`/anime/${dataA.anime._id}/review/${review._id}`)}
+              on:click={() =>
+                goto(`/anime/${dataA.anime._id}/review/${review._id}`)}
               avatar={review.profileImage}
               content={review.review}
               name={review.profileName}
@@ -193,7 +283,6 @@
               date={new Date(review.createdAt).toISOString().split("T")[0]}
             />
           </SplideSlide>
-          
         {/each}
       </Splide>
     {/if}

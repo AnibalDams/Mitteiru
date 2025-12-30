@@ -26,7 +26,6 @@
         flex-direction: column;
         max-width: 350px;
         cursor: pointer;
-        margin-right:20px;
         margin-bottom:20px;
         
     }
