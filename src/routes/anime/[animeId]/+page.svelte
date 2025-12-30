@@ -28,6 +28,9 @@
 
   onMount(async () => {
     loading = true;
+    profileId = getCookie("profileId");
+    profileImage = getCookie("profileImage");
+    profileName = getCookie("profileName");
     const mediaQuery = window.matchMedia("(max-width: 768px)");
     isMobile = mediaQuery.matches;
 
@@ -39,21 +42,17 @@
 
     const userId = data.userId;
 
-    liked = data.profileLikes.find((e) => e.profileId == profileId)
-      ? true
-      : false;
-    likesCount = data.likes;
-
     if (userId && userId.user._id.length > 0) {
-      profileId = getCookie("profileId");
-      profileImage = getCookie("profileImage");
-      profileName = getCookie("profileName");
       if (profileId.length <= 0) {
         goto("/selectprofile");
         return;
       }
       if (data.anime) {
         if (profileId.length > 0) {
+          liked = data.profileLikes.find((e) => e.profileId == profileId)
+            ? true
+            : false;
+          likesCount = data.likes;
           let getLists = await axios(
             `${PUBLIC_API_URL}/user/profile/${profileId}/list/all`,
           );
@@ -128,19 +127,23 @@
 </svelte:head>
 
 {#if !data.error}
-  {#if isMobile}
-    <MobileHeader {profileName} {logged} {profileImage} />
-  {:else}
-    <Header {logged} {profileImage} name={profileName} />
-  {/if}
   {#if !data.anime}
+    {#if isMobile}
+      <MobileHeader {profileName} {logged} {profileImage} />
+    {:else}
+      <Header {logged} {profileImage} name={profileName} />
+    {/if}
     <NotFoundError
       image={`${PUBLIC_API_URL}/static/WhatsApp Image 2025-01-15 at 3.18.19 PM.jpeg`}
       text="This anime wasn't found. Are you sure that you put the right anime in the url? Check it!"
     />
-  {:else if isMobile}
+  {:else if isMobile && !loading}
+    <MobileHeader {profileName} {logged} {profileImage} />
+
     <MobilePage {data} {logged} {profileImage} />
-  {:else if !loading}
+  {:else if !isMobile && !loading}
+    <Header {logged} {profileImage} name={profileName} />
+
     <AnimePage
       dataA={data}
       {liked}
@@ -156,7 +159,11 @@
     </div>
   {/if}
 {:else}
-  <Header {logged} {profileImage} name={profileName} />
+  {#if isMobile}
+    <MobileHeader {profileName} {logged} {profileImage} />
+  {:else}
+    <Header {logged} {profileImage} name={profileName} />
+  {/if}
 
   <NotFoundError
     image={`${PUBLIC_API_URL}/static/WhatsApp Image 2025-01-16 at 9.51.21 AM.jpeg`}

@@ -46,7 +46,7 @@
         font-size: 20px;
         position: absolute;
         font-weight: bold;
-        top: 80%;
+        top: 95%;
         right: 50%;
         transform: translate(50%,-50%);
 

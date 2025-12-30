@@ -42,7 +42,7 @@
 
 <style>
     .container{
-        margin:20px;
+        margin:12px;
     }
     .container span{
         font-size:20px;

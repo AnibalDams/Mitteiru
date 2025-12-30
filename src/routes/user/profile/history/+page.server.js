@@ -8,5 +8,5 @@ export async function load({cookies}){
             Authorization: `Bearer ${userId}`
         }
     })
-    return {userId:decodedUser.data.user}
+    return {userId:decodedUser.data.user} 
 }

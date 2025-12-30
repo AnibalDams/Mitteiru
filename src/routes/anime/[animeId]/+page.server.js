@@ -1,5 +1,4 @@
 import axios from "axios";
-import { get } from "svelte/store";
 import {PUBLIC_API_URL} from "$env/static/public"
 
 export async function load({ cookies, params }) {
@@ -13,7 +12,7 @@ export async function load({ cookies, params }) {
       },
     });
     userId = decodedUser.data.user;
-  }
+  } 
   try {
     const anime = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}`);
     if (anime.data.animes) {
