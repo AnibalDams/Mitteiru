@@ -9,7 +9,7 @@
   import Header from "../Header.svelte";
   import NewProfilePage from "./components/newProfilePage.svelte";
   import UpdatePage from "./components/updatePage.svelte";
- import {PUBLIC_API_URL} from "$env/static/public"
+  import { PUBLIC_API_URL } from "$env/static/public";
 
   export let data;
   let userId;
@@ -23,7 +23,7 @@
   const refreshProfiles = async () => {
     if (userId.user._id.length > 0 && userId != undefined) {
       const profilesQuery = await axios(
-        `${PUBLIC_API_URL}/user/${userId.user._id}/profile/d/all`
+        `${PUBLIC_API_URL}/user/${userId.user._id}/profile/d/all`,
       );
       profiles = profilesQuery.data.profiles;
     } else {
@@ -47,12 +47,11 @@
       profileImage = getCookie("profileImage");
       pName = getCookie("profileName");
       const profilesQuery = await axios(
-        `${PUBLIC_API_URL}/user/${userId.user._id}/profile/d/all`
+        `${PUBLIC_API_URL}/user/${userId.user._id}/profile/d/all`,
       );
       profiles = profilesQuery.data.profiles;
-      logged = userId && userId.user._id  ? "si" : "no";
+      logged = userId && userId.user._id ? "si" : "no";
     } else {
-     
     }
   });
 </script>
@@ -62,8 +61,6 @@
 </svelte:head>
 
 {#if logged}
-
-
   <div class="container">
     {#if newProfile === false}
       <span class="title"
@@ -78,7 +75,6 @@
           <Profile
             secondaryAction={refreshProfiles}
             onClick={() => {
-              
               setProfile(profile_._id, profile_.photo, profile_.name);
             }}
             editAction={() => {
@@ -149,32 +145,33 @@
     margin-top: 30px;
     gap: 30px;
     display: flex;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    width: 90%;
+    width: 100%;
   }
   .reload_button {
-
     margin-top: 10px;
     cursor: pointer;
     background: none;
     padding: 5px;
-    border:none;
+    border: none;
     border-radius: 5px;
     transition: 0.1s;
   }
-  .reload_button:hover{
+  .reload_button:hover {
     box-shadow: 2px 2px 0px black;
   }
 
   @keyframes fadeIn-slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px); 
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0); 
-  }
-}
+
 </style>

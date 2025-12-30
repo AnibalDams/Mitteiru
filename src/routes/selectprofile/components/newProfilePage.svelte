@@ -76,19 +76,20 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+
     }
     .input_container {
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
+
     }
     .avatar_container {
+        max-width: 100%;
         margin-top: 10px;
         margin-left:10%;
         display: flex;
-        justify-content: flex-start;
         flex-direction: row;
         flex-wrap: wrap;
 
