@@ -1,7 +1,7 @@
 @import '@fontsource/fira-mono';
 
 :root {
-	--font-body: calibri;
+	--font-body: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	--font-mono: 'Fira Mono', monospace;
 	--color-bg-0: rgb(202, 216, 228);
 	--color-bg-1: hsl(209, 36%, 86%);
@@ -14,9 +14,7 @@
 	font-family: var(--font-body);
 	color: var(--color-text);
 }
-*{
-	font-family: calibri;
-}
+
 
 
 
