@@ -51,18 +51,7 @@
         bottom:2%;
         transition: 0.1s;
   }
-  .role{
-          position: absolute;
-        opacity: 0;
-        display:inline-block;
-        font-weight: bold;
-        margin-top: 10px;
-        color: #ddd;
-        margin-left: 10px;
-        bottom:2%;
-        transition: 0.1s;
 
-  }
   .character_card:hover .name{
         bottom: 5%;
         opacity: 1;
