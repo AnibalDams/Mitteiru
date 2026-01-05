@@ -18,6 +18,9 @@
   import AmountSelectror from "./AmountSelectror.svelte";
   import IconButton from "../../../user/profile/list/components/IconButton.svelte";
   import { Toaster } from "svelte-sonner";
+  import "./animePage.css";
+  import CharactersCard from "./CharactersCard.svelte";
+
   export let logged;
   export let dataA;
   export let profileLists = [[0, ""]];
@@ -39,7 +42,8 @@
       },
       2420: {
         perMove: 1,
-        perPage: 6.4},
+        perPage: 6.4,
+      },
       2335: {
         perMove: 1,
         perPage: 6.1,
@@ -63,7 +67,7 @@
       },
       1600: {
         perMove: 1,
-        perPage: 4
+        perPage: 4,
       },
 
       1400: {
@@ -277,96 +281,14 @@
       </Splide>
     {/if}
   </div>
+  {#if dataA.characters.length > 0}
+    <div class="characters_container">
+      <h2 class="episodes_information_title">Characters - <a href="/">View All</a></h2>
+      <div class="characters">
+        {#each dataA.characters as character}
+          <CharactersCard picture={character.image} name={character.name} role={character.role}/>
+        {/each}
+      </div>
+    </div>
+  {/if}
 </div>
-
-<style>
-  .anime_container {
-    position: relative;
-    max-width: 100%;
-    height: 1000px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-  .anime_container .right_sec {
-    display: flex;
-    flex-direction: row;
-    margin: 10px;
-  }
-  .anime_container .right_sec .anime_information {
-    margin-left: 20px;
-  }
-  .anime_container .right_sec .anime_information .episodes_status_text {
-    margin-right: 10px;
-    font-weight: bold;
-  }
-  .anime_container .right_sec .anime_information .anime_title {
-    margin-top: 10px;
-    font-size: 2.6rem;
-
-    animation: gradient 5s ease;
-    background-clip: text;
-    transition: 0.1s;
-  }
-
-  .anime_container .right_sec .anime_information .anime_synopsis {
-    margin-top: 20px;
-    font-size: 18px;
-    max-width: 70%;
-  }
-  .anime_container .right_sec .anime_information .anime_studio_ship {
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background-color: white;
-    font-weight: bold;
-    font-size: 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 2px 2px 0px black;
-    border: 1px solid black;
-  }
-  .anime_container .right_sec .anime_information .genres {
-    margin-top: 20px;
-  }
-  .anime_container .right_sec img.cover {
-    width: 300px;
-    height: 500px;
-    object-fit: cover;
-    border-radius: 5px;
-  }
-  .image_large {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-
-    justify-content: center;
-    align-items: center;
-    transition: 0.1s;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.507);
-    z-index: 99999;
-  }
-
-  .related_anime {
-    margin-top: 30px;
-  }
-
-  .episodes_information {
-    margin-top: 50px;
-    margin-left: 10px;
-    padding-bottom: 20px;
-  }
-  .episodes_information .episodes_information_list {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .reviews {
-    margin-left: 10px;
-    padding-bottom: 20px;
-  }
-</style>

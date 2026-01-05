@@ -26,9 +26,11 @@ export async function load({ cookies, params }) {
         await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/similar`)
       ).data.animes;
       const getReview = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/review/all`)
+      const getCharacters = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/character/all`);
       const randomnumber =
         Math.round(Math.random() * (similarAnimes.length - 1)) + 1 - 1;
       const similarAnime = similarAnimes[randomnumber];
+      
       return {
         status: 200,
         userId,
@@ -38,6 +40,7 @@ export async function load({ cookies, params }) {
         reviews:getReview.data.reviews,
         profileLikes: getLikes.data.profiles,
         likes:getLikes.data.likesCount,
+        characters:getCharacters.data.characters,
         similarAnime,
       };
     } else {

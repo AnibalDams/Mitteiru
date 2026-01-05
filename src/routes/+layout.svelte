@@ -7,7 +7,6 @@
 	export let data
 	onMount(()=>{
 		injectAnalytics()
-		console.log(data.userId)
 		if(data.userId.user._id != "" && data.userId){
 			const profileId = getCookie("profileId")
 			if(!profileId || profileId == ""){

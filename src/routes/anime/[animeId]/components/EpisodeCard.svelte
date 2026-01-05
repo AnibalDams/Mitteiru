@@ -1,6 +1,5 @@
 <script>
     export let episodeData
-    export let animeStudio;
 	import { goto } from "$app/navigation";
     import Gradient from '../../../../components/Gradient.svelte'
 
@@ -49,7 +48,7 @@
         display:inline-block;
         font-weight: bold;
         margin-top: 10px;
-        color: #fff;
+        color: #eee;
         margin-left: 10px;
         bottom:2%;
         transition: 0.1s;
