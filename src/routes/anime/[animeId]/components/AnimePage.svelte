@@ -286,7 +286,7 @@
       <h2 class="episodes_information_title">Characters - <a href="/">View All</a></h2>
       <div class="characters">
         {#each dataA.characters as character}
-          <CharactersCard picture={character.image} name={character.name} role={character.role}/>
+          <CharactersCard characterId={character._id} picture={character.image} name={character.name} role={character.role}/>
         {/each}
       </div>
     </div>

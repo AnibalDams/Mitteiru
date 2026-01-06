@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import Gradient from "../../../../components/Gradient.svelte";
 
+  export let characterId = "";
   export let picture = "";
   export let name = "";
   export let role = ""
@@ -9,7 +10,7 @@
 </script>
 
 
-<div class="character_card" on:mouseover={()=>gPosition = 90} on:mouseleave={()=>gPosition = 0}>
+<div class="character_card" title={role} on:click={goto(`/anime/character/${characterId}`)} on:mouseover={()=>gPosition = 90} on:mouseleave={()=>gPosition = 0}>
   <img src={picture} alt={name}>
   <Gradient positionValue={gPosition}/>
   <span class="name">{name}</span>
