@@ -3,10 +3,14 @@ import axios from 'axios'
 
 export async function load({cookies}){
     let userId = cookies.get("userId")
-    let decodedUser = await axios.get(`${PUBLIC_API_URL}/user/decode`, {
+    if(userId!=undefined){
+            let decodedUser = await axios.get(`${PUBLIC_API_URL}/user/decode`, {
         headers:{
             Authorization: `Bearer ${userId}`
         }
     })
     return {userId:decodedUser.data.user}
+
+    }
+    return {userId:undefined}
 }

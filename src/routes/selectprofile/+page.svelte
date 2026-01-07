@@ -43,7 +43,7 @@
   };
   onMount(async () => {
     userId = data.userId;
-    if (userId.user._id.length > 0 && userId != undefined) {
+    if (userId != undefined) {
       profileImage = getCookie("profileImage");
       pName = getCookie("profileName");
       const profilesQuery = await axios(

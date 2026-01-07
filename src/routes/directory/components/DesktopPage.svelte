@@ -21,7 +21,7 @@
       profileId = getCookie("profileId");
       profileImage = getCookie("profileImage");
       profileName = getCookie("profileName");
-      logged = data.userId.user ? "si" : "no";
+      logged = data.userId ? "si" : "no";
   
 
 
