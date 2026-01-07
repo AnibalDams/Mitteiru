@@ -17,6 +17,10 @@ export async function load({ cookies, params }) {
       `${PUBLIC_API_URL}/character/${params.CharacterId}`
     );
     if (character.data.characters) {
+      const relatedAnimes = await axios(
+        `${PUBLIC_API_URL}/character/${params.CharacterId}/relatedAnimes`
+      );
+      character.data.characters.relatedAnimes = relatedAnimes.data.animes;
       return {
         status: 200,
         userId,
