@@ -69,7 +69,7 @@
   .container > .right {
     display: flex;
     flex-direction: column;
-    max-width: 600px;
+    max-width: 70%;
   }
 
   .container > .right > .name {
@@ -98,12 +98,7 @@
     gap: 12px;
   }
 
-  .container > .right > .extra_info {
-    margin-top: 12px;
-    display: flex;
-    gap: 8px;
-  }
-
+ 
   .container > .right > .extras > .extra_info > .label {
     font-weight: bold;
     color: #555;
