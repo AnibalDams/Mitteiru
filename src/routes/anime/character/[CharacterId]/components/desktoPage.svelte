@@ -56,6 +56,7 @@
     display: flex;
     margin-top: 20px;
     padding: 32px;
+    width: 100%;
     justify-content: center;
     gap: 20px;
   }
