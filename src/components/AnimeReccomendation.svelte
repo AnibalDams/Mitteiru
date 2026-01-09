@@ -1,4 +1,5 @@
 <script>
+  
   import Button from "./Button.svelte";
   import GenreShip from "./GenreShip.svelte";
   import { goto } from "$app/navigation";
@@ -8,6 +9,8 @@
   export let inList = false;
   
   let url = `url(${animeData.image})`
+
+
 </script>
 
 <div

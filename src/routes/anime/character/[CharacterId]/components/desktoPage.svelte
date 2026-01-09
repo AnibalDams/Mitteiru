@@ -1,6 +1,7 @@
 <script>
   import Header from "../../../../Header.svelte";
   import AnimeCard from "../../../../../components/AnimeCard.svelte";
+  import SpoilerTag from "./SpoilerTag.svelte";
 
   export let data;
   export let logged;
@@ -29,10 +30,14 @@
     <div class="extras">
       {#if data.character?.extraInformation}
         {#each data.character?.extraInformation as info}
-          <div class="extra_info">
+          {#if !info.spoiler}
+            <div class="extra_info">
             <span class="label">{info.name}:</span>
             <span class="value">{info.value}</span>
           </div>
+          {:else}
+          <SpoilerTag {info} />
+          {/if}
         {/each}
       {/if}
     </div>
@@ -84,6 +89,7 @@
   }
 
   .container > .right > .description {
+    white-space: pre-wrap;
     margin-top: 16px;
     line-height: 1.5;
     text-align: justify;

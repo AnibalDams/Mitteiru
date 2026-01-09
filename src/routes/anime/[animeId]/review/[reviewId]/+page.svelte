@@ -15,13 +15,10 @@
   let logged = "nosesabe";
   onMount(async () => {
     const userId = data.userId;
-    if (userId.user && userId.user._id.length > 0) {
+    if (userId) {
       profileId = getCookie("profileId");
       profileImage = getCookie("profileImage");
       profileName = getCookie("profileName");
-      if (profileId.length <= 0) {
-        goto("/selectprofile");
-      }
       logged = "si";
     } else {
       logged = "no";
@@ -53,7 +50,7 @@
     <button on:click={()=>goto(`/anime/${data.anime._id}`)}><ArrowLeft style="margin-right:10px;"/>{data.anime.name} </button>
     <h1>{data.review.title}</h1>
 
-    <div style="margin-top:20px; font-size:17px; line-height: 28px; ">
+    <div style="margin-top:20px; font-size:17px; line-height: 28px; white-space: pre-wrap;">
       <SvelteMarkdown source={data.review.review} renderers={{image:Image}}/>
     </div>
   </div>
