@@ -70,6 +70,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 5px;
+    overflow: hidden;
     transition: 0.1s;
     cursor: pointer;
   }
@@ -80,6 +81,9 @@
     object-fit: cover;
     object-position: center;
     transition: 0.1s;
+  }
+  .container:hover .anime_cover {
+    transform: scale(1.05);
   }
   .container .anime_title {
     display: inline-block;
