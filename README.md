@@ -31,6 +31,9 @@ An app for watching anime.
 ### Anime page
 ![Anime Page](https://github.com/AnibalDams/Mitteiru/blob/main/static/2025-07-12%2013.53.05%20localhost%20e1d35dc3d1fb.png)
 
+### Character page
+![Character Page](https://i.ibb.co/tMSCffqN/Monkey-D-Luffy-Mitteiru-01-09-2026-01-51-PM.png)
+
 ### Results of the search
 ![Results of the search](https://github.com/AnibalDams/Mitteiru-backend/blob/main/static/Captura%20de%20pantalla_2024-07-08_13-40-04.png)
 
