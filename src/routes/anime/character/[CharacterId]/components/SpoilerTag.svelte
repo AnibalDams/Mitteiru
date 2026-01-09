@@ -9,8 +9,8 @@
    
     <button on:click={() => (revealed = true)}>This is a spoiler. Click to view</button>
   {:else}
-    <span class="label">{info.name}:</span>
-    <span class="value">{info.value}</span>
+    <span class="label" on:click={()=>(revealed = false)}>{info.name}:</span>
+    <span class="value" on:click={()=>(revealed = false)}>{info.value}</span>
   {/if}
 </div>
 
@@ -28,6 +28,9 @@
   }
   button:hover{
     box-shadow: 4px 4px 0px #444;
+  }
+  span {
+    cursor: pointer;
   }
    .extra_info > .label {
     font-weight: bold;

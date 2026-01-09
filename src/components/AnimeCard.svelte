@@ -92,7 +92,7 @@
     opacity: 0;
     position: absolute;
     top: 82%;
-    margin-left: 5px;
+    margin-left: 8px;
     transition: 0.1s;
   }
   .container:hover {

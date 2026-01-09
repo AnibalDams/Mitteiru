@@ -71,7 +71,7 @@
   <h2>Results for {searchText} - ({animes.length})</h2>
   <div class="animes_container">
     {#each animes as anime}
-      <AnimeCard animeData={anime}  saved={animesInList.find((e) => e.id == anime.id) ? true : false}/>
+      <AnimeCard animeData={anime}  saved={animesInList.find((e) => e._id == anime._id) ? true : false}/>
     {/each}
   </div>
 {:else}

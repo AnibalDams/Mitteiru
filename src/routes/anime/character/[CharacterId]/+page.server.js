@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PUBLIC_API_URL } from "$env/static/public";
 
+
 export async function load({ cookies, params }) {
   let userId = cookies.get("userId");
 
@@ -16,6 +17,7 @@ export async function load({ cookies, params }) {
     const character = await axios(
       `${PUBLIC_API_URL}/character/${params.CharacterId}`
     );
+
     if (character.data.characters) {
       const relatedAnimes = await axios(
         `${PUBLIC_API_URL}/character/${params.CharacterId}/relatedAnimes`
@@ -27,6 +29,7 @@ export async function load({ cookies, params }) {
         character: character.data.characters,
       };
     } else {
+
       return {
         userId,
       };
