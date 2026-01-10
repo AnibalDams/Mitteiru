@@ -62,24 +62,22 @@
     on:click={() => {
         showModal = true;
     }}
-    ><Bookmark style={`transition:0.1s;position:absolute; top:50%;transform:translateY(-50%); left:50px; `} />
+    ><Bookmark  />
     <span
-        style="position:absolute;
-        top:50%; left:70px; transform:translateY(-50%)"><LangText p="animeShow" w="addToList"/></span
+        ><LangText p="animeShow" w="addToList"/></span
     ></button
 >
 
 <style>
     .button {
-        position: relative;
+
         display: flex;
-        flex-direction: row;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
+        gap: 4px;
         margin-top: 10px;
-        width: 300px;
-        text-align: center;
-        font-size: 15px;
+        width: 100%;
+        font-size: 14px;
         height: 50px;
         background: none;
         border: 1px solid black;

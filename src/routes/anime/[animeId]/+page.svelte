@@ -140,7 +140,14 @@
   {:else if isMobile && !loading}
     <MobileHeader {profileName} {logged} {profileImage} />
 
-    <MobilePage {data} {logged} {profileImage} />
+    <MobilePage 
+    {data} 
+    {logged} 
+    {profileImage}
+    {profileId}
+    {profileLists}
+    {animesInList}
+     />
   {:else if !isMobile && !loading}
     <Header {logged} {profileImage} name={profileName} />
 

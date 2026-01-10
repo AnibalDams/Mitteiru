@@ -1,8 +1,12 @@
 
 <script>
+    import AddToListButton from "./AddToListButton.svelte";
     import MobileEpisodeCard from "./mobileEpisodeCard.svelte";
     import Likes from "../../../../components/Likes.svelte"
     export let data;
+    export let profileId;
+    export let animesInList;
+    export let profileLists;
 
 </script>
 
@@ -24,6 +28,9 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         <span class="extra_info year">{data.anime.releaseYear}</span>
         <span class="extra_info on_going" style={`background-color:${data.anime.onGoing ===1?"#90EE90":"#ADD8E6"}`}>{data.anime.onGoing===1?"Releasing":"Finished"}</span>
         <Likes likesCount={data.likes}/>
+        {#if profileId && profileId.length>0}
+            <AddToListButton animeData={data.anime} profileId={profileId} animesInList={animesInList} lists={profileLists}/>
+        {/if}
     </div>
 </div>
 <p>{data.anime.synopsis}</p>
@@ -93,6 +100,7 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
     span.extra_info{
         display: inline-block;
         margin-right: 5px;
+        
         padding-left: 10px;
         padding-right: 10px;
         padding-top: 5px;
@@ -118,6 +126,7 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         font-weight: 400;
         max-width: 800px;
         margin-bottom: 40px;
+        margin-top: 40px;
     }
     div.genres{
         margin-left:10px;
