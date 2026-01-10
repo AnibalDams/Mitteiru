@@ -30,7 +30,11 @@
         max-width: 250px;
         cursor: pointer;
         margin-top:20px;
+        border-radius: 5px;
+
         margin-bottom:20px;
+        overflow: hidden;
+        transition: 0.1s;
   }
   .character_card img{
         width: 250px;
@@ -39,6 +43,9 @@
         object-position: center;
         border-radius: 5px;
         transition: 0.1s;
+  }
+  .character_card:hover img{
+        transform: scale(1.05);
   }
   .name{
       position: absolute;
@@ -51,6 +58,7 @@
         margin-left: 10px;
         bottom:2%;
         transition: 0.1s;
+        z-index: 4;
   }
 
   .character_card:hover .name{

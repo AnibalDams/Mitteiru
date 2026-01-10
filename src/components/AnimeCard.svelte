@@ -98,6 +98,7 @@
     top: 82%;
     margin-left: 8px;
     transition: 0.1s;
+    z-index: 4;
   }
   .container:hover {
     box-shadow: 4px 4px 0px black;

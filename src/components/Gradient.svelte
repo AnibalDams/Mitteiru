@@ -20,7 +20,8 @@ style={`background-position: 100% ${positionValue}%;`}
         border-radius: 5px;
         background-image: linear-gradient(to top, #000, transparent 70%);
         background-size: 200% 200%;
-        
+        z-index: 3;
         transition: 0.1s;
     }
+
 </style>
