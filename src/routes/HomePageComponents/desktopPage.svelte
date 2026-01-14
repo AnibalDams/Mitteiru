@@ -81,7 +81,7 @@
     {#each data.mostPopularAnimes as popularAnime}
       <AnimeCard
         animeData={popularAnime}
-        saved={animesInList.find((e) => e.id == popularAnime.id) ? true : false}
+        saved={animesInList.find((e) => e._id == popularAnime._id) ? true : false}
       />
     {/each}
   </div>

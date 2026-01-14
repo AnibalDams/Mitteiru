@@ -93,7 +93,6 @@
     {selectedList}
 
     {animes}
-    {createButtonText}
 
 
     {isThereAnime}
@@ -105,7 +104,7 @@
 
     {profileImage}
     {profileName}
-    {display}
+
   />
 {:else}
   <DesktopPage

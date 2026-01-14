@@ -6,6 +6,7 @@
     import CheckBox from "../../../../components/CheckBox.svelte";
     import LangText from "../../../../components/LangText.svelte";
     import {PUBLIC_API_URL} from "$env/static/public"
+    
 
     export let animeData;
     let doesTheAnimeIsInList = false;
