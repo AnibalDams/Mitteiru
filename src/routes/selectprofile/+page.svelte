@@ -11,6 +11,8 @@
   import UpdatePage from "./components/updatePage.svelte";
   import { PUBLIC_API_URL } from "$env/static/public";
 
+  import {Toaster, toast} from "svelte-sonner"
+
   export let data;
   let userId;
   let newProfile = false;
@@ -59,7 +61,7 @@
 <svelte:head>
   <title>Who's watching?</title>
 </svelte:head>
-
+<Toaster richColors/>
 {#if logged}
   <div class="container">
     {#if newProfile === false}

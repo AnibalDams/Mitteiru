@@ -3,6 +3,8 @@
     import {Pencil1, Trash} from "radix-icons-svelte"
     import axios from "axios";
  import {PUBLIC_API_URL} from "$env/static/public"
+ import {toast} from "svelte-sonner"
+ 
 
     export let image;
     export let name;
@@ -13,6 +15,7 @@
     let deleteButtonText = "Delete";
     const deleteAction = async () => {
         try {
+            toast.loading("Deleting...")
             deleteButtonText = "Deleting...";
             document.cookie = "profileId=;max-age=-1;path=/;";
             document.cookie = "profileName=;max-age=-1;path=/;";
@@ -21,8 +24,10 @@
                 `${PUBLIC_API_URL}/user/profile/${id}/delete`,
             );
             deleteButtonText = "Deleted";
+            toast.success("Deleted")
             secondaryAction();
         } catch (error) {
+            toast.error("Something went wrong")
             console.error(error.message);
         }
     };
