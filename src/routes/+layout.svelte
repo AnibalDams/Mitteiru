@@ -9,10 +9,8 @@
   onMount(() => {
     injectAnalytics();
    
-    if (data.userId.user._id != "" && data.userId) {
+    if (data.userId) {
       const profileId = getCookie("profileId");
-      profileImage = getCookie("profileImage");
-      profileName = getCookie("profileName");
       if (!profileId || profileId == "") {
         goto("/selectprofile");
         return;

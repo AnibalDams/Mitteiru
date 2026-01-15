@@ -122,7 +122,7 @@
         position: absolute;
         background-color: red;
         border: 3px solid white;
-        border-radius: 50%;
+        border-radius: 8px;
         color: white;
         transition: 0.1s;
     }
@@ -153,7 +153,7 @@
         position: absolute;
         background-color: rgb(0, 0, 0);
         border: 3px solid white;
-        border-radius: 50%;
+        border-radius: 8px;
         color: white;
         transition: 0.1s;
     }
