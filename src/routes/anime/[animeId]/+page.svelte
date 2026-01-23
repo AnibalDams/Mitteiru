@@ -21,7 +21,7 @@
   let animesInList = [];
   let profileLists = [];
   let likesCount = 0;
-
+  let learningProgress;
   let isMobile;
   let liked;
   let loading = true;
@@ -60,11 +60,15 @@
           let getAnimesInList = await axios(
             `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`,
           );
+          let getLearningProgress = await axios(
+            `${PUBLIC_API_URL}/anime/${data.anime._id}/learningProgress/${profileId}`,
+          );
           await axios.post(
             `${PUBLIC_API_URL}/user/profile/${profileId}/history/${data.anime._id}/0/add`,
           );
           profileLists = getLists.data.lists;
           animesInList = getAnimesInList.data.animes;
+          learningProgress = getLearningProgress.data.message=="success"? getLearningProgress.data.learningProgress:null;
         }
       }
 
@@ -90,6 +94,7 @@
     if (userId && userId.user._id.length > 0) {
       let profileId = getCookie("profileId");
 
+
       if (profileId.length <= 0) {
         goto("/selectprofile");
         return;
@@ -102,12 +107,16 @@
           let getAnimesInList = await axios(
             `${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`,
           );
-
+          let getLearningProgress = await axios(
+            `${PUBLIC_API_URL}/anime/${data.anime._id}/learningProgress/${profileId}`,
+          );
           await axios.post(
             `${PUBLIC_API_URL}/user/profile/${profileId}/history/${data.anime._id}/0/add`,
           );
           profileLists = getLists.data.lists;
           animesInList = getAnimesInList.data.animes;
+          learningProgress = getLearningProgress.data.message=="success"? getLearningProgress.data.learningProgress:null;
+
         }
       }
     }
@@ -157,8 +166,10 @@
       {logged}
       {profileId}
       {profileLists}
+      {profileName}
       {animesInList}
       {likesCount}
+      {learningProgress}
     />
   {:else}
     <div style="position:relative;width:100%;height:500px; ">

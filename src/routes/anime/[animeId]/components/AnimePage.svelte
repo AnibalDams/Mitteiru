@@ -20,14 +20,19 @@
   import { Toaster } from "svelte-sonner";
   import "./animePage.css";
   import CharactersCard from "./CharactersCard.svelte";
+  import LearninProgress from "./LearninProgress.svelte";
 
   export let logged;
   export let dataA;
   export let profileLists = [[0, ""]];
   export let animesInList = [[0, ""]];
   export let profileId = "";
+  export let profileName=""
   export let likesCount = 0;
   export let liked;
+  export let learningProgress;
+
+
   let showCover = false;
 
   const splideOptions = {
@@ -165,7 +170,10 @@
           goto(`/anime/year/${dataA.anime.releaseYear}`);
         }}>{dataA.anime.releaseYear}</span
       >
+    
+
       {#if logged === "si" && profileId.length > 0}
+        <LearninProgress profileId={profileId} learningProgress={learningProgress} profileName={profileName} animeId={dataA.anime._id}/>
         <LikeButton
           {liked}
           {likesCount}
