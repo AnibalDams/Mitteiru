@@ -15,7 +15,7 @@
   export let profileId = "";
   export let animeId = "";
   export let profileName = "";
-
+  export let mobile = false
   async function addLearningProgress() {
     try {
       if(value ==0 && selectedScore ==0){
@@ -71,9 +71,10 @@
   </div>
 </ModalWithActions>
 <span
-  class="trigger"
+  class={mobile?"mobile_trigger":"trigger"}
   on:click={() => (displayModal = displayModal ? false : true)}
-  >{#if !learningProgress}
+  >{#if !mobile}
+    {#if !learningProgress}
     <Plus
       style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"
     />
@@ -81,6 +82,15 @@
     <Pencil1
       style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"
     />
+  {/if}
+  {:else}
+  {#if !learningProgress}
+    <Plus
+    />
+  {:else}
+    <Pencil1
+    />
+  {/if}
   {/if}
   {learningProgress ? "Update" : "Add"} learning progress</span
 >
@@ -102,7 +112,22 @@
     border: 1px solid black;
     cursor: pointer;
   }
-
+  .mobile_trigger {
+      display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        margin-top: 10px;
+        width: 100%;
+        font-size: 14px;
+        height: 50px;
+        background: none;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.1s;
+      }
   .score {
     display: flex;
     flex-direction: column;
@@ -110,6 +135,8 @@
     gap: 4px;
     padding-top: 16px;
     padding-bottom: 16px;
+    overflow: hidden;
+
   }
   .score span.score_title {
     font-size: 20px;
@@ -117,7 +144,11 @@
   }
   .score .score_container {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 12px;
+    flex-wrap: wrap;
+
   }
   .score_container label {
     user-select: none;

@@ -11,6 +11,7 @@
   import { afterNavigate } from "$app/navigation";
   import Loader from "../../../components/Loader.svelte";
   import { PUBLIC_API_URL } from "$env/static/public";
+  import { Toaster } from "svelte-sonner";
 
   export let data;
 
@@ -134,7 +135,7 @@
   >
   <meta name="description" content="Svelte demo app" />
 </svelte:head>
-
+<Toaster/>
 {#if !data.error}
   {#if !data.anime}
     {#if isMobile}
@@ -156,6 +157,8 @@
     {profileId}
     {profileLists}
     {animesInList}
+    {profileName}
+    {learningProgress}
      />
   {:else if !isMobile && !loading}
     <Header {logged} {profileImage} name={profileName} />

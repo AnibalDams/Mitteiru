@@ -3,8 +3,11 @@
     import AddToListButton from "./AddToListButton.svelte";
     import MobileEpisodeCard from "./mobileEpisodeCard.svelte";
     import Likes from "../../../../components/Likes.svelte"
+  import LearninProgress from "./LearninProgress.svelte";
     export let data;
     export let profileId;
+    export let learningProgress;
+    export let profileName;
     export let animesInList;
     export let profileLists;
 
@@ -30,6 +33,7 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         <Likes likesCount={data.likes}/>
         {#if profileId && profileId.length>0}
             <AddToListButton animeData={data.anime} profileId={profileId} animesInList={animesInList} lists={profileLists}/>
+            <LearninProgress mobile={true} learningProgress={learningProgress} animeId={data.anime._id} profileId={profileId} profileName={profileName}/>
         {/if}
     </div>
 </div>
@@ -126,7 +130,7 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         font-weight: 400;
         max-width: 800px;
         margin-bottom: 40px;
-        margin-top: 40px;
+        margin-top: 100px;
     }
     div.genres{
         margin-left:10px;

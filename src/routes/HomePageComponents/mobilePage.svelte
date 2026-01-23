@@ -8,7 +8,7 @@
   import axios from "axios";
   import MobileAnimeCard from "../../components/mobileAnimeCard.svelte";
  import {PUBLIC_API_URL} from "$env/static/public"
-
+  import {Toaster} from "svelte-sonner"
   export let data;
   let animeRandom;
   let animes = data.animes.sort((a, b) => b.createdAt - a.createdAt);
