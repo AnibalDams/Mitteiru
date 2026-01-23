@@ -3,6 +3,7 @@
     import AnimeCard from "../../../../../components/AnimeCard.svelte";
     import { PUBLIC_API_URL } from "$env/static/public";
     import DaysAgo from "./daysAgo.js";
+    import { onMount } from "svelte";
     export let logged   
     export let profileName=""
     export let profileImage=""
