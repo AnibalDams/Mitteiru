@@ -60,7 +60,7 @@
         <span class="text">Results for the genre: {data.genreName} ({data.animes.length})</span>
         <div class="animes_container">
             {#each data.animes as anime}
-                <AnimeCard animeData={anime}  saved={animesInList.find(e=>e.id==anime.id)?true:false}/>
+                <AnimeCard animeData={anime}  saved={animesInList.find(e=>e._id==anime._id)?true:false}/>
 
             {/each}
         </div>
