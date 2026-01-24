@@ -3,7 +3,7 @@ import {PUBLIC_API_URL} from "$env/static/public"
 
 export async function load({cookies}){
     let userId = cookies.get("userId")
-    let animesFetch = await axios(`${PUBLIC_API_URL}/anime/d/all`);
+    let animesFetch = await axios(`${PUBLIC_API_URL}/anime/d/latest`);
     let randomAnime = (await axios(`${PUBLIC_API_URL}/anime/d/random`)).data.animes
     let mostPopularAnimesFetch = await axios(
       `${PUBLIC_API_URL}/anime/d/mostpopular`
