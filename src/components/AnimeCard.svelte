@@ -1,5 +1,4 @@
 <script>
-  import { goto } from "$app/navigation";
   import Gradient from "./Gradient.svelte";
   import {  HeartFilled} from "radix-icons-svelte";
   import formatNumber from '$lib/numberFormatter'
@@ -11,11 +10,13 @@
   let bgPer = 0;
   export let showLikes = false
   export let saved = false;
-  export let animeData = [];
+  export let animeData ;
   export let liked = false
   export let profileId="";
   let likesPerProfile = [];
-
+$: shortName = animeData.name.length <= 26 
+    ? animeData.name 
+    : animeData.name.substring(0, 23) + "...";
   onMount(async()=>{
     if (showLikes) {
       let getLikesPerProfile = await axios(`${PUBLIC_API_URL}/anime/${animeData._id}/likes/count`)
@@ -24,11 +25,13 @@
       
     }
   })
+
 </script>
 
-<div
+<a
   class="container"
-  on:click={() => goto(`/anime/${animeData._id}`)}
+  href={`/anime/${animeData._id}`}
+  data-sveltekit-preload-data="off"
   on:mouseover={() => (bgPer = 90)}
   on:mouseleave={() => (bgPer = 0)}
 >
@@ -36,13 +39,13 @@
     src={animeData.cover}
     class="anime_cover"
     alt=""
+    loading="lazy"
+    decoding="async"
   />
   <Gradient positionValue={bgPer} />
   <div class="data_container">
     <span class="anime_title"
-      >{animeData.name.length <= 26
-        ? animeData.name
-        : animeData.name.substring(0, 23) + "..."}</span
+      >{shortName}</span
     >
     <div class="chip_container">
       <span class="card_ship">{animeData.studio}</span>
@@ -56,7 +59,7 @@
       {/if}
     </div>
   </div>
-</div>
+</a>
 
 <style>
   .container {

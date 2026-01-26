@@ -13,7 +13,11 @@
     let profileImage = "";
     let profileName = "";
     let logged = "";
-    let animesInList = []
+    let animesInList =[]
+    let savedSet = new Set()
+    $: if (animesInList.length >0) {
+        savedSet = new Set(animesInList.map(e=>e._id))
+    }
     onMount(async () => {
         const userId = data.userId;
         if (userId && userId.length > 0) {
@@ -28,6 +32,7 @@
             let getAnimesInList = await axios(
 				`${PUBLIC_API_URL}/user/profile/${profileId}/list/anime/all`,
 			);
+            
             animesInList = getAnimesInList.data.animes
             logged = "si";
         } else {
@@ -60,7 +65,7 @@
         <span class="text">Results for the genre: {data.genreName} ({data.animes.length})</span>
         <div class="animes_container">
             {#each data.animes as anime}
-                <AnimeCard animeData={anime}  saved={animesInList.find(e=>e._id==anime._id)?true:false}/>
+                <AnimeCard animeData={anime}  saved={savedSet.has(anime._id)?true:false}/>
 
             {/each}
         </div>

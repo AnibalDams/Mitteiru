@@ -1,10 +1,10 @@
 import axios from "axios";
-import {PUBLIC_API_URL} from "$env/static/public"
+import { PUBLIC_API_URL } from "$env/static/public";
 
 export async function load({ cookies, params }) {
+  const start = performance.now();
   let userId = cookies.get("userId");
 
-  
   if (userId && userId.length > 0) {
     const decodedUser = await axios.get(`${PUBLIC_API_URL}/user/decode`, {
       headers: {
@@ -12,43 +12,40 @@ export async function load({ cookies, params }) {
       },
     });
     userId = decodedUser.data.user;
-  } 
+  }
   try {
-    const anime = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}`);
-    if (anime.data.animes) {
-          let getLikes = await axios(
-      `${PUBLIC_API_URL}/anime/${params.animeId}/likes/count`,
-    );
-      const episodes = await axios(
-        `${PUBLIC_API_URL}/anime/${params.animeId}/episode/all`
-      );
-      const similarAnimes = (
-        await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/similar`)
-      ).data.animes;
-      const getReview = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/review/all`)
-      const getCharacters = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/character/all`);
+    const fullData = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/fullDetails`);
+
+    if (fullData.data.anime) {
       const randomnumber =
-        Math.round(Math.random() * (similarAnimes.length - 1)) + 1 - 1;
-      const similarAnime = similarAnimes[randomnumber];
-      
+        Math.round(Math.random() * (fullData.data.similarAnime.animes.length - 1)) + 1 - 1;
+      const similarAnime = fullData.data.similarAnime.animes[randomnumber];
+      const end = performance.now();
+      console.log(`Time taken: ${(end - start)/1000} seconds`);
       return {
         status: 200,
         userId,
-        anime: anime.data.animes,
-        genres: anime.data.genres,
-        episodes: episodes.data.episodes,
-        reviews:getReview.data.reviews,
-        profileLikes: getLikes.data.profiles,
-        likes:getLikes.data.likesCount,
-        characters:getCharacters.data.characters,
+        anime: fullData.data.anime.animes,
+        genres: fullData.data.anime.animes.genres,
+        episodes: fullData.data.episodes.episodes,
+        reviews: fullData.data.reviews.reviews,
+        profileLikes: fullData.data.likes.profiles,
+        likes: fullData.data.likes.likesCount,
+        characters: fullData.data.characters.characters,
         similarAnime,
       };
     } else {
       return {
-        
-        userId}
+        userId,
+      };
     }
   } catch (error) {
-    return {userId, error:true, errorMessage1:error.message, errorMessage2:error.response.data.error}
+    console.log(error)
+    return {
+      userId,
+      error: true,
+      errorMessage1: error.message,
+      errorMessage2: error.response,
+    };
   }
 }

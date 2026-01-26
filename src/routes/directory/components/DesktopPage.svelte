@@ -6,15 +6,17 @@
     import Header from "../../Header.svelte";
     import LangText from "../../../components/LangText.svelte";
     import { getCookie } from "svelte-cookie";
-    import { goto } from "$app/navigation";
  import {PUBLIC_API_URL} from "$env/static/public"
-  
-    //let animes = [];
+ //let animes = [];
     let loaded = false;
     let profileId = "";
     let profileImage = "";
     let profileName = "";
     let animesInList = [];
+    let savedSet = new Set();
+    $: if (animesInList.length > 0) {
+      savedSet = new Set(animesInList.map((e) => e._id));
+    }
     export let data;
     let logged;
     onMount(async () => {
@@ -31,7 +33,7 @@
           );
           animesInList = getAnimesInList.data.animes;
         }
-  
+
         loaded = true;
       
     });
@@ -45,14 +47,16 @@
   {#if loaded}
     <Header {logged} {profileImage} name={profileName} />
     <h2 ><LangText p="navBar" w="directory"/> ({data.animes.length})</h2>
-    <div class="animes_container">
-      {#each data.animes as anime}
-        <AnimeCard
+  
+      <div class="animes_container" >
+       {#each data.animes as anime (anime._id)}
+         <AnimeCard
           animeData={anime}
-          saved={animesInList.find((e) => e._id == anime._id) ? true : false}
+          saved={savedSet.has(anime._id) ? true : false}
         />
-      {/each}
-    </div>
+       {/each}
+      </div>
+
   {:else}
     <div
       style="position:relative;width:100%;height:500px; "
@@ -70,7 +74,6 @@
       margin: 10px;
       display: flex;
       flex-direction: row;
-  
       flex-wrap: wrap;
     }
   </style>
