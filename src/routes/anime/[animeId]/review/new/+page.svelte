@@ -71,7 +71,7 @@
 <div style="margin: 10px; font-size:17px; line-height: 28px;">
   <h2 style="margin-bottom: 20px;">Preview</h2>
   <h1 style="margin-bottom:20px;">{title}</h1>
-  <SvelteMarkdown source={content} renderers={{image:Image}} options={{gfm:true}}/>
+ <p style="white-space: pre-line;"> <SvelteMarkdown source={content} renderers={{image:Image}} options={{gfm:true}}/></p>
 </div>
 
 <style>

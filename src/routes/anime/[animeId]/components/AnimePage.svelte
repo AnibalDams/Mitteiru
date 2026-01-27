@@ -21,6 +21,7 @@
   import "./animePage.css";
   import CharactersCard from "./CharactersCard.svelte";
   import LearninProgress from "./LearninProgress.svelte";
+  import SvelteMarkdown from "svelte-markdown";
 
   export let logged;
   export let dataA;
@@ -184,8 +185,8 @@
         <Likes {likesCount} />
       {/if}
       <p class="anime_synopsis">
-        {dataA.anime.synopsis}
-      </p>
+      <SvelteMarkdown source={dataA.anime.synopsis}/>
+</p>
       <div class="genres">
         {#each dataA.anime.genres as genre}
           <GenreShip {genre} />

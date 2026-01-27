@@ -50,7 +50,7 @@
     <button on:click={()=>goto(`/anime/${data.anime._id}`)}><ArrowLeft style="margin-right:10px;"/>{data.anime.name} </button>
     <h1>{data.review.title}</h1>
 
-    <div style="margin-top:20px; font-size:17px; line-height: 28px; white-space: pre-wrap;">
+    <div style="margin-top:20px; font-size:17px; line-height: 28px; white-space: pre-line;">
       <SvelteMarkdown source={data.review.review} renderers={{image:Image}}/>
     </div>
   </div>

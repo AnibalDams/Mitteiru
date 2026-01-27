@@ -4,6 +4,7 @@
     import MobileEpisodeCard from "./mobileEpisodeCard.svelte";
     import Likes from "../../../../components/Likes.svelte"
   import LearninProgress from "./LearninProgress.svelte";
+    import SvelteMarkdown from "svelte-markdown";
     export let data;
     export let profileId;
     export let learningProgress;
@@ -37,7 +38,8 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         {/if}
     </div>
 </div>
-<p>{data.anime.synopsis}</p>
+
+<p><SvelteMarkdown source={data.anime.synopsis}/></p>
 <div class="genres">
     {#each data.anime.genres as genre}
     <span class="extra_info">{genre}</span>
