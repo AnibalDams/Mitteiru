@@ -23,6 +23,7 @@
 	<ul class="nav_bar_links_container">
 		<li class="nav_bar_link"><a href="/"><LangText p="navBar" w="home"/></a> </li>
 		<li class="nav_bar_link"><a href="/directory"><LangText p="navBar" w="directory"/></a></li>
+		<li class="nav_bar_link"><a href="/anilistadd">Add an anime from anilist</a></li>
 		<li class="nav_bar_link"><button style="padding:1px 20px;background-color:white; border:1px solid black;border-radius:5px; font-weight:bold; cursor:pointer;" on:click={()=>$language = $language=="en"?"es":"en"}>{$language}</button></li>
 
 

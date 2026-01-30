@@ -69,10 +69,12 @@
     h2 {
       margin-top: 20px;
       margin: 10px;
+      text-align: center;
     }
     .animes_container {
       margin: 10px;
       display: flex;
+      justify-content: center;
       flex-direction: row;
       flex-wrap: wrap;
     }

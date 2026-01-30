@@ -67,8 +67,8 @@ $: shortName = animeData.name.length <= 26
     position: relative;
     margin-right: 20px;
     margin-bottom: 40px;
-    width: 300px;
-    height: 400px;
+    width: 250px;
+    height: 350px;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
