@@ -31,6 +31,7 @@ $: shortName = animeData.name.length <= 26
 <a
   class="container"
   href={`/anime/${animeData._id}`}
+  style={`--saved:${saved && showLikes? "4px 4px 0px green" : "4px 4px 0px black"}`}
   data-sveltekit-preload-data="off"
   on:mouseover={() => (bgPer = 90)}
   on:mouseleave={() => (bgPer = 0)}
@@ -45,7 +46,7 @@ $: shortName = animeData.name.length <= 26
   <Gradient positionValue={bgPer} />
   <div class="data_container">
     <span class="anime_title"
-      >{shortName}</span
+      >{animeData.name}</span
     >
     <div class="chip_container">
       <span class="card_ship">{animeData.studio}</span>
@@ -54,7 +55,7 @@ $: shortName = animeData.name.length <= 26
         <span class="card_ship likes" style={`color:${liked?"green":"white"};border-color:${liked?"green":"white"};`}><HeartFilled style="position:absolute;top:50%; left:3px; transform:translateY(-50%)"/>{formatNumber(animeData.likes)}</span>
         
       {/if}
-      {#if saved}
+      {#if saved && !showLikes}
         <span class="card_ship saved">Saved</span>
       {/if}
     </div>
@@ -77,11 +78,14 @@ $: shortName = animeData.name.length <= 26
     transition: 0.1s;
     cursor: pointer;
   }
+
+
   .container .anime_cover {
     border-radius: 5px;
     width: inherit;
     height: inherit;
     object-fit: cover;
+
     object-position: center;
     transition: 0.1s;
   }
@@ -89,22 +93,30 @@ $: shortName = animeData.name.length <= 26
     transform: scale(1.05);
   }
   .container .anime_title {
-    display: inline-block;
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     color: hsl(0, 0%, 80%);
     font-size: 20px;
     margin-top: 5px;
     font-weight: bold;
+
+    
   }
   .container .data_container {
+    width: 100%;
+
     opacity: 0;
     position: absolute;
     top: 82%;
     margin-left: 8px;
     transition: 0.1s;
     z-index: 4;
-  }
+  } 
+   /* This variable is put because if the name of the studio ship is too large, the saved badge collapse the card UI */
   .container:hover {
-    box-shadow: 4px 4px 0px black;
+    box-shadow:var(--saved) ;
   }
   .container:hover .data_container {
     opacity: 1;
