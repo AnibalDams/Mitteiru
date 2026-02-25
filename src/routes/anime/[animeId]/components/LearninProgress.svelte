@@ -14,8 +14,10 @@
   let displayModal = false;
   export let profileId = "";
   export let animeId = "";
+  export let animeName="";
   export let profileName = "";
   export let mobile = false
+  let notes =learningProgress ? learningProgress.notes : "";
   async function addLearningProgress() {
     try {
       if(value ==0 && selectedScore ==0){
@@ -29,7 +31,7 @@
           understandingProgress: value,
           profileId: profileId,
           animeId: animeId,
-          notes: "",
+          notes: notes,
         },
       );
       toast.success(learningProgress ? "Updated" : "Added");
@@ -68,6 +70,10 @@
     </div>
     <span class="understanding_degree_title">Understanding degree</span>
     <RangeSlider bind:value />
+    <div class="notes">
+      <span class="score_title">Notes</span>
+      <textarea name="notes" id="" bind:value={notes} placeholder={`Place your notes about your undertanding of ${animeName} here...`}></textarea>
+    </div>
   </div>
 </ModalWithActions>
 <span
@@ -182,5 +188,27 @@
     margin-top: 12px;
     font-size: 20px;
     font-weight: bold;
+  }
+  .score .notes{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .score .notes textarea{
+    width: 100%;
+    max-width: 100%;
+    height: 100px;
+    max-height: 200px;
+    padding: 8px;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.1s;
+  }
+  .score .notes textarea:focus{
+    box-shadow: 4px 4px 0px black;
   }
 </style>

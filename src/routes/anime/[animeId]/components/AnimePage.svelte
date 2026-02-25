@@ -174,7 +174,7 @@
     
 
       {#if logged === "si" && profileId.length > 0}
-        <LearninProgress profileId={profileId} learningProgress={learningProgress} profileName={profileName} animeId={dataA.anime._id}/>
+        <LearninProgress profileId={profileId} animeName={dataA.anime.name} learningProgress={learningProgress} profileName={profileName} animeId={dataA.anime._id}/>
         <LikeButton
           {liked}
           {likesCount}
