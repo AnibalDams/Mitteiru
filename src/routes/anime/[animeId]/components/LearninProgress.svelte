@@ -17,7 +17,7 @@
   export let animeName="";
   export let profileName = "";
   export let mobile = false
-  let notes =learningProgress ? learningProgress.notes : "";
+  let notes =learningProgress ? learningProgress.notes  : "";
   async function addLearningProgress() {
     try {
       if(value ==0 && selectedScore ==0){
@@ -190,7 +190,7 @@
     font-weight: bold;
   }
   .score .notes{
-    width: 70%;
+    width: 85%;
     display: flex;
     flex-direction: column;
     align-items: center;
