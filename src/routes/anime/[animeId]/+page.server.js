@@ -13,13 +13,14 @@ export async function load({ cookies, params }) {
     });
     userId = decodedUser.data.user;
   }
+  console.log(`${PUBLIC_API_URL}/anime/${params.animeId}/fullDetails`)
   try {
     const fullData = await axios(`${PUBLIC_API_URL}/anime/${params.animeId}/fullDetails`);
 
     if (fullData.data.anime) {
       const randomnumber =
         Math.round(Math.random() * (fullData.data.similarAnime.animes.length - 1)) + 1 - 1;
-      const similarAnime = fullData.data.similarAnime.animes[randomnumber];
+      const similarAnime = fullData.data.similarAnime.animes;
       const end = performance.now();
       console.log(`Time taken: ${(end - start)/1000} seconds`);
       return {
