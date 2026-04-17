@@ -3,6 +3,7 @@
     import AddToListButton from "./AddToListButton.svelte";
     import MobileEpisodeCard from "./mobileEpisodeCard.svelte";
     import Likes from "../../../../components/Likes.svelte"
+    import LikeButton from "../../../../components/LikeButton.svelte"
   import LearninProgress from "./LearninProgress.svelte";
     import SvelteMarkdown from "svelte-markdown";
     export let data;
@@ -11,6 +12,7 @@
     export let profileName;
     export let animesInList;
     export let profileLists;
+    export let liked;
 
 </script>
 
@@ -31,7 +33,12 @@ style={`background-image: linear-gradient(to top, #fff, transparent),linear-grad
         <span class="extra_info studio">{data.anime.studio}</span>
         <span class="extra_info year">{data.anime.releaseYear}</span>
         <span class="extra_info on_going" style={`background-color:${data.anime.onGoing ===1?"#90EE90":"#ADD8E6"}`}>{data.anime.onGoing===1?"Releasing":"Finished"}</span>
+        {#if profileId && profileId.length>0}
+            
+        <LikeButton liked={liked} animeId={data.anime._id} profileId={profileId} likesCount={data.likes}/>
+        {:else}
         <Likes likesCount={data.likes}/>
+        {/if}
         {#if profileId && profileId.length>0}
             <AddToListButton animeData={data.anime} profileId={profileId} animesInList={animesInList} lists={profileLists}/>
             <LearninProgress mobile={true} learningProgress={learningProgress} animeId={data.anime._id} profileId={profileId} profileName={profileName}/>

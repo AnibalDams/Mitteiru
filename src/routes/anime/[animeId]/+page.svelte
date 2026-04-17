@@ -159,6 +159,7 @@
     {animesInList}
     {profileName}
     {learningProgress}
+    {liked}
      />
   {:else if !isMobile && !loading}
     <Header {logged} {profileImage} name={profileName} />

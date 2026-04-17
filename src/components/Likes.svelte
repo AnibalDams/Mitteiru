@@ -26,6 +26,7 @@ on:click={()=>{
 <style>
   span {
     position: relative;
+
     padding-left: 20px;
     padding-right: 10px;
     padding-top: 5px;
