@@ -1,0 +1,38 @@
+services:
+  sources-browser:
+    build:
+      context: ./Mitteiru-sources-browser
+    container_name: mitteiru-sources-browser
+    restart: unless-stopped
+    # Solo accesible desde loopback del host. No exponer a Internet.
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      PORT: "8787"
+      # Solo local: el sidecar se niega a arrancar fuera de APP_ENV=local.
+      APP_ENV: "local"
+      # Obligatorio: si no se define, el contenedor no arranca.
+      SOURCES_BROWSER_TOKEN: "${SOURCES_BROWSER_TOKEN:?define SOURCES_BROWSER_TOKEN}"
+      ALLOWED_HOSTS: "${SOURCES_ALLOWED_HOSTS:-animeonsen.xyz,jkanime.net}"
+    shm_size: "1gb"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:size=512m
+      - /home/node:size=512m
+    mem_limit: "1g"
+    pids_limit: 256
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8787/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3

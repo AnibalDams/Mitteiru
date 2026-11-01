@@ -1,0 +1,16 @@
+{
+  "name": "mitteiru-sources-browser",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Sidecar de navegador stealth para resolver Cloudflare en el motor de fuentes de Mitteiru.",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "patchright": "^1.49.0"
+  }
+}

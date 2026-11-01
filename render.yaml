@@ -1,0 +1,29 @@
+# Blueprint opcional para Render.
+# La instancia existente puede actualizarse desde el dashboard sin usar el
+# blueprint. Si se activa, Render crea/actualiza el servicio `mitteiru-backend`
+# usando el monorepo y el Dockerfile del backend.
+services:
+  - type: web
+    name: mitteiru-backend
+    runtime: docker
+    dockerContext: ./Mitteiru-backend
+    dockerfilePath: ./Mitteiru-backend/Dockerfile
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SOURCES_ENABLED
+        value: "false"
+      - key: SOURCES_ALLOW_PRIVATE
+        value: "false"
+      - key: TRUST_PROXY
+        value: "1"
+      - key: CORS_ORIGINS
+        value: ""
+      - key: DATABASE
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: PLAYBACK_TOKEN_SECRET
+        sync: false
