@@ -12,10 +12,9 @@ COPY static ./static
 ENV NODE_ENV=production
 ENV PORT=8000
 
-RUN addgroup --system app && adduser --system --ingroup app app \
-    && chown -R app:app /app
+RUN chown -R bun:bun /app
 
-USER app
+USER bun
 
 EXPOSE 8000
 
