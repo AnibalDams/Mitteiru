@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
+  import { goto, invalidateAll } from '$app/navigation';
   import { language, translations } from '$lib/i18n';
   import { api } from '$lib/api/client';
   import AvatarSelector from '$lib/components/profile/AvatarSelector.svelte';
@@ -55,7 +55,9 @@
         return;
       }
 
-      await goto(nextPath ?? '/');
+      // El layout raíz cachea su `load` entre navegaciones cliente: sin
+      // invalidar, el navbar conservaría el perfil anterior hasta recargar.
+      await goto(nextPath ?? '/', { invalidateAll: true });
     } catch {
       pendingProfileId = null;
       toastError(
@@ -109,6 +111,10 @@
   async function handleUpdateProfile() {
     if (!editProfileName.trim() || !editingProfile?._id) return;
 
+    const profileId = editingProfile._id;
+    // Si se editó el perfil activo, el navbar debe reflejar nombre/avatar nuevos.
+    const isActiveProfile = String(profileId) === String(data?.profile?._id ?? '');
+
     isSubmitting = true;
     const res = await api.updateProfile(
       editingProfile._id,
@@ -122,6 +128,10 @@
       editingProfile = null;
       activeView = 'manage';
       toastSuccess(translations.feedback.profileUpdated[currentLang], editProfileName.trim());
+
+      if (isActiveProfile) {
+        await invalidateAll();
+      }
     } else {
       toastError(
         translations.feedback.profileError[currentLang],
