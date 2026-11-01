@@ -1,0 +1,188 @@
+import { writable } from 'svelte/store';
+
+export type Language = 'es' | 'en';
+
+export const language = writable<Language>('es');
+
+/** Idiomas disponibles. El nombre se muestra en su propio idioma. */
+export const languages: { code: Language; label: string; short: string }[] = [
+  { code: 'es', label: 'Español', short: 'ES' },
+  { code: 'en', label: 'English', short: 'EN' }
+];
+
+export const translations = {
+  nav: {
+    home: { es: 'Inicio', en: 'Home' },
+    directory: { es: 'Directorio', en: 'Directory' },
+    myLists: { es: 'Mis Listas', en: 'My Lists' },
+    history: { es: 'Historial', en: 'History' },
+    search: { es: 'Buscar anime...', en: 'Search an anime...' },
+    login: { es: 'Iniciar sesión', en: 'Login' },
+    signup: { es: 'Registrarse', en: 'Sign up' },
+    changeProfile: { es: 'Cambiar de perfil', en: 'Change profile' },
+    logout: { es: 'Cerrar sesión', en: 'Logout' },
+    premium: { es: 'Miembro Premium', en: 'Premium Member' },
+    language: { es: 'Idioma', en: 'Language' },
+    changeLanguage: { es: 'Cambiar idioma', en: 'Change language' }
+  },
+  history: {
+    title: { es: 'Historial de visualización', en: 'Watch History' },
+    subtitle: { es: 'Animes que has visitado recientemente', en: 'Anime you\'ve recently visited' },
+    filter: { es: 'Filtrar por fecha', en: 'Filter by date' },
+    allTime: { es: 'Todo el tiempo', en: 'All time' },
+    last7Days: { es: 'Últimos 7 días', en: 'Last 7 days' },
+    last30Days: { es: 'Últimos 30 días', en: 'Last 30 days' },
+    last90Days: { es: 'Últimos 90 días', en: 'Last 90 days' },
+    customRange: { es: 'Rango personalizado', en: 'Custom range' },
+    from: { es: 'Desde', en: 'From' },
+    to: { es: 'Hasta', en: 'To' },
+    apply: { es: 'Aplicar', en: 'Apply' },
+    clear: { es: 'Limpiar', en: 'Clear' },
+    empty: { es: 'No hay historial de visualización', en: 'No watch history yet' },
+    emptySubtitle: { es: 'Empieza a ver anime para que aparezca aquí tu historial', en: 'Start watching anime to see your history here' },
+    watchedOn: { es: 'Visto el', en: 'Watched on' },
+    episode: { es: 'Episodio', en: 'Episode' },
+    noResults: { es: 'No se encontraron resultados para el filtro seleccionado', en: 'No results found for the selected filter' }
+  },
+  hero: {
+    watchNow: { es: 'Ver ahora', en: 'Watch now' },
+    moreDetails: { es: 'Más detalles', en: 'More details' }
+  },
+  home: {
+    latestReleases: { es: 'Últimos lanzamientos', en: 'Watch our latest releases!' },
+    mostPopular: { es: 'Los más populares', en: 'Most popular anime' },
+    mostLiked: { es: 'Los más queridos', en: 'Most liked anime' },
+    viewAll: { es: 'Ver todos', en: 'View all' }
+  },
+  directory: {
+    title: { es: 'Directorio de Anime', en: 'Anime Directory' },
+    subtitle: { es: 'Explorá el catálogo completo y filtrá por género, estudio o año.', en: 'Browse the full catalog and filter by genre, studio or year.' },
+    genre: { es: 'Género', en: 'Genre' },
+    allGenres: { es: 'Todos los géneros', en: 'All Genres' },
+    status: { es: 'Estado', en: 'Status' },
+    allStatuses: { es: 'Todos los estados', en: 'All Statuses' },
+    finished: { es: 'Finalizado', en: 'Finished' },
+    releasing: { es: 'En emisión', en: 'Releasing' },
+    year: { es: 'Año', en: 'Year' },
+    allYears: { es: 'Todos los años', en: 'All Years' },
+    studio: { es: 'Estudio', en: 'Studio' },
+    allStudios: { es: 'Todos los estudios', en: 'All Studios' },
+    sort: { es: 'Ordenar:', en: 'Sort:' },
+    popular: { es: 'Más popular', en: 'Most Popular' },
+    score: { es: 'Mejor valorados', en: 'Highest Score' },
+    newest: { es: 'Más recientes', en: 'Newest' },
+    previous: { es: 'Anterior', en: 'Previous' },
+    next: { es: 'Siguiente', en: 'Next' },
+    noResults: { es: 'No se encontraron animes con los filtros seleccionados', en: 'No anime found with selected filters' },
+    resultsFound: { es: 'resultados encontrados', en: 'results found' },
+    page: { es: 'Página', en: 'Page' },
+    of: { es: 'de', en: 'of' }
+  },
+  animePage: {
+    episodes: { es: 'Episodios', en: 'Episodes' },
+    reviews: { es: 'Reseñas', en: 'Reviews' },
+    selectList: { es: 'Selecciona lista para añadir', en: 'Select a list to add' },
+    saveListCtaLogin: { es: 'Iniciá sesión', en: 'Log in' },
+    saveListCtaProfile: { es: 'Elegí un perfil', en: 'Pick a profile' },
+    saveListCtaHint: { es: 'para guardar en una lista', en: 'to save to a list' },
+    addFavorite: { es: 'Añadir a favoritos', en: 'Add to Favorites' },
+    inFavorites: { es: 'En Favoritos', en: 'In Favorites' },
+    addReview: { es: 'Escribir reseña', en: 'Write a review' },
+    readFullReview: { es: 'Leer reseña completa', en: 'Read full review' },
+    noEpisodes: { es: 'No hay episodios disponibles', en: 'No episodes available' },
+    noReviews: { es: 'Aún no hay reseñas para este anime', en: 'No reviews yet for this anime' },
+    slides: { es: 'Diapositivas', en: 'Slides' },
+    grid: { es: 'Cuadrícula', en: 'Grid' }
+  },
+  reviewPage: {
+    newFor: { es: 'Escribiendo una reseña para', en: 'Writing a review for' },
+    publishingAs: { es: 'Publicando como', en: 'Publishing as' },
+    title: { es: 'Título de la reseña', en: 'Review title' },
+    titlePlaceholder: { es: 'ej. ¡El mejor anime de la temporada!', en: 'e.g. The best anime of the season!' },
+    body: { es: 'Contenido (Markdown)', en: 'Content (Markdown)' },
+    bodyPlaceholder: { es: 'Escribe tu opinión detallada... Usa **negrita**, *cursiva*, listas, citas y más.', en: 'Write your detailed opinion... Use **bold**, *italic*, lists, quotes and more.' },
+    words: { es: 'palabras', en: 'words' },
+    chars: { es: 'caracteres', en: 'characters' },
+    preview: { es: 'Vista previa', en: 'Preview' },
+    previewPlaceholder: { es: 'Empieza a escribir para ver la vista previa en vivo.', en: 'Start typing to see a live preview.' },
+    publish: { es: 'Publicar reseña', en: 'Publish review' },
+    publishing: { es: 'Publicando', en: 'Publishing' },
+    cancel: { es: 'Cancelar', en: 'Cancel' },
+    notFound: { es: 'Reseña no encontrada', en: 'Review not found' },
+    backToReviews: { es: 'Volver a las reseñas', en: 'Back to reviews' },
+    viewAnime: { es: 'Ver página del anime', en: 'View anime page' }
+  },
+  lists: {
+    newList: { es: 'Nueva lista', en: 'New List' },
+    createListTitle: { es: 'Crear nueva lista', en: 'Create new list' },
+    createListSubtitle: { es: 'Organiza tus animes exactamente como quieras.', en: 'Organize your anime exactly how you want.' },
+    listName: { es: 'Nombre de la lista', en: 'List Name' },
+    listPlaceholder: { es: 'ej. Joyas ocultas, Maratón de fin de semana...', en: 'e.g. Masterpieces, Weekend binge...' },
+    privacy: { es: 'Privacidad', en: 'Privacy' },
+    public: { es: 'Pública', en: 'Public' },
+    private: { es: 'Privada', en: 'Private' },
+    createBtn: { es: 'Crear Lista', en: 'Create List' },
+    emptyList: { es: 'Esta lista está vacía actualmente', en: 'This list is currently empty' },
+    watching: { es: 'Viendo', en: 'Watching' },
+    completed: { es: 'Completados', en: 'Completed' },
+    planning: { es: 'Por ver', en: 'Planning' },
+    paused: { es: 'En pausa', en: 'Paused' },
+    dropped: { es: 'Abandonados', en: 'Dropped' }
+  },
+  profile: {
+    whosWatching: { es: '¿Quién está viendo?', en: "Who's watching?" },
+    addProfile: { es: 'Añadir perfil', en: 'Add Profile' },
+    manageProfiles: { es: 'Gestionar perfiles', en: 'Manage Profiles' },
+    createTitle: { es: 'Crear un perfil', en: 'Create a profile' },
+    namePlaceholder: { es: '¿Quién está viendo ahora?', en: "Who's watching now?" },
+    chooseAvatar: { es: 'Elige un avatar', en: 'Choose an avatar' },
+    cancel: { es: 'Cancelar', en: 'Cancel' },
+    createBtn: { es: 'Crear Perfil', en: 'Create Profile' }
+  },
+  auth: {
+    loginTitle: { es: 'Bienvenido de nuevo', en: 'Welcome back' },
+    loginSubtitle: { es: 'Ingresa tus credenciales para acceder a Mitteiru', en: 'Enter your credentials to access Mitteiru' },
+    signupTitle: { es: 'Crea tu cuenta', en: 'Create your account' },
+    signupSubtitle: { es: 'Empieza a disfrutar de miles de episodios', en: 'Start enjoying thousands of episodes' },
+    username: { es: 'Nombre de usuario', en: 'Username' },
+    email: { es: 'Correo electrónico', en: 'Email' },
+    password: { es: 'Contraseña', en: 'Password' },
+    noAccount: { es: '¿No tienes una cuenta?', en: "Don't have an account?" },
+    hasAccount: { es: '¿Ya tienes una cuenta?', en: 'Already have an account?' },
+    submitLogin: { es: 'Iniciar Sesión', en: 'Log In' },
+    submitSignup: { es: 'Registrarse', en: 'Sign Up' },
+    invalidCredentials: { es: 'Correo o contraseña incorrectos', en: 'Invalid email or password' }
+  },
+  feedback: {
+    updating: { es: 'Actualizando…', en: 'Updating…' },
+    searching: { es: 'Buscando…', en: 'Searching…' },
+    retry: { es: 'Reintentar', en: 'Retry' },
+    networkError: { es: 'No pudimos conectar con el servidor', en: 'We could not reach the server' },
+    listCreated: { es: 'Lista creada', en: 'List created' },
+    listCreateError: { es: 'No se pudo crear la lista', en: 'Could not create the list' },
+    savedToList: { es: 'Guardado en tu lista', en: 'Saved to your list' },
+    removedFromList: { es: 'Quitado de la lista', en: 'Removed from the list' },
+    movedToList: { es: 'Anime movido de lista', en: 'Anime moved to another list' },
+    moveError: { es: 'No se pudo mover el anime', en: 'Could not move the anime' },
+    listUpdateError: { es: 'No se pudo actualizar la lista', en: 'Could not update the list' },
+    favoriteAdded: { es: 'Añadido a favoritos', en: 'Added to favorites' },
+    favoriteRemoved: { es: 'Quitado de favoritos', en: 'Removed from favorites' },
+    favoriteError: { es: 'No se pudo actualizar el favorito', en: 'Could not update the favorite' },
+    profileCreated: { es: 'Perfil creado', en: 'Profile created' },
+    profileUpdated: { es: 'Perfil actualizado', en: 'Profile updated' },
+    profileDeleted: { es: 'Perfil eliminado', en: 'Profile deleted' },
+    profileError: { es: 'No se pudo actualizar el perfil', en: 'Could not update the profile' },
+    profileSelected: { es: 'Perfil seleccionado', en: 'Profile selected' },
+    commentPosted: { es: 'Comentario publicado', en: 'Comment posted' },
+    commentError: { es: 'No se pudo publicar el comentario', en: 'Could not post the comment' },
+    reviewPublished: { es: 'Reseña publicada', en: 'Review published' },
+    reviewError: { es: 'No se pudo publicar la reseña', en: 'Could not publish the review' },
+    animeCreated: { es: 'Anime registrado', en: 'Anime created' },
+    animeCreateError: { es: 'No se pudo guardar el anime', en: 'Could not save the anime' },
+    episodeCreated: { es: 'Episodio añadido', en: 'Episode added' },
+    episodeCreateError: { es: 'No se pudo añadir el episodio', en: 'Could not add the episode' },
+    importDone: { es: 'Importación completada', en: 'Import finished' },
+    importError: { es: 'La importación falló', en: 'The import failed' },
+    removeError: { es: 'No se pudo quitar el anime', en: 'Could not remove the anime' }
+  }
+};

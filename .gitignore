@@ -1,12 +1,158 @@
-.DS_Store
-node_modules
+# ==========================================
+# ROOT .gitignore - Mitteiru 2.0 Monorepo
+# ==========================================
+
+# ---------------------------------------------------------------------
+# Dependencies (all projects)
+# ---------------------------------------------------------------------
+node_modules/
+jspm_packages/
+web_modules/
+
+# ---------------------------------------------------------------------
+# Build Outputs
+# ---------------------------------------------------------------------
+# SvelteKit / Vite
+.build/
+.output/
+.svelte-kit/
 /build
-/.svelte-kit
 /package
+dist/
+
+# Cloudflare Workers / Wrangler
+.wrangler/
+.wrangler-state/
+
+# Vercel / Netlify
+.vercel
+.netlify
+
+# ---------------------------------------------------------------------
+# Environment Files (SECRETS - NEVER COMMIT)
+# ---------------------------------------------------------------------
 .env
 .env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 !.env.example
-.vercel
-.output
+!.env.test
+
+# ---------------------------------------------------------------------
+# IDE / Editor
+# ---------------------------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# ---------------------------------------------------------------------
+# OS
+# ---------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ---------------------------------------------------------------------
+# Logs
+# ---------------------------------------------------------------------
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ---------------------------------------------------------------------
+# Cache / Temp
+# ---------------------------------------------------------------------
+.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+.stylelintcache
+.pnp.*
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Test
+.nyc_output/
+
+# ---------------------------------------------------------------------
+# Project Specific
+# ---------------------------------------------------------------------
+# Secretos locales / perfiles de navegador / bases de datos
+secrets/
+**/secrets/
+*.sqlite
+*.sqlite3
+json.json
+.openchamber/
+.playwright-mcp/
+
+# Mitteiru (SvelteKit)
+Mitteiru/.svelte-kit/
+Mitteiru/build/
+Mitteiru/.output/
+Mitteiru/node_modules/
+Mitteiru/.env*
+!Mitteiru/.env.example
+
+# mitteiru-frontend (SvelteKit)
+mitteiru-frontend/.svelte-kit/
+mitteiru-frontend/build/
+mitteiru-frontend/.output/
+mitteiru-frontend/node_modules/
+mitteiru-frontend/.env*
+!mitteiru-frontend/.env.example
+!mitteiru-frontend/.env.test
+
+# Mitteiru-backend (Cloudflare Workers)
+Mitteiru-backend/.wrangler/
+Mitteiru-backend/.wrangler-state/
+Mitteiru-backend/node_modules/
+Mitteiru-backend/dist/
+Mitteiru-backend/.env*
+!Mitteiru-backend/.env.example
+
+# ---------------------------------------------------------------------
+# Misc
+# ---------------------------------------------------------------------
+*.tgz
+*.tar.gz
+.lock-wscript
+.lib-cov
+.grunt
+bower_components
+web_modules
+.svelte-kit/
+
+# Lockfiles - KEEP THESE (commit them for reproducible builds)
+# package-lock.json
+# pnpm-lock.yaml
+# yarn.lock
+# bun.lock

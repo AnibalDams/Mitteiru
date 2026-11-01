@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directory - Mitteiru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .dropdown-enter {
+            opacity: 0;
+            transform: scale(0.95) translateY(-10px);
+            visibility: hidden;
+        }
+
+        .dropdown-enter-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            visibility: visible;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-950 text-white min-h-screen selection:bg-indigo-500 selection:text-white pb-20">
+
+    <!-- Navbar Sticky -->
+    <nav class="fixed w-full z-50 top-0 backdrop-blur-md bg-gray-950/80 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="#" class="text-2xl font-bold tracking-tighter text-white">Mitteiru</a>
+                <div class="hidden md:flex gap-6 text-sm font-medium text-gray-300">
+                    <a href="#" class="hover:text-white transition-colors">Home</a>
+                    <a href="#" class="text-indigo-400 font-semibold transition-colors">Directory</a>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <!-- Buscador principal -->
+                <div class="relative hidden sm:block">
+                    <input type="text" placeholder="Search an anime..."
+                        class="bg-white/5 border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder-gray-500 text-white">
+                    <svg class="w-4 h-4 absolute left-4 top-2.5 text-gray-500" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+
+                <!-- Menú de Avatar Interactivo -->
+                <div class="relative">
+                    <img id="avatar-btn" src="https://i.pravatar.cc/150?img=32" alt="User"
+                        class="w-10 h-10 rounded-full border-2 border-indigo-500 object-cover cursor-pointer hover:scale-105 transition-transform">
+
+                    <div id="avatar-dropdown"
+                        class="absolute right-0 mt-3 w-56 bg-gray-900/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] py-2 dropdown-enter z-50 origin-top-right">
+                        <div class="px-4 py-3 border-b border-white/10 mb-2">
+                            <p class="text-sm font-bold text-white truncate">Gonzalo</p>
+                            <p class="text-xs text-gray-400 truncate">Premium Member</p>
+                        </div>
+                        <a href="#"
+                            class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors">My
+                            list</a>
+                        <a href="#"
+                            class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors">History</a>
+                        <a href="#"
+                            class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors">Change
+                            Profile</a>
+                        <div class="h-px bg-white/10 my-2"></div>
+                        <a href="#"
+                            class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-7xl mx-auto px-6 pt-32">
+
+        <h1 class="text-4xl font-extrabold tracking-tight text-white mb-8">Anime Directory</h1>
+
+        <!-- Barra de Filtros Avanzados -->
+        <div
+            class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-10 flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex flex-wrap gap-4 items-center flex-1">
+                <!-- Filtro de Género -->
+                <select
+                    class="bg-gray-900/80 border border-white/10 text-gray-300 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer">
+                    <option value="" disabled selected>Genre</option>
+                    <option value="action">Action</option>
+                    <option value="drama">Drama</option>
+                    <option value="slice-of-life">Slice of Life</option>
+                    <option value="music">Music</option>
+                </select>
+
+                <!-- Filtro de Estado -->
+                <select
+                    class="bg-gray-900/80 border border-white/10 text-gray-300 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer">
+                    <option value="" disabled selected>Status</option>
+                    <option value="finished">Finished</option>
+                    <option value="releasing">Releasing</option>
+                </select>
+
+                <!-- Filtro de Año -->
+                <select
+                    class="bg-gray-900/80 border border-white/10 text-gray-300 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer">
+                    <option value="" disabled selected>Year</option>
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2022">2022</option>
+                </select>
+            </div>
+
+            <!-- Ordenar por -->
+            <div class="flex items-center gap-2">
+                <span class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Sort:</span>
+                <select
+                    class="bg-gray-900/80 border border-white/10 text-gray-300 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer">
+                    <option value="popular">Most Popular</option>
+                    <option value="score">Highest Score</option>
+                    <option value="newest">Newest</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Grid de Animes -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12">
+
+            <!-- Card con estado de guardado (Ej: En lista "Watching") -->
+            <div
+                class="group relative rounded-2xl overflow-hidden aspect-[2/3] cursor-pointer shadow-lg bg-gray-900 border border-white/10">
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop"
+                    alt="Bocchi the Rock"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+
+                <!-- Badge indicador de lista activa -->
+                <div
+                    class="absolute top-3 left-3 bg-indigo-600/90 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md flex items-center gap-1.5 border border-white/10">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Watching
+                </div>
+
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent pt-20 pb-4 px-4 flex flex-col justify-end">
+                    <span class="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider mb-0.5">2022 •
+                        CloverWorks</span>
+                    <h3
+                        class="text-white font-bold text-base leading-snug line-clamp-1 group-hover:text-indigo-300 transition-colors">
+                        Bocchi the Rock!</h3>
+                </div>
+            </div>
+
+            <!-- Card sin guardar (Anime regular del directorio) -->
+            <div
+                class="group relative rounded-2xl overflow-hidden aspect-[2/3] cursor-pointer shadow-lg bg-gray-900 border border-white/10">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop"
+                    alt="Anime"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent pt-20 pb-4 px-4 flex flex-col justify-end">
+                    <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-0.5">2024 • Wit
+                        Studio</span>
+                    <h3
+                        class="text-white font-bold text-base leading-snug line-clamp-1 group-hover:text-indigo-300 transition-colors">
+                        Cyber Odyssey</h3>
+                </div>
+            </div>
+
+            <!-- Card guardada en otra lista (Ej: Completed) -->
+            <div
+                class="group relative rounded-2xl overflow-hidden aspect-[2/3] cursor-pointer shadow-lg bg-gray-900 border border-white/10">
+                <img src="https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=600&auto=format&fit=crop"
+                    alt="Anime"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+
+                <!-- Badge indicador de lista "Completed" -->
+                <div
+                    class="absolute top-3 left-3 bg-gray-900/80 backdrop-blur-md text-gray-300 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md border border-white/10 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                    Completed
+                </div>
+
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent pt-20 pb-4 px-4 flex flex-col justify-end">
+                    <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-0.5">1988 • TMS
+                        Entertainment</span>
+                    <h3
+                        class="text-white font-bold text-base leading-snug line-clamp-1 group-hover:text-indigo-300 transition-colors">
+                        Akira</h3>
+                </div>
+            </div>
+
+            <!-- Card adicional 4 -->
+            <div
+                class="group relative rounded-2xl overflow-hidden aspect-[2/3] cursor-pointer shadow-lg bg-gray-900 border border-white/10">
+                <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=600&auto=format&fit=crop"
+                    alt="Anime"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent pt-20 pb-4 px-4 flex flex-col justify-end">
+                    <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-0.5">2023 •
+                        MAPPA</span>
+                    <h3
+                        class="text-white font-bold text-base leading-snug line-clamp-1 group-hover:text-indigo-300 transition-colors">
+                        Neon Horizon</h3>
+                </div>
+            </div>
+
+            <!-- Card adicional 5 -->
+            <div
+                class="group relative rounded-2xl overflow-hidden aspect-[2/3] cursor-pointer shadow-lg bg-gray-900 border border-white/10">
+                <img src="https://images.unsplash.com/photo-1560972550-aba3456b5564?q=80&w=600&auto=format&fit=crop"
+                    alt="Anime"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent pt-20 pb-4 px-4 flex flex-col justify-end">
+                    <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-0.5">2021 • Kyoto
+                        Animation</span>
+                    <h3
+                        class="text-white font-bold text-base leading-snug line-clamp-1 group-hover:text-indigo-300 transition-colors">
+                        Sound! Euphonium</h3>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Paginación -->
+        <div class="flex items-center justify-center gap-2">
+            <button
+                class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold disabled:opacity-30"
+                disabled>Previous</button>
+            <button
+                class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-bold text-sm shadow-lg shadow-indigo-600/30">1</button>
+            <button
+                class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all text-sm font-semibold">2</button>
+            <button
+                class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all text-sm font-semibold">3</button>
+            <span class="text-gray-600 px-2">...</span>
+            <button
+                class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all text-sm font-semibold">12</button>
+            <button
+                class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-all text-sm font-semibold">Next</button>
+        </div>
+    </main>
+
+    <script>
+        // Lógica del dropdown del avatar
+        const avatarBtn = document.getElementById('avatar-btn');
+        const avatarDropdown = document.getElementById('avatar-dropdown');
+
+        avatarBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            avatarDropdown.classList.toggle('dropdown-enter-active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!avatarBtn.contains(e.target) && !avatarDropdown.contains(e.target)) {
+                avatarDropdown.classList.remove('dropdown-enter-active');
+            }
+        });
+    </script>
+</body>
+
+</html>

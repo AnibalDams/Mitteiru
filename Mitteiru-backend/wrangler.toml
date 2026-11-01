@@ -1,0 +1,4 @@
+name = "mitteirubackend"
+main = "./index.ts"
+compatibility_date = "2025-04-03" # Usa una fecha reciente
+compatibility_flags = [ "nodejs_compat" ] # ESTO ES VITAL

@@ -1,0 +1,383 @@
+@import 'tailwindcss';
+
+/*
+ * Sistema de diseño de Mitteiru.
+ * Los tokens son la fuente de verdad para superficies, acento, ritmo y
+ * movimiento. Las clases existentes se migran de forma progresiva; los
+ * componentes nuevos consumen estos tokens directamente.
+ */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Superficies y texto */
+  --color-surface: #030712;
+  --color-surface-raised: #0b1220;
+  --color-surface-overlay: #111827;
+  --color-ink: #f9fafb;
+  --color-ink-muted: #9ca3af;
+  --color-ink-subtle: #6b7280;
+  --color-line: rgb(255 255 255 / 0.1);
+  --color-line-strong: rgb(255 255 255 / 0.2);
+
+  /* Acento de marca */
+  --color-accent: #4f46e5;
+  --color-accent-hover: #6366f1;
+  --color-accent-soft: rgb(79 70 229 / 0.16);
+  --color-accent-2: #ec4899;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+
+  /* Radios y elevación */
+  --radius-card: 1rem;
+  --radius-panel: 1.5rem;
+  --radius-pill: 9999px;
+  --shadow-card: 0 18px 40px -18px rgb(0 0 0 / 0.7);
+  --shadow-panel: 0 24px 70px rgb(0 0 0 / 0.65);
+  --shadow-glow: 0 0 40px rgb(79 70 229 / 0.22);
+
+  /* Curvas y duraciones */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out-quint: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-quint: cubic-bezier(0.4, 0, 1, 1);
+  --duration-fast: 160ms;
+  --duration-base: 220ms;
+  --duration-slow: 320ms;
+  --duration-page: 260ms;
+  --duration-reveal: 600ms;
+
+  /* Animaciones reutilizables */
+  --animate-fade-in: fade-in 220ms cubic-bezier(0.2, 0, 0, 1) both;
+  --animate-scale-in: scale-in 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-slide-up: slide-up 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-route-enter: route-enter 260ms cubic-bezier(0.2, 0, 0, 1) both;
+  --animate-heart-pop: heart-pop 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-hero-zoom: hero-zoom 28s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes route-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes heart-pop {
+    0% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.28);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1.02);
+    }
+    to {
+      transform: scale(1.1);
+    }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Foco consistente para teclado; los inputs con anillo propio lo conservan. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-hover);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    background: rgb(255 255 255 / 0.05);
+    border: 1px solid var(--color-line);
+    backdrop-filter: blur(18px);
+  }
+
+  .card-surface {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+
+  .skeleton {
+    background-image: linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0.04) 25%,
+      rgb(255 255 255 / 0.09) 37%,
+      rgb(255 255 255 / 0.04) 63%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+
+  .card-enter {
+    /* `backwards` mantiene el estado inicial durante el delay y libera el
+       transform al terminar, para que el hover pueda elevar la card. */
+    animation: card-in 420ms var(--ease-out-quint) backwards;
+    animation-delay: calc(var(--stagger, 0) * 35ms);
+  }
+
+  .hero-zoom {
+    animation: var(--animate-hero-zoom);
+    will-change: transform;
+  }
+
+  .route-enter {
+    animation: var(--animate-route-enter);
+  }
+
+  .toast-timer {
+    animation-name: toast-timer;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  .toast-item:hover .toast-timer {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes toast-timer {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * Card de anime: elevación, sombra y borde comparten un mismo ritmo para que
+ * el hover no se sienta como dos animaciones compitiendo. Sin capa para poder
+ * pisar las utilidades `border-*` y `shadow-*`.
+ */
+.anime-card {
+  transition:
+    transform 460ms var(--ease-out-quint),
+    box-shadow 460ms var(--ease-out-quint),
+    border-color 300ms var(--ease-standard);
+}
+
+.anime-card-media {
+  transition: transform 700ms var(--ease-out-quint);
+}
+
+.anime-card-heart {
+  transform-origin: center;
+  transition: transform 350ms var(--ease-out-quint);
+}
+
+.likes-pill {
+  transition:
+    background-color 300ms var(--ease-standard),
+    border-color 300ms var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .anime-card:hover {
+    transform: translate3d(0, -4px, 0);
+    border-color: rgb(99 102 241 / 0.42);
+    box-shadow:
+      0 24px 50px -20px rgb(0 0 0 / 0.88),
+      0 0 34px rgb(79 70 229 / 0.16);
+  }
+
+  .anime-card:hover .anime-card-media {
+    transform: scale(1.035);
+  }
+
+  .anime-card:hover .anime-card-heart {
+    transform: scale(1.14);
+  }
+
+  .anime-card:hover .likes-pill {
+    border-color: rgb(244 63 94 / 0.42);
+    background-color: rgb(3 7 18 / 0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anime-card:hover {
+    transform: none;
+  }
+
+  .anime-card:hover .anime-card-media {
+    transform: none;
+  }
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom scrollbar utility */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.8);
+}
+
+/*
+ * View Transitions: la navbar se conserva entre páginas para que no participe
+ * del crossfade y no "salte" al navegar.
+ */
+nav[data-site-navbar] {
+  view-transition-name: site-navbar;
+}
+
+::view-transition-old(site-navbar),
+::view-transition-new(site-navbar) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: vt-fade-out 160ms var(--ease-in-quint) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: vt-fade-in 220ms var(--ease-out-quint) both;
+  }
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/*
+ * Movimiento reducido: se apagan los desplazamientos y escalas decorativas.
+ * Los spinners conservan su animación porque son información de estado.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .card-enter,
+  .hero-zoom,
+  .route-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .skeleton {
+    animation: none !important;
+  }
+
+  .motion-essential {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
+  }
+}

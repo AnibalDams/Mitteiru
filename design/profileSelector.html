@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mitteiru - Who's watching?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Scrollbar estilizado para la grilla de avatares */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            rounded: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.8);
+        }
+
+        /* Clases de utilidad para las transiciones de vista */
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.4s ease-out;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gray-950 text-white min-h-screen relative overflow-hidden flex items-center justify-center selection:bg-indigo-500 selection:text-white">
+
+    <!-- Fondos abstractos para romper el color sólido -->
+    <div
+        class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-[-10%] right-[-10%] w-[30vw] h-[30vw] bg-purple-600/20 rounded-full blur-[100px] pointer-events-none">
+    </div>
+
+    <div class="w-full max-w-6xl px-6 relative z-10">
+
+        <!-- VISTA 1: SELECCIÓN DE PERFIL -->
+        <div id="view-selection"
+            class="flex flex-col items-center transition-all duration-500 opacity-100 transform translate-y-0">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-12 text-white drop-shadow-lg">Who's
+                watching?</h1>
+
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                <!-- Perfil Existente -->
+                <div class="group cursor-pointer flex flex-col items-center gap-4">
+                    <div
+                        class="w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden border-2 border-transparent group-hover:border-indigo-500 group-hover:scale-105 transition-all duration-300 shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=300&auto=format&fit=crop"
+                            alt="Profile" class="w-full h-full object-cover">
+                    </div>
+                    <span
+                        class="text-gray-400 font-medium group-hover:text-white transition-colors text-lg">Gonzalo</span>
+                </div>
+
+                <!-- Perfil Existente 2 -->
+                <div class="group cursor-pointer flex flex-col items-center gap-4">
+                    <div
+                        class="w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden border-2 border-transparent group-hover:border-indigo-500 group-hover:scale-105 transition-all duration-300 shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=300&auto=format&fit=crop"
+                            alt="Profile" class="w-full h-full object-cover">
+                    </div>
+                    <span
+                        class="text-gray-400 font-medium group-hover:text-white transition-colors text-lg">Guest</span>
+                </div>
+
+                <!-- Botón Añadir Perfil -->
+                <div id="btn-add-profile" class="group cursor-pointer flex flex-col items-center gap-4">
+                    <div
+                        class="w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center group-hover:bg-white/10 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300">
+                        <svg class="w-12 h-12 text-gray-400 group-hover:text-white transition-colors" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="text-gray-400 font-medium group-hover:text-white transition-colors text-lg">Add
+                        Profile</span>
+                </div>
+            </div>
+
+            <button
+                class="mt-16 px-6 py-2 border border-gray-600 text-gray-400 rounded-full hover:border-white hover:text-white transition-all text-sm uppercase tracking-widest font-semibold">Manage
+                Profiles</button>
+        </div>
+
+        <!-- VISTA 2: CREACIÓN DE PERFIL (Oculta por defecto) -->
+        <div id="view-creation"
+            class="hidden flex-col items-center w-full max-w-4xl mx-auto transition-all duration-500 opacity-0 transform translate-y-10">
+            <h2 class="text-3xl font-bold mb-8 text-white">Create a profile</h2>
+
+            <!-- Contenedor principal de creación -->
+            <div
+                class="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl flex flex-col items-center">
+
+                <!-- Input de Nombre -->
+                <div class="w-full max-w-md mb-10">
+                    <input type="text" id="profile-name" placeholder="Who's watching now?"
+                        class="w-full bg-gray-900/50 border border-white/20 rounded-xl px-6 py-4 text-center text-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-inner">
+                </div>
+
+                <!-- Selección de Avatar -->
+                <div class="w-full">
+                    <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-4">Choose an avatar</h3>
+
+                    <!-- Grilla scrolleable -->
+                    <div
+                        class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 max-h-[40vh] overflow-y-auto custom-scrollbar pr-2 pb-4">
+
+                        <!-- Ítems de Avatar generados dinámicamente -->
+                        <!-- Usamos imágenes genéricas de Unsplash simulando animes -->
+                        <img src="https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=200&auto=format&fit=crop"
+                            class="avatar-option w-full aspect-square object-cover rounded-xl cursor-pointer border-4 border-transparent hover:border-white/50 transition-all opacity-80 hover:opacity-100">
+                        <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=200&auto=format&fit=crop"
+                            class="avatar-option w-full aspect-square object-cover rounded-xl cursor-pointer border-4 border-transparent hover:border-white/50 transition-all opacity-80 hover:opacity-100">
+                        <img src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=200&auto=format&fit=crop"
+                            class="avatar-option w-full aspect-square object-cover rounded-xl cursor-pointer border-4 border-transparent hover:border-white/50 transition-all opacity-80 hover:opacity-100">
+                        <img src="https://images.unsplash.com/photo-1560972550-aba3456b5564?q=80&w=200&auto=format&fit=crop"
+                            class="avatar-option w-full aspect-square object-cover rounded-xl cursor-pointer border-4 border-transparent hover:border-white/50 transition-all opacity-80 hover:opacity-100">
+                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop"
+                            class="avatar-option w-full aspect-square object-cover rounded-xl cursor-pointer border-4 border-transparent hover:border-white/50 transition-all opacity-80 hover:opacity-100">
+                        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=200&auto=format&fit=crop"
+                            class="avatar-option w-full aspect-square object-cover rounded-xl cursor-pointer border-4 border-transparent hover:border-white/50 transition-all opacity-80 hover:opacity-100">
+                        <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=200&auto=format&fit=crop"
+                            class="avatar-option w-full aspect-square object-cover rounded-xl cursor-pointer border-4 border-transparent hover:border-white/50 transition-all opacity-80 hover:opacity-100">
+                        <img src="https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=200&auto=format&fit=crop"
+                            class="avatar-option w-full aspect-square object-cover rounded-xl cursor-pointer border-4 border-transparent hover:border-white/50 transition-all opacity-80 hover:opacity-100">
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="flex gap-4 mt-8 w-full max-w-md">
+                    <button id="btn-cancel"
+                        class="flex-1 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold transition-all">Cancel</button>
+                    <button
+                        class="flex-1 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold shadow-lg shadow-indigo-600/30 transition-all">Create
+                        Profile</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Lógica de Navegación entre vistas
+        const viewSelection = document.getElementById('view-selection');
+        const viewCreation = document.getElementById('view-creation');
+        const btnAddProfile = document.getElementById('btn-add-profile');
+        const btnCancel = document.getElementById('btn-cancel');
+
+        function showCreationView() {
+            // Ocultar selección
+            viewSelection.classList.remove('opacity-100', 'translate-y-0');
+            viewSelection.classList.add('opacity-0', 'translate-y-10');
+
+            setTimeout(() => {
+                viewSelection.classList.add('hidden');
+                viewSelection.classList.remove('flex');
+
+                // Mostrar creación
+                viewCreation.classList.remove('hidden');
+                viewCreation.classList.add('flex');
+
+                // Trigger reflow para la animación
+                void viewCreation.offsetWidth;
+
+                viewCreation.classList.remove('opacity-0', 'translate-y-10');
+                viewCreation.classList.add('opacity-100', 'translate-y-0');
+            }, 300); // Esperar a que termine la animación
+        }
+
+        function showSelectionView() {
+            // Ocultar creación
+            viewCreation.classList.remove('opacity-100', 'translate-y-0');
+            viewCreation.classList.add('opacity-0', 'translate-y-10');
+
+            setTimeout(() => {
+                viewCreation.classList.add('hidden');
+                viewCreation.classList.remove('flex');
+
+                // Mostrar selección
+                viewSelection.classList.remove('hidden');
+                viewSelection.classList.add('flex');
+
+                // Trigger reflow
+                void viewSelection.offsetWidth;
+
+                viewSelection.classList.remove('opacity-0', 'translate-y-10');
+                viewSelection.classList.add('opacity-100', 'translate-y-0');
+            }, 300);
+        }
+
+        btnAddProfile.addEventListener('click', showCreationView);
+        btnCancel.addEventListener('click', showSelectionView);
+
+        // Lógica de selección de Avatar
+        const avatars = document.querySelectorAll('.avatar-option');
+        avatars.forEach(avatar => {
+            avatar.addEventListener('click', () => {
+                // Limpiar selección previa
+                avatars.forEach(a => {
+                    a.classList.remove('border-indigo-500', 'opacity-100', 'scale-105');
+                    a.classList.add('border-transparent', 'opacity-80');
+                });
+
+                // Aplicar estilos al seleccionado
+                avatar.classList.remove('border-transparent', 'opacity-80');
+                avatar.classList.add('border-indigo-500', 'opacity-100', 'scale-105');
+            });
+        });
+    </script>
+</body>
+
+</html>

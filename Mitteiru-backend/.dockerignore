@@ -1,0 +1,16 @@
+node_modules
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+static/*.mp4
+static/*.mkv
+static/videos
+coverage
+dist
+*.log
+scripts
+README.md
+Dockerfile
+.dockerignore
