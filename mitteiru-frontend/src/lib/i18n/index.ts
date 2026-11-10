@@ -23,7 +23,18 @@ export const translations = {
     logout: { es: 'Cerrar sesión', en: 'Logout' },
     premium: { es: 'Miembro Premium', en: 'Premium Member' },
     language: { es: 'Idioma', en: 'Language' },
-    changeLanguage: { es: 'Cambiar idioma', en: 'Change language' }
+    changeLanguage: { es: 'Cambiar idioma', en: 'Change language' },
+    searchTab: { es: 'Buscar', en: 'Search' },
+    profileTab: { es: 'Perfil', en: 'Profile' },
+    searchTitle: { es: 'Buscar anime', en: 'Search anime' },
+    account: { es: 'Tu cuenta', en: 'Your account' },
+    close: { es: 'Cerrar', en: 'Close' },
+    guestTitle: { es: 'Bienvenido a Mitteiru', en: 'Welcome to Mitteiru' },
+    guestSubtitle: {
+      es: 'Iniciá sesión para guardar tus listas, historial y favoritos.',
+      en: 'Log in to save your lists, history and favorites.'
+    },
+    mainNav: { es: 'Navegación principal', en: 'Main navigation' }
   },
   history: {
     title: { es: 'Historial de visualización', en: 'Watch History' },
@@ -76,7 +87,13 @@ export const translations = {
     noResults: { es: 'No se encontraron animes con los filtros seleccionados', en: 'No anime found with selected filters' },
     resultsFound: { es: 'resultados encontrados', en: 'results found' },
     page: { es: 'Página', en: 'Page' },
-    of: { es: 'de', en: 'of' }
+    of: { es: 'de', en: 'of' },
+    filters: { es: 'Filtros', en: 'Filters' },
+    applyFilters: { es: 'Aplicar filtros', en: 'Apply filters' },
+    clearFilters: { es: 'Limpiar', en: 'Clear' },
+    sortBy: { es: 'Ordenar por', en: 'Sort by' },
+    activeFilters: { es: 'filtros activos', en: 'active filters' },
+    removeFilter: { es: 'Quitar filtro', en: 'Remove filter' }
   },
   animePage: {
     episodes: { es: 'Episodios', en: 'Episodes' },
@@ -92,7 +109,13 @@ export const translations = {
     noEpisodes: { es: 'No hay episodios disponibles', en: 'No episodes available' },
     noReviews: { es: 'Aún no hay reseñas para este anime', en: 'No reviews yet for this anime' },
     slides: { es: 'Diapositivas', en: 'Slides' },
-    grid: { es: 'Cuadrícula', en: 'Grid' }
+    grid: { es: 'Cuadrícula', en: 'Grid' },
+    watchNow: { es: 'Ver ahora', en: 'Watch now' },
+    save: { es: 'Guardar', en: 'Save' },
+    saved: { es: 'En lista', en: 'In list' },
+    favorite: { es: 'Favorito', en: 'Favorite' },
+    episodeList: { es: 'Lista de episodios', en: 'Episode list' },
+    openEpisodeList: { es: 'Ver episodios', en: 'View episodes' }
   },
   reviewPage: {
     newFor: { es: 'Escribiendo una reseña para', en: 'Writing a review for' },

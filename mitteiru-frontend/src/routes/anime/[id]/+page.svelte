@@ -270,6 +270,18 @@
     }
   }
 
+  function handleWatchNow() {
+    const firstEpisode = episodes[0];
+    if (firstEpisode?._id && anime?._id) {
+      goto(`/anime/${anime._id}/episode/${firstEpisode._id}`);
+      return;
+    }
+
+    document
+      .getElementById('episodes')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   async function handleLike() {
     if (!profileId || !anime?._id) {
       toastInfo(
@@ -314,9 +326,9 @@
     <a href="/directory" class="text-indigo-400 mt-4 inline-block font-semibold">Volver al directorio</a>
   </div>
 {:else}
-  <div class="relative w-full pb-20">
+  <div class="relative w-full pb-28 md:pb-20">
     <!-- Blurred Background Hero Banner -->
-    <div class="absolute inset-0 w-full h-[80vh] min-h-[600px] overflow-hidden pointer-events-none">
+    <div class="pointer-events-none absolute inset-0 h-[45vh] min-h-[340px] w-full overflow-hidden md:h-[80vh] md:min-h-[600px]">
       <img
         src={anime.image || anime.horizontalImage || anime.cover || fallbackHero}
         alt="Background"
@@ -327,131 +339,189 @@
     </div>
 
     <!-- Main Detail Container -->
-    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 flex flex-col md:flex-row gap-8 lg:gap-10">
-      <!-- Left: Poster (Cover 2:3) & Main Actions -->
-      <div class="w-full md:w-72 shrink-0 flex flex-col gap-4">
+    <div class="detail-grid relative z-20 mx-auto max-w-7xl px-4 pt-20 sm:px-6 sm:pt-32">
+      <!-- Poster -->
+      <div class="detail-poster flex flex-col gap-4">
         <img
           src={anime.cover || anime.image || fallbackPoster}
           alt={anime.name}
-          class="w-full aspect-[2/3] object-cover rounded-2xl shadow-[0_0_40px_rgba(79,70,229,0.2)] border border-white/10"
+          class="aspect-[2/3] w-full rounded-xl border border-white/10 object-cover shadow-[0_0_40px_rgba(79,70,229,0.2)] md:rounded-2xl"
         />
 
-        <!-- Guardar en lista: botón con perfil activo, si no un acceso a login o selección de perfil -->
-        {#if canManageLists}
-          <Button
-            variant={savedListNames.length > 0 ? 'primary' : 'primary'}
-            fullWidth
-            onclick={() => (isListModalOpen = true)}
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-            </svg>
-            {#if savedListNames.length > 0}
-              En lista: {savedListNames[0]}
-            {:else}
-              {translations.animePage.selectList[currentLang]}
-            {/if}
-          </Button>
-        {:else}
-          <a
-            href={saveListCtaHref}
-            class="group flex w-full items-center gap-3 rounded-xl border border-dashed border-indigo-500/40 bg-indigo-500/5 px-4 py-2.5 text-left transition-colors hover:border-indigo-400/70 hover:bg-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
-          >
-            <svg class="h-5 w-5 shrink-0 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-            </svg>
-            <span class="min-w-0 leading-tight">
-              <span class="block text-sm font-bold text-indigo-100 transition-colors group-hover:text-white">
-                {data?.user
-                  ? translations.animePage.saveListCtaProfile[currentLang]
-                  : translations.animePage.saveListCtaLogin[currentLang]}
+        <!-- Guardar en lista: solo desktop; en móvil hay barra de acciones -->
+        <div class="hidden md:block">
+          {#if canManageLists}
+            <Button
+              variant="primary"
+              fullWidth
+              onclick={() => (isListModalOpen = true)}
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+              </svg>
+              {#if savedListNames.length > 0}
+                En lista: {savedListNames[0]}
+              {:else}
+                {translations.animePage.selectList[currentLang]}
+              {/if}
+            </Button>
+          {:else}
+            <a
+              href={saveListCtaHref}
+              class="group flex w-full items-center gap-3 rounded-xl border border-dashed border-indigo-500/40 bg-indigo-500/5 px-4 py-2.5 text-left transition-colors hover:border-indigo-400/70 hover:bg-indigo-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+            >
+              <svg class="h-5 w-5 shrink-0 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+              </svg>
+              <span class="min-w-0 leading-tight">
+                <span class="block text-sm font-bold text-indigo-100 transition-colors group-hover:text-white">
+                  {data?.user
+                    ? translations.animePage.saveListCtaProfile[currentLang]
+                    : translations.animePage.saveListCtaLogin[currentLang]}
+                </span>
+                <span class="mt-0.5 block text-xs font-medium text-indigo-300/80 transition-colors group-hover:text-indigo-200">
+                  {translations.animePage.saveListCtaHint[currentLang]}
+                </span>
               </span>
-              <span class="mt-0.5 block text-xs font-medium text-indigo-300/80 transition-colors group-hover:text-indigo-200">
-                {translations.animePage.saveListCtaHint[currentLang]}
-              </span>
-            </span>
-          </a>
-        {/if}
+            </a>
+          {/if}
+        </div>
       </div>
 
-      <!-- Right: Details & Metadata -->
-      <div class="w-full flex-1 flex flex-col pt-2 md:pt-4">
-        <!-- Badges -->
-        <div class="flex flex-wrap items-center gap-3 mb-4 text-xs font-semibold">
+      <!-- Header: badges, título y géneros -->
+      <div class="detail-head min-w-0 md:pt-4">
+        <div class="mb-3 flex flex-wrap items-center gap-2 text-xs font-semibold sm:gap-3">
           <Badge
             variant={anime.onGoing ? 'releasing' : 'finished'}
             text={anime.onGoing ? 'Releasing' : 'Finished'}
           />
           <Badge text={`Episodios: ${episodes.length}`} />
           {#if anime.studio}
-            <Badge text={anime.studio} />
+            <span class="max-md:hidden"><Badge text={anime.studio} /></span>
           {/if}
           {#if anime.releaseYear}
             <Badge text={anime.releaseYear} />
           {/if}
           {#if sourcesEnabled && anime.sourceId}
-            <Badge text={`Fuente: ${anime.sourceId}`} />
+            <span class="max-md:hidden"><Badge text={`Fuente: ${anime.sourceId}`} /></span>
           {/if}
         </div>
 
-        <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-1 text-white">
+        <h1 class="mb-1 text-2xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl">
           {anime.name}
         </h1>
         {#if anime.japaneseName}
-          <p class="text-lg sm:text-xl text-gray-400 font-medium mb-6">
+          <p class="mb-4 text-sm font-medium text-gray-400 sm:mb-6 sm:text-xl">
             {anime.japaneseName}
           </p>
         {/if}
 
         <!-- Genres -->
         {#if anime.genres && anime.genres.length > 0}
-          <div class="flex flex-wrap gap-2 mb-6">
+          <div class="flex flex-wrap gap-1.5 sm:gap-2">
             {#each anime.genres as genre}
-              <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-sm rounded-lg backdrop-blur-sm">
+              <span class="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-gray-300 backdrop-blur-sm sm:px-3 sm:text-sm">
                 {genre}
               </span>
             {/each}
           </div>
         {/if}
+      </div>
 
-        <!-- Synopsis rendered with Markdown -->
-        <div class="mb-8 max-w-3xl">
+      <!-- Synopsis y acciones -->
+      <div class="detail-body min-w-0 md:flex md:flex-col">
+        <div class="mb-6 max-w-3xl text-sm sm:mb-8 sm:text-base">
           <Markdown content={anime.synopsis || 'Sin descripción disponible para este anime.'} />
         </div>
 
-        <!-- Secondary Actions (Like Button) -->
-        <div class="flex items-center gap-4 mt-auto">
+        <!-- Like: en desktop; en móvil vive en la barra sticky -->
+        <div class="mt-auto hidden items-center gap-4 md:flex">
           <button
             onclick={handleLike}
             type="button"
-            class="w-12 h-12 flex items-center justify-center rounded-full transition-colors border border-white/10 backdrop-blur-md cursor-pointer {isLiked
+            class="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-white/10 backdrop-blur-md transition-colors {isLiked
               ? 'bg-red-500/20 text-red-500 border-red-500/30'
-              : 'bg-white/10 hover:bg-red-500/20 text-gray-400 hover:text-red-400'}"
+              : 'bg-white/10 text-gray-400 hover:bg-red-500/20 hover:text-red-400'}"
             aria-label="Añadir a Favoritos"
             aria-pressed={isLiked}
           >
             <svg
-              class="w-6 h-6 fill-current {likePulse ? 'animate-heart-pop' : ''}"
+              class="h-6 w-6 fill-current {likePulse ? 'animate-heart-pop' : ''}"
               viewBox="0 0 24 24"
               onanimationend={() => (likePulse = false)}
             >
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
           </button>
-          <span class="text-sm text-gray-400 font-medium">
+          <span class="text-sm font-medium text-gray-400">
             {isLiked ? translations.animePage.inFavorites[currentLang] : translations.animePage.addFavorite[currentLang]}
           </span>
         </div>
       </div>
     </div>
 
-    <hr class="max-w-7xl mx-auto border-white/10 my-12" />
+    <!-- Barra de acciones fija en móvil -->
+    <div class="fixed inset-x-0 bottom-[calc(var(--mobile-tabbar-height)+env(safe-area-inset-bottom,0px))] z-40 border-t border-white/10 bg-gray-950/95 px-3 py-2 backdrop-blur-xl md:hidden">
+      <div class="mx-auto flex max-w-lg items-center gap-2">
+        <button
+          type="button"
+          onclick={handleWatchNow}
+          class="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 text-sm font-bold text-white transition-colors hover:bg-indigo-500"
+        >
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+          {translations.animePage.watchNow[currentLang]}
+        </button>
+
+        {#if canManageLists}
+          <button
+            type="button"
+            onclick={() => (isListModalOpen = true)}
+            class="flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 text-xs font-bold text-gray-200 transition-colors hover:bg-white/10"
+          >
+            <svg class="h-4 w-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+            </svg>
+            {savedListNames.length > 0
+              ? translations.animePage.saved[currentLang]
+              : translations.animePage.save[currentLang]}
+          </button>
+        {:else}
+          <a
+            href={saveListCtaHref}
+            class="flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 text-xs font-bold text-gray-200 transition-colors hover:bg-white/10"
+          >
+            <svg class="h-4 w-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+            </svg>
+            {translations.animePage.save[currentLang]}
+          </a>
+        {/if}
+
+        <button
+          type="button"
+          onclick={handleLike}
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-colors {isLiked
+            ? 'border-red-500/30 bg-red-500/20 text-red-400'
+            : 'border-white/10 bg-white/5 text-gray-300 hover:text-red-400'}"
+          aria-label={translations.animePage.favorite[currentLang]}
+          aria-pressed={isLiked}
+        >
+          <svg class="h-5 w-5 fill-current {likePulse ? 'animate-heart-pop' : ''}" viewBox="0 0 24 24" onanimationend={() => (likePulse = false)}>
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <hr class="max-w-7xl mx-auto border-white/10 my-8 sm:my-12" />
 
     <!-- Episodes Section -->
-    <section id="episodes" class="max-w-7xl mx-auto px-4 sm:px-6 mb-16 relative z-20 scroll-mt-24">
-      <div class="flex items-center justify-between mb-6">
-        <div class="flex items-center gap-4">
-          <h2 class="text-2xl font-bold text-white">
+    <section id="episodes" class="relative z-20 mx-auto mb-10 max-w-7xl scroll-mt-20 px-4 sm:mb-16 sm:scroll-mt-24 sm:px-6">
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-3 sm:mb-6">
+        <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+          <h2 class="text-lg font-bold text-white sm:text-2xl">
             {translations.animePage.episodes[currentLang]} ({episodes.length})
           </h2>
           <!-- Toggle View Buttons -->
@@ -474,7 +544,7 @@
         </div>
 
         {#if episodeViewMode === 'slides' && episodes.length > 0 && (canScrollPrev || canScrollNext)}
-          <div class="flex items-center gap-2">
+          <div class="hidden items-center gap-2 md:flex">
             <button
               type="button"
               onclick={() => scrollCarousel(-1)}
@@ -522,7 +592,7 @@
           </div>
         {:else}
           <!-- Grid Container -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 items-stretch">
+          <div class="grid grid-cols-2 items-stretch gap-3 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 lg:gap-6 xl:grid-cols-4">
             {#each episodes as episode}
               <EpisodeCard {episode} animeId={anime._id} layout="grid" />
             {/each}
@@ -537,8 +607,8 @@
 
     <!-- Reviews Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 relative z-20">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold text-white">
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-3 sm:mb-6">
+        <h2 class="text-lg font-bold text-white sm:text-2xl">
           {translations.animePage.reviews[currentLang]} ({reviews.length})
         </h2>
         {#if profileId}
@@ -549,14 +619,14 @@
       </div>
 
       {#if reviews.length > 0}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
           {#each reviews as review}
             <div
               role="button"
               tabindex="0"
               onclick={() => goToReview(review)}
               onkeydown={(e) => e.key === 'Enter' && goToReview(review)}
-              class="group bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 transition-all hover:bg-white/10 hover:border-indigo-500/40 hover:shadow-[0_8px_30px_rgba(79,70,229,0.15)] cursor-pointer"
+              class="group cursor-pointer rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-lg transition-all hover:border-indigo-500/40 hover:bg-white/10 hover:shadow-[0_8px_30px_rgba(79,70,229,0.15)] sm:p-6"
             >
               <div class="flex items-start gap-4">
                 <img
@@ -666,3 +736,48 @@
   </Modal>
   {/if}
 {/if}
+
+<style>
+  /*
+   * Móvil: póster y metadatos comparten la primera fila y la sinopsis ocupa
+   * el ancho completo debajo. Desktop: póster a la izquierda y contenido a la
+   * derecha, como antes.
+   */
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 6.75rem minmax(0, 1fr);
+    grid-template-areas:
+      'poster head'
+      'body body';
+    column-gap: 1rem;
+    row-gap: 0.85rem;
+    align-items: start;
+  }
+
+  .detail-poster {
+    grid-area: poster;
+  }
+
+  .detail-head {
+    grid-area: head;
+  }
+
+  .detail-body {
+    grid-area: body;
+  }
+
+  @media (min-width: 768px) {
+    .detail-grid {
+      grid-template-columns: 18rem minmax(0, 1fr);
+      grid-template-areas:
+        'poster head'
+        'poster body';
+      column-gap: 2.5rem;
+      row-gap: 0;
+    }
+
+    .detail-body {
+      padding-top: 0.5rem;
+    }
+  }
+</style>

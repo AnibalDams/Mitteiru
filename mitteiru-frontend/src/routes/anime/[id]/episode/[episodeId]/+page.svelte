@@ -9,6 +9,7 @@
   import Badge from '$lib/components/ui/Badge.svelte';
   import Markdown from '$lib/components/ui/Markdown.svelte';
   import Modal from '$lib/components/ui/Modal.svelte';
+  import Sheet from '$lib/components/ui/Sheet.svelte';
   import CommentSection from '$lib/components/comments/CommentSection.svelte';
   import VideoPlayer from '$lib/components/ui/VideoPlayer.svelte';
   import DashPlayer from '$lib/components/ui/DashPlayer.svelte';
@@ -25,8 +26,8 @@
   let sourcesEnabled = $derived(data?.sourcesEnabled ?? false);
 
   // Player state
-  let isPlayerFullscreen = $state(false);
   let showEpisodeDetails = $state(false);
+  let isEpisodesSheetOpen = $state(false);
   let currentEpisodeIndex = $derived(episodes.findIndex((ep: Episode) => String(ep._id) === String(episode?._id)));
 
   // Fuente externa: selector de servidores (si el episodio fue importado)
@@ -150,10 +151,6 @@
   function closeEpisodeDetails() {
     showEpisodeDetails = false;
   }
-
-  function toggleFullscreen() {
-    isPlayerFullscreen = !isPlayerFullscreen;
-  }
 </script>
 
 <svelte:head>
@@ -166,6 +163,45 @@
     <a href="/directory" class="text-indigo-400 mt-4 inline-block font-semibold">Volver al directorio</a>
   </div>
 {:else}
+  {#snippet episodeList()}
+    <div class="space-y-2">
+      {#each episodes as ep (ep._id)}
+        <button
+          type="button"
+          onclick={() => {
+            isEpisodesSheetOpen = false;
+            goToEpisode(ep);
+          }}
+          class="flex w-full items-center gap-3 rounded-xl p-3 text-left transition-all {String(ep._id) === String(episode._id)
+            ? 'border border-indigo-500/50 bg-indigo-600/30'
+            : 'border border-white/5 bg-black/30 hover:border-white/10 hover:bg-white/5'}"
+        >
+          <div class="relative h-10 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-800">
+            <img
+              src={ep.thumbnail || fallbackPoster}
+              alt={ep.name}
+              class="h-full w-full object-cover"
+            />
+            <span class="absolute bottom-0 right-0 rounded-bl-lg bg-black/80 px-1 py-0.5 text-[10px] font-bold text-white">
+              {ep.episodeNumber}
+            </span>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium {String(ep._id) === String(episode._id) ? 'text-indigo-300' : 'text-white'}">
+              {ep.name || `Episodio ${ep.episodeNumber}`}
+            </p>
+            <p class="mt-0.5 truncate text-xs text-gray-500">
+              Ep. {ep.episodeNumber}
+            </p>
+          </div>
+          {#if String(ep._id) === String(episode._id)}
+            <div class="h-2 w-2 rounded-full bg-indigo-400"></div>
+          {/if}
+        </button>
+      {/each}
+    </div>
+  {/snippet}
+
   <div class="relative w-full min-h-screen pb-20 bg-gray-950">
     <!-- Blurred Background Hero Banner -->
     <div class="absolute inset-0 w-full h-[50vh] min-h-[400px] overflow-hidden pointer-events-none">
@@ -179,10 +215,10 @@
     </div>
 
     <!-- Main Content -->
-    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 flex flex-col gap-8">
+    <div class="relative z-20 mx-auto flex max-w-7xl flex-col gap-6 px-4 pt-16 sm:px-6 sm:pt-24 md:gap-8">
       
-      <!-- Episode Header -->
-      <div class="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+      <!-- Episode Header: debajo del player en móvil -->
+      <div class="order-2 flex flex-col justify-between gap-4 md:order-1 md:flex-row md:items-center md:gap-6">
         <div class="flex-1">
           <div class="flex items-center gap-3 mb-3 flex-wrap">
             <Badge
@@ -198,21 +234,33 @@
             {/if}
           </div>
           
-          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-2">
+          <h1 class="mb-1 text-2xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl md:mb-2 md:text-5xl">
             {episode.name || `Episodio ${episode.episodeNumber}`}
           </h1>
           
-          <p class="text-lg text-gray-400 font-medium">
+          <p class="text-base font-medium text-gray-400 sm:text-lg">
             {anime.name}
           </p>
         </div>
 
-        <div class="flex items-center gap-3 mt-4 md:mt-0">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
           <Button variant="secondary" size="lg" onclick={openEpisodeDetails}>
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Detalles
+          </Button>
+
+          <Button
+            variant="secondary"
+            size="lg"
+            class="lg:hidden"
+            onclick={() => (isEpisodesSheetOpen = true)}
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+            </svg>
+            {translations.animePage.openEpisodeList[currentLang]}
           </Button>
         </div>
       </div>
@@ -223,7 +271,7 @@
           Este episodio proviene de AnimeOnsen y no está disponible en este entorno.
         </div>
       {/if}
-      <section class="relative">
+      <section class="relative order-1 md:order-2">
         {#key activeSrc}
           <div in:fade={{ duration: 180 }}>
             {#if isDashServer}
@@ -253,6 +301,7 @@
               <VideoPlayer
                 src={activeSrc}
                 title={episode.name || `Episodio ${episode.episodeNumber}`}
+                poster={episode.thumbnail}
                 external={activeExternal}
                 allowExternal={playbackAllowed}
                 allowedHosts={allowedEmbedHosts}
@@ -260,8 +309,6 @@
                 onNextEpisode={handleNextEpisode}
                 hasPrev={!!getPrevEpisode()}
                 hasNext={!!getNextEpisode()}
-                isFullscreen={isPlayerFullscreen}
-                onToggleFullscreen={toggleFullscreen}
               />
             {/if}
           </div>
@@ -312,11 +359,10 @@
         <div class="flex items-center justify-between mt-4 gap-4">
           <Button 
             variant="outline" 
-            size="lg" 
-            fullWidth
+            size="md"
             onclick={handlePrevEpisode}
             disabled={!getPrevEpisode()}
-            class="w-1/2"
+            class="min-w-0 flex-1"
           >
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -324,37 +370,22 @@
             <span class="flex items-center gap-1">
               <span>Anterior</span>
               {#if getPrevEpisode()}
-                <span class="text-xs opacity-75">Ep. {getPrevEpisode()!.episodeNumber}</span>
+                <span class="hidden text-xs opacity-75 sm:inline">Ep. {getPrevEpisode()!.episodeNumber}</span>
               {/if}
             </span>
           </Button>
 
-          {#if !isLinkServer && !isDashServer && !activeExternal}
-            <Button 
-              variant="primary" 
-              size="lg" 
-              onclick={toggleFullscreen}
-              class="w-1/2"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-              </svg>
-              Pantalla Completa
-            </Button>
-          {/if}
-
           <Button 
             variant="outline" 
-            size="lg" 
-            fullWidth
+            size="md"
             onclick={handleNextEpisode}
             disabled={!getNextEpisode()}
-            class="w-1/2"
+            class="min-w-0 flex-1"
           >
-            <span class="flex items-center gap-1 justify-end w-full">
+            <span class="flex w-full items-center justify-end gap-1">
               <span>Siguiente</span>
               {#if getNextEpisode()}
-                <span class="text-xs opacity-75">Ep. {getNextEpisode()!.episodeNumber}</span>
+                <span class="hidden text-xs opacity-75 sm:inline">Ep. {getNextEpisode()!.episodeNumber}</span>
               {/if}
               <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -364,10 +395,10 @@
         </div>
       </section>
 
-      <hr class="border-white/10" />
+      <hr class="order-3 border-white/10" />
 
       <!-- Episode Synopsis & Details -->
-      <section class="grid lg:grid-cols-3 gap-8">
+      <section class="order-4 grid gap-6 sm:gap-8 lg:grid-cols-3">
         <div class="lg:col-span-2">
           <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
             <div class="flex items-center justify-between mb-4">
@@ -391,46 +422,14 @@
           </div>
         </div>
 
-        <!-- Episode List Sidebar -->
-        <aside class="lg:col-span-1">
-          <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
-            <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between">
-              Episodios ({episodes.length})
-              <span class="text-sm font-normal text-gray-400">Ver lista</span>
+        <!-- Episode List Sidebar (solo desktop) -->
+        <aside class="hidden lg:col-span-1 lg:block">
+          <div class="custom-scrollbar sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-lg">
+            <h3 class="mb-4 text-lg font-bold text-white">
+              {translations.animePage.episodes[currentLang]} ({episodes.length})
             </h3>
-            
-            <div class="space-y-2">
-              {#each episodes as ep (ep._id)}
-                <button
-                  onclick={() => goToEpisode(ep)}
-                  class="w-full flex items-center gap-3 p-3 rounded-xl transition-all {String(ep._id) === String(episode._id)
-                    ? 'bg-indigo-600/30 border border-indigo-500/50'
-                    : 'bg-black/30 border border-white/5 hover:bg-white/5 hover:border-white/10'}"
-                >
-                  <div class="w-16 h-9 flex-shrink-0 relative rounded-lg overflow-hidden bg-gray-800">
-                    <img
-                      src={ep.thumbnail || fallbackPoster}
-                      alt={ep.name}
-                      class="w-full h-full object-cover"
-                    />
-                    <span class="absolute bottom-0 right-0 bg-black/80 px-1 py-0.5 text-[10px] font-bold text-white rounded-bl-lg">
-                      {ep.episodeNumber}
-                    </span>
-                  </div>
-                  <div class="flex-1 min-w-0 text-left">
-                    <p class="text-white font-medium text-sm truncate {String(ep._id) === String(episode._id) ? 'text-indigo-300' : ''}">
-                      {ep.name || `Episodio ${ep.episodeNumber}`}
-                    </p>
-                    <p class="text-gray-500 text-xs truncate mt-0.5">
-                      Ep. {ep.episodeNumber}
-                    </p>
-                  </div>
-                  {#if String(ep._id) === String(episode._id)}
-                    <div class="w-2 h-2 bg-indigo-400 rounded-full"></div>
-                  {/if}
-                </button>
-              {/each}
-            </div>
+
+            {@render episodeList()}
           </div>
         </aside>
       </section>
@@ -472,4 +471,12 @@
       {/if}
     </div>
   </Modal>
+
+  <Sheet
+    bind:open={isEpisodesSheetOpen}
+    title={`${translations.animePage.episodes[currentLang]} (${episodes.length})`}
+    onclose={() => (isEpisodesSheetOpen = false)}
+  >
+    {@render episodeList()}
+  </Sheet>
 {/if}

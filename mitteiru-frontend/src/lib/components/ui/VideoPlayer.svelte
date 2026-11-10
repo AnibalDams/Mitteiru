@@ -8,6 +8,8 @@
   interface Props {
     src: string;
     title: string;
+    /** Imagen de portada mientras el video no arrancó. */
+    poster?: string;
     external: boolean;
     /** Permite iframes externos; false en producción sin motor de fuentes. */
     allowExternal?: boolean;
@@ -17,22 +19,19 @@
     onNextEpisode: () => void;
     hasPrev: boolean;
     hasNext: boolean;
-    isFullscreen?: boolean;
-    onToggleFullscreen: () => void;
   }
 
   let { 
     src, 
     title, 
+    poster = '',
     external, 
     allowExternal = false,
     allowedHosts,
     onPrevEpisode, 
-    onNextEpisode, 
-    hasPrev, 
-    hasNext, 
-    isFullscreen = false, 
-    onToggleFullscreen 
+    onNextEpisode,
+    hasPrev,
+    hasNext
   }: Props = $props();
 
   const DEFAULT_ALLOWED_HOSTS = (env.PUBLIC_EMBED_HOSTS ?? '')
@@ -52,7 +51,9 @@
 
   // State for native video player (when !external)
   let videoEl: HTMLVideoElement | null = null;
+  let containerEl = $state<HTMLDivElement | null>(null);
   let isLoading = $state(true);
+  let hasPlayed = $state(false);
   let showControls = $state(true);
   let controlsTimeout: number;
   let isPlaying = $state(false);
@@ -64,6 +65,22 @@
   let playbackRate = $state(1);
   let isWaiting = $state(false);
   let error: string | null = $state(null);
+  let isFullscreen = $state(false);
+  let pseudoFullscreen = $state(false);
+  let isFullscreenLike = $derived(isFullscreen || pseudoFullscreen);
+  let isTouch = $state(false);
+  let speedOpen = $state(false);
+  let seekHint = $state('');
+  let seekHintTimeout: number | undefined;
+  let tapTimer: number | undefined;
+  let lastTapAt = 0;
+  let lastTapX = 0;
+
+  const PLAYBACK_RATES = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+
+  type IOSVideoElement = HTMLVideoElement & {
+    webkitEnterFullscreen?: () => void;
+  };
 
   const formatTime = (seconds: number): string => {
     if (isNaN(seconds) || !isFinite(seconds)) return '--:--';
@@ -75,7 +92,11 @@
   const hideControls = () => {
     if (controlsTimeout) clearTimeout(controlsTimeout);
     controlsTimeout = window.setTimeout(() => {
-      showControls = false;
+      // Con el video pausado los controles deben seguir accesibles.
+      if (isPlaying) {
+        showControls = false;
+        speedOpen = false;
+      }
     }, 3000);
   };
 
@@ -83,6 +104,116 @@
     showControls = true;
     hideControls();
   };
+
+  function seekBy(delta: number) {
+    if (!videoEl) return;
+    const max = Number.isFinite(duration) && duration > 0 ? duration : videoEl.duration || 0;
+    videoEl.currentTime = Math.max(0, Math.min(max, videoEl.currentTime + delta));
+    seekHint = delta > 0 ? '+10 s' : '-10 s';
+
+    if (seekHintTimeout) clearTimeout(seekHintTimeout);
+    seekHintTimeout = window.setTimeout(() => {
+      seekHint = '';
+    }, 700);
+
+    showControlsFn();
+  }
+
+  /**
+   * Fullscreen real: contenedor para nativo/iframe, o fullscreen nativo de
+   * iOS para el <video> (Safari no soporta requestFullscreen en video).
+   */
+  async function toggleFullscreen() {
+    if (!containerEl) return;
+
+    if (document.fullscreenElement) {
+      await document.exitFullscreen().catch(() => {});
+      return;
+    }
+
+    // Salir del fallback CSS si estaba activo.
+    if (pseudoFullscreen) {
+      pseudoFullscreen = false;
+      showControlsFn();
+      return;
+    }
+
+    const iosVideo = videoEl as IOSVideoElement | null;
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    if (!external && isIOS && iosVideo?.webkitEnterFullscreen) {
+      iosVideo.webkitEnterFullscreen();
+      return;
+    }
+
+    if (containerEl.requestFullscreen) {
+      try {
+        await containerEl.requestFullscreen({ navigationUI: 'hide' });
+        return;
+      } catch {
+        // API bloqueada (permisos, iframe): se usa el modo pantalla completa CSS.
+      }
+    }
+
+    pseudoFullscreen = true;
+    showControlsFn();
+  }
+
+  // El fallback CSS ocupa toda la ventana: bloquea el scroll y oculta la
+  // navegación, que vive en un contexto de apilado superior al reproductor.
+  $effect(() => {
+    if (!pseudoFullscreen) return;
+    const previous = document.body.style.overflow;
+    document.documentElement.classList.add('player-pseudo-fullscreen');
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.documentElement.classList.remove('player-pseudo-fullscreen');
+      document.body.style.overflow = previous;
+    };
+  });
+
+  /**
+   * Tap = play/pausa (con un pequeño retardo para distinguirlo del doble tap).
+   * Doble tap en la mitad izquierda/derecha = ±10 s.
+   */
+  function handleSurfaceClick(event: MouseEvent) {
+    if (external || !containerEl) return;
+    if ((event.target as HTMLElement).closest('button, a, [data-player-controls]')) return;
+
+    const rect = containerEl.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const now = Date.now();
+
+    if (now - lastTapAt < 280 && Math.abs(event.clientX - lastTapX) < 48) {
+      if (tapTimer) clearTimeout(tapTimer);
+      tapTimer = undefined;
+      lastTapAt = 0;
+      speedOpen = false;
+      seekBy(x < rect.width / 2 ? -10 : 10);
+      return;
+    }
+
+    lastTapAt = now;
+    lastTapX = event.clientX;
+
+    if (tapTimer) clearTimeout(tapTimer);
+    tapTimer = window.setTimeout(() => {
+      tapTimer = undefined;
+      speedOpen = false;
+      togglePlayPause();
+      showControlsFn();
+    }, 220);
+  }
+
+  function changeRate(rate: number) {
+    if (videoEl) videoEl.playbackRate = rate;
+    playbackRate = rate;
+    speedOpen = false;
+    showControlsFn();
+  }
 
   // Native video event handlers
   const handleVideoLoadStart = () => {
@@ -102,10 +233,12 @@
   const handleVideoPlaying = () => {
     isWaiting = false;
     isPlaying = true;
+    hasPlayed = true;
   };
 
   const handleVideoPause = () => {
     isPlaying = false;
+    showControlsFn();
   };
 
   const handleVideoTimeUpdate = () => {
@@ -202,7 +335,7 @@
         togglePlayPause();
         break;
       case 'f':
-        onToggleFullscreen();
+        void toggleFullscreen();
         break;
       case 'ArrowLeft':
         e.preventDefault();
@@ -224,7 +357,7 @@
         toggleMute();
         break;
       case 'Escape':
-        if (isFullscreen) onToggleFullscreen();
+        if (isFullscreenLike) void toggleFullscreen();
         break;
       case '>':
       case '.':
@@ -240,33 +373,59 @@
   };
 
   onMount(() => {
+    isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+    function handleFullscreenChange() {
+      isFullscreen = document.fullscreenElement === containerEl;
+      showControlsFn();
+    }
+
     document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
     hideControls();
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
       if (controlsTimeout) clearTimeout(controlsTimeout);
+      if (seekHintTimeout) clearTimeout(seekHintTimeout);
+      if (tapTimer) clearTimeout(tapTimer);
     };
   });
 
   onDestroy(() => {
     if (controlsTimeout) clearTimeout(controlsTimeout);
+    if (seekHintTimeout) clearTimeout(seekHintTimeout);
+    if (tapTimer) clearTimeout(tapTimer);
   });
 </script>
 
-<div class="relative aspect-video w-full bg-black rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(79,70,229,0.15),_0_8px_32px_rgba(0,0,0,0.4)]"
-     role="region"
-     aria-label="Reproductor de video"
-     onmouseenter={showControlsFn}
-     onmouseleave={hideControls}
-     onmousemove={showControlsFn}>
+<div
+  bind:this={containerEl}
+  class="player-shell overflow-hidden bg-black shadow-[0_0_40px_rgba(79,70,229,0.15),_0_8px_32px_rgba(0,0,0,0.4)] {isFullscreenLike
+    ? 'fixed inset-0 z-[200] h-[100dvh] w-screen rounded-none border-0'
+    : 'relative aspect-video w-full rounded-2xl border border-white/10'}"
+  role="region"
+  aria-label="Reproductor de video"
+  onmouseenter={showControlsFn}
+  onmouseleave={hideControls}
+  onmousemove={showControlsFn}
+>
 
-  {#if isLoading || isWaiting}
+  {#if (isLoading || isWaiting) && (!poster || isPlaying)}
     <div class="absolute inset-0 flex flex-col items-center justify-center z-10 bg-black/80">
       <Loader size="lg" />
       <p class="mt-4 text-white/70 text-sm font-medium">
         {isWaiting ? 'Buffering...' : 'Cargando video...'}
       </p>
+    </div>
+  {/if}
+
+  {#if seekHint}
+    <div class="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+      <span class="rounded-full border border-white/15 bg-black/70 px-4 py-2 text-base font-bold text-white backdrop-blur-sm">
+        {seekHint}
+      </span>
     </div>
   {/if}
 
@@ -288,7 +447,6 @@
     <video
       bind:this={videoEl}
       src={mediaSrc}
-      poster=""
       preload="metadata"
       playsinline
       class="w-full h-full"
@@ -306,58 +464,84 @@
       onvolumechange={handleVideoVolumeChange}
     ></video>
 
+    <!-- Portada: recorte tipo player, sin las barras negras del poster nativo -->
+    {#if poster && !hasPlayed}
+      <div class="absolute inset-0 z-[2] overflow-hidden bg-black" aria-hidden="true">
+        <img src={poster} alt="" class="h-full w-full object-cover" />
+      </div>
+    {/if}
+
+    <!-- Superficie de reproducción: tap, doble tap y foco por teclado -->
+    <button
+      type="button"
+      class="absolute inset-0 z-[5] cursor-pointer bg-transparent"
+      aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
+      onclick={handleSurfaceClick}
+      onpointerdown={(event) => {
+        if (event.pointerType === 'touch') showControlsFn();
+      }}
+    ></button>
+
+    <!-- Indicador central de reproducción (solo pausado) -->
+    {#if !isPlaying && !error && (poster || (!isLoading && !isWaiting))}
+      <div class="pointer-events-none absolute inset-0 z-[6] flex items-center justify-center">
+        <span class="flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-black/55 shadow-xl backdrop-blur-sm">
+          <svg class="ml-0.5 h-7 w-7 fill-white" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </div>
+    {/if}
+
     <!-- Custom Controls Overlay -->
-    <div class={[
-      "absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/95 via-black/90 to-transparent backdrop-blur-sm z-20 transition-opacity duration-300",
-      "pointer-events-auto",
-      showControls ? "opacity-100" : "opacity-0 pointer-events-none"
-    ].join(' ')}>
-      <!-- Progress Bar -->
-      <div class="mb-4">
+    <div
+      data-player-controls
+      class={[
+        "absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-black/95 via-black/90 to-transparent backdrop-blur-sm z-20 transition-opacity duration-300",
+        "pointer-events-auto",
+        showControls ? "opacity-100" : "opacity-0 pointer-events-none"
+      ].join(' ')}
+    >
+      <!-- Progress Bar: área táctil de 44px con pista visual fina -->
+      <div class="mb-1">
         <div
           role="slider"
           aria-label="Progreso del video"
           aria-valuemin="0"
           aria-valuemax="100"
           aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0}
-          class="w-full h-2 bg-white/15 rounded-full cursor-pointer relative group"
+          class="group flex h-11 w-full cursor-pointer items-center"
           onclick={handleProgressClick}
-          onmousemove={(e) => {
-            const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            (e.currentTarget as HTMLElement).style.setProperty('--progress-hover', `${percent * 100}%`);
-          }}
           onkeydown={(e) => {
             if (!videoEl || !duration) return;
             if (e.key === 'ArrowLeft') {
               e.preventDefault();
-              videoEl.currentTime = Math.max(0, videoEl.currentTime - 10);
+              seekBy(-10);
             } else if (e.key === 'ArrowRight') {
               e.preventDefault();
-              videoEl.currentTime = Math.min(duration, videoEl.currentTime + 10);
+              seekBy(10);
             }
           }}
           tabindex="0"
         >
-          <!-- Buffered progress -->
-          {#if buffered > 0}
+          <div class="relative h-1.5 w-full rounded-full bg-white/20">
+            {#if buffered > 0}
+              <div
+                class="absolute left-0 top-0 h-full rounded-full bg-white/30"
+                style="width: {buffered}%"
+              ></div>
+            {/if}
             <div
-              class="absolute top-0 left-0 h-full bg-white/30 rounded-full"
-              style="width: {buffered}%"
+              class="relative z-10 h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-400 shadow-[0_0_8px_rgba(99,102,241,0.6)] transition-all duration-75 ease-out"
+              style="width: {duration > 0 ? (currentTime / duration) * 100 : 0}%"
             ></div>
-          {/if}
-          <!-- Played progress -->
-          <div
-            class="h-full bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full transition-all duration-75 ease-out relative z-10 shadow-[0_0_8px_rgba(99,102,241,0.6)]"
-            style="width: {duration > 0 ? (currentTime / duration) * 100 : 0}%"
-          ></div>
-          <!-- Thumb -->
-          <div
-            class="absolute top-1/2 left-0 w-4 h-4 bg-white rounded-full -translate-y-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-all duration-200 pointer-events-none shadow-lg"
-            style="left: {duration > 0 ? (currentTime / duration) * 100 : 0}%"
-          ></div>
+            <div
+              class="pointer-events-none absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100 group-focus:opacity-100"
+              style="left: {duration > 0 ? (currentTime / duration) * 100 : 0}%"
+            ></div>
+          </div>
         </div>
-        <div class="flex justify-between text-xs text-white/60 mt-2 font-mono tracking-wide">
+        <div class="flex justify-between font-mono text-[11px] tracking-wide text-white/60">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
@@ -414,32 +598,40 @@
 
         <!-- Center: Playback Speed & Volume -->
         <div class="flex items-center gap-2 flex-1 justify-center">
-          <!-- Playback Speed -->
-          <div class="relative group">
+          <!-- Playback Speed: click/tap, no depende de hover -->
+          <div class="relative">
             <Button
               variant="ghost"
               size="icon"
+              onclick={() => (speedOpen = !speedOpen)}
               class="text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200 rounded-lg"
               aria-label={`Velocidad: ${playbackRate}x`}
             >
               <span class="text-xs font-bold font-mono px-2 py-1 bg-white/10 rounded">{playbackRate}x</span>
             </Button>
-            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
-              <div class="bg-gray-900/95 border border-white/10 rounded-lg p-2 min-w-[80px] shadow-xl">
-                {#each [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] as rate}
-                  <button
-                    class="w-full px-3 py-2 text-sm text-white/80 hover:bg-indigo-600/30 hover:text-indigo-300 rounded transition-colors {playbackRate === rate ? 'text-indigo-300 font-medium bg-indigo-600/20' : ''}"
-                    onclick={() => videoEl && (videoEl.playbackRate = rate)}
-                  >
-                    {rate}x
-                  </button>
-                {/each}
+
+            {#if speedOpen}
+              <div class="absolute bottom-full left-1/2 z-30 mb-2 w-52 -translate-x-1/2 rounded-xl border border-white/10 bg-gray-900/95 p-1.5 shadow-xl backdrop-blur-md">
+                <div class="grid grid-cols-4 gap-1">
+                  {#each PLAYBACK_RATES as rate}
+                    <button
+                      type="button"
+                      class="min-h-9 rounded-lg px-2.5 text-xs font-semibold transition-colors {playbackRate === rate
+                        ? 'bg-indigo-600/30 text-indigo-200'
+                        : 'text-white/75 hover:bg-white/10 hover:text-white'}"
+                      onclick={() => changeRate(rate)}
+                    >
+                      {rate}x
+                    </button>
+                  {/each}
+                </div>
               </div>
-            </div>
+            {/if}
           </div>
 
-          <!-- Volume -->
-          <div class="relative group">
+          <!-- Volume: en táctil manda el volumen del dispositivo -->
+          {#if !isTouch}
+            <div class="group relative">
             <Button
               variant="ghost"
               size="icon"
@@ -480,6 +672,7 @@
               </div>
             </div>
           </div>
+          {/if}
         </div>
 
         <!-- Right: Fullscreen & Settings -->
@@ -487,11 +680,11 @@
           <Button
             variant="ghost"
             size="icon"
-            onclick={onToggleFullscreen}
+            onclick={() => void toggleFullscreen()}
             class="text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200 rounded-lg"
-            aria-label={isFullscreen ? 'Salir pantalla completa' : 'Pantalla completa'}
+            aria-label={isFullscreenLike ? 'Salir pantalla completa' : 'Pantalla completa'}
           >
-            {#if isFullscreen}
+            {#if isFullscreenLike}
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 15l6-6M9 9l6 6" />
               </svg>
@@ -529,11 +722,11 @@
   {/if}
 
   <!-- Top Bar with Title (only in fullscreen) -->
-  {#if isFullscreen}
+  {#if isFullscreenLike}
     <div class="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/95 via-black/80 to-transparent backdrop-blur-sm z-20 pointer-events-none">
       <div class="flex items-center justify-between max-w-7xl mx-auto">
         <h3 class="text-white font-semibold truncate max-w-md">{title}</h3>
-        <div class="flex items-center gap-2">
+        <div class="hidden items-center gap-2 md:flex">
           <kbd class="px-2.5 py-1 bg-black/60 border border-white/10 rounded text-xs text-white/70 font-mono">Space</kbd>
           <span class="text-white/50 text-xs">Reproducir/Pausar</span>
           <kbd class="px-2.5 py-1 bg-black/60 border border-white/10 rounded text-xs text-white/70 font-mono">F</kbd>
@@ -549,3 +742,16 @@
     </div>
   {/if}
 </div>
+
+<style>
+  .player-shell:fullscreen {
+    aspect-ratio: auto;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .player-shell :global(video) {
+    object-fit: contain;
+  }
+</style>

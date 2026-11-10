@@ -35,6 +35,9 @@ export function modalBehavior(node: HTMLElement, onClose: () => void) {
   const panel = node.querySelector<HTMLElement>('[data-modal-panel]') ?? node;
   panel.setAttribute('tabindex', '-1');
 
+  // Un campo puede pedir el foco inicial (p. ej. el buscador de una hoja).
+  const autofocusTarget = node.querySelector<HTMLElement>('[data-autofocus]');
+
   function getFocusable(): HTMLElement[] {
     return Array.from(node.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
       (el) =>
@@ -45,7 +48,7 @@ export function modalBehavior(node: HTMLElement, onClose: () => void) {
   }
 
   const focusFrame = requestAnimationFrame(() => {
-    panel.focus({ preventScroll: true });
+    (autofocusTarget ?? panel).focus({ preventScroll: true });
   });
 
   function handleKeydown(event: KeyboardEvent) {

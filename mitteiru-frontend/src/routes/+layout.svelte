@@ -1,6 +1,9 @@
 <script lang="ts">
   import './layout.css';
   import Navbar from '$lib/components/layout/Navbar.svelte';
+  import MobileTabBar from '$lib/components/layout/MobileTabBar.svelte';
+  import MobileSearchSheet from '$lib/components/layout/MobileSearchSheet.svelte';
+  import MobileAccountSheet from '$lib/components/layout/MobileAccountSheet.svelte';
   import RouteProgress from '$lib/components/ui/RouteProgress.svelte';
   import Toaster from '$lib/components/ui/Toaster.svelte';
   import { page } from '$app/state';
@@ -16,6 +19,8 @@
   let mainEl = $state<HTMLElement | null>(null);
   let announcement = $state('');
   let usedViewTransition = false;
+  let searchOpen = $state(false);
+  let accountOpen = $state(false);
 
   const autoHideRoutes = ['/', '/anime'];
   let autoHide = $derived(
@@ -74,10 +79,31 @@
 
 <div class="min-h-screen bg-gray-950 text-white flex flex-col font-sans">
   <RouteProgress />
-  <Navbar user={data?.user} currentProfile={data?.profile} {autoHide} />
-  <main bind:this={mainEl} class="flex-1">
+  <Navbar
+    user={data?.user}
+    currentProfile={data?.profile}
+    {autoHide}
+    onOpenSearch={() => (searchOpen = true)}
+    onOpenAccount={() => (accountOpen = true)}
+  />
+  <main bind:this={mainEl} class="flex-1 pb-tabbar">
     {@render children()}
   </main>
+
+  <MobileTabBar
+    user={data?.user}
+    currentProfile={data?.profile}
+    onOpenSearch={() => (searchOpen = true)}
+    onOpenAccount={() => (accountOpen = true)}
+  />
+
+  <MobileSearchSheet bind:open={searchOpen} />
+  <MobileAccountSheet
+    bind:open={accountOpen}
+    user={data?.user}
+    currentProfile={data?.profile}
+  />
+
   <Toaster />
 </div>
 

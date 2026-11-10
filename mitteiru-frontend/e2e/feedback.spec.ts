@@ -4,7 +4,7 @@ test.describe('feedback de navegación y estados', () => {
   test('marca el link activo de la navbar', async ({ page }) => {
     await page.goto('/directory');
 
-    const active = page.locator('nav a[aria-current="page"]');
+    const active = page.locator('nav[data-site-navbar] a[aria-current="page"]');
     await expect(active).toHaveCount(1);
     await expect(active).toContainText('Directorio');
   });
@@ -49,6 +49,8 @@ test.describe('feedback de navegación y estados', () => {
 
   test('el selector de idioma es un desplegable real', async ({ page }) => {
     await page.goto('/directory');
+    await page.waitForLoadState('networkidle', { timeout: 5_000 }).catch(() => {});
+    await page.waitForTimeout(150);
 
     const trigger = page.locator('nav button[aria-haspopup="listbox"]').first();
     const listbox = page.getByRole('listbox');
@@ -69,13 +71,18 @@ test.describe('feedback de navegación y estados', () => {
     await listbox.getByRole('option', { name: /english/i }).click();
 
     await expect(trigger).toContainText('EN');
-    await expect(page.locator('nav a[aria-current="page"]')).toContainText('Directory');
+    await expect(
+      page.locator('nav[data-site-navbar] a[aria-current="page"]')
+    ).toContainText('Directory');
   });
 
   test('el desplegable de idioma sobrevive al auto-hide', async ({ page }) => {
     await page.goto('/');
+    // La hotzone necesita la hidratación para escuchar el pointerenter.
+    await page.waitForLoadState('networkidle', { timeout: 5_000 }).catch(() => {});
+    await page.waitForTimeout(150);
 
-    const nav = page.locator('nav');
+    const nav = page.locator('nav[data-site-navbar]');
     // En la home la navbar arranca oculta: el hotzone superior la revela.
     await page.mouse.move(640, 3);
     await page.waitForTimeout(350);
@@ -97,12 +104,12 @@ test.describe('feedback de navegación y estados', () => {
     await expect(listbox).not.toBeVisible();
   });
 
-  test('la navbar conserva su estado activo en móvil', async ({ page }) => {
+  test('la tab bar móvil marca el destino activo', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/directory');
 
-    await page.getByRole('button', { name: /open menu/i }).click();
-    const active = page.locator('nav a[aria-current="page"]').last();
+    const active = page.locator('nav[data-mobile-tabbar] a[aria-current="page"]');
+    await expect(active).toHaveCount(1);
     await expect(active).toContainText('Directorio');
   });
 });

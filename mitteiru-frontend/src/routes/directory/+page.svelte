@@ -11,6 +11,7 @@
   import PageHeader from '$lib/components/ui/PageHeader.svelte';
   import EmptyState from '$lib/components/ui/EmptyState.svelte';
   import Button from '$lib/components/ui/Button.svelte';
+  import Sheet from '$lib/components/ui/Sheet.svelte';
 
   let { data } = $props();
   let currentLang = $derived($language);
@@ -31,6 +32,13 @@
   let selectedYear = $state(initialFilters.year);
   let selectedStudio = $state(initialFilters.studio);
   let sortBy = $state(initialFilters.sort);
+
+  // Filtros móviles: se editan en una hoja y se aplican al confirmar.
+  let isFilterSheetOpen = $state(false);
+  let draftGenre = $state(initialFilters.genre);
+  let draftStatus = $state(initialFilters.status);
+  let draftYear = $state(initialFilters.year);
+  let draftStudio = $state(initialFilters.studio);
 
   // Server data
   let animes = $derived<Anime[]>(data?.animes || []);
@@ -111,6 +119,58 @@
     { value: 'score', label: translations.directory.score[currentLang] }
   ]);
 
+  let activeFilterCount = $derived(
+    [selectedGenre, selectedStatus, selectedYear, selectedStudio].filter(Boolean).length
+  );
+
+  let activeChips = $derived.by(() => {
+    const chips: { key: 'genre' | 'status' | 'year' | 'studio'; label: string }[] = [];
+
+    if (selectedGenre) chips.push({ key: 'genre', label: selectedGenre });
+    if (selectedStatus) {
+      const label =
+        statusOptions.find((option) => option.value === selectedStatus)?.label ??
+        selectedStatus;
+      chips.push({ key: 'status', label });
+    }
+    if (selectedYear) chips.push({ key: 'year', label: selectedYear });
+    if (selectedStudio) chips.push({ key: 'studio', label: selectedStudio });
+
+    return chips;
+  });
+
+  function openFilters() {
+    draftGenre = selectedGenre;
+    draftStatus = selectedStatus;
+    draftYear = selectedYear;
+    draftStudio = selectedStudio;
+    isFilterSheetOpen = true;
+  }
+
+  function applyFilters() {
+    selectedGenre = draftGenre;
+    selectedStatus = draftStatus;
+    selectedYear = draftYear;
+    selectedStudio = draftStudio;
+    isFilterSheetOpen = false;
+    updateURLAndReload();
+  }
+
+  function resetDraft() {
+    draftGenre = '';
+    draftStatus = '';
+    draftYear = '';
+    draftStudio = '';
+  }
+
+  function removeFilter(key: 'genre' | 'status' | 'year' | 'studio') {
+    if (key === 'genre') selectedGenre = '';
+    if (key === 'status') selectedStatus = '';
+    if (key === 'year') selectedYear = '';
+    if (key === 'studio') selectedStudio = '';
+    updateURLAndReload();
+  }
+
   function updateURLAndReload() {
     const params = new URLSearchParams();
     if (selectedGenre) params.set('genre', selectedGenre);
@@ -152,7 +212,7 @@
 
     <!-- Advanced Filters Bar -->
     <div
-      class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 mb-10 flex flex-wrap gap-4 items-center justify-between shadow-xl isolate z-20"
+      class="mb-10 hidden flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 shadow-xl isolate z-20 backdrop-blur-xl sm:p-6 md:flex"
     >
       <div class="flex flex-wrap gap-3 sm:gap-4 items-center flex-1">
         <!-- Genre Select -->
@@ -211,6 +271,53 @@
       </div>
     </div>
 
+    <!-- Mobile Filter Bar -->
+    <div class="sticky top-14 z-30 -mx-4 mb-6 border-y border-white/10 bg-gray-950/90 px-4 py-3 backdrop-blur-xl md:hidden">
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          onclick={openFilters}
+          class="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 text-sm font-semibold text-gray-200 transition-colors hover:border-indigo-500/50 hover:bg-white/10"
+        >
+          <svg class="h-4 w-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M7 12h10M10 18h4" />
+          </svg>
+          {translations.directory.filters[currentLang]}
+          {#if activeFilterCount > 0}
+            <span class="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-600 px-1.5 text-[11px] font-bold text-white">
+              {activeFilterCount}
+            </span>
+          {/if}
+        </button>
+
+        <CustomSelect
+          bind:value={sortBy}
+          options={sortOptions}
+          placeholder={translations.directory.sort[currentLang]}
+          onchange={updateURLAndReload}
+          class="min-w-0 flex-1"
+        />
+      </div>
+
+      {#if activeChips.length > 0}
+        <div class="no-scrollbar mt-2 flex gap-2 overflow-x-auto">
+          {#each activeChips as chip (chip.key)}
+            <button
+              type="button"
+              onclick={() => removeFilter(chip.key)}
+              class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1.5 text-xs font-semibold text-indigo-200 transition-colors hover:bg-indigo-500/20"
+              aria-label={`${translations.directory.removeFilter[currentLang]}: ${chip.label}`}
+            >
+              {chip.label}
+              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          {/each}
+        </div>
+      {/if}
+    </div>
+
     <!-- Results Info -->
     <div class="mb-6 flex items-center justify-between text-sm text-gray-400">
       <span class="flex items-center gap-2">
@@ -231,10 +338,10 @@
     {#if showSkeleton}
       <AnimeGridSkeleton
         count={pagination.itemsPerPage || 15}
-        class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 mb-12"
+        class="mb-12 grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-4 lg:grid-cols-5"
       />
     {:else if animes.length > 0}
-      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 mb-12">
+      <div class="mb-12 grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-4 lg:grid-cols-5">
         {#each animes as anime, index (anime._id)}
           <AnimeCard
             {anime}
@@ -271,3 +378,53 @@
     {/if}
   </Container>
 </div>
+
+<!-- Mobile Filters Sheet -->
+<Sheet
+  bind:open={isFilterSheetOpen}
+  title={translations.directory.filters[currentLang]}
+  onclose={() => (isFilterSheetOpen = false)}
+>
+  <div class="space-y-3">
+    <CustomSelect
+      bind:value={draftGenre}
+      options={genreOptions}
+      placeholder={translations.directory.genre[currentLang]}
+      class="min-w-0"
+      searchable
+    />
+
+    <CustomSelect
+      bind:value={draftStatus}
+      options={statusOptions}
+      placeholder={translations.directory.status[currentLang]}
+      class="min-w-0"
+      searchable
+    />
+
+    <CustomSelect
+      bind:value={draftStudio}
+      options={studioOptions}
+      placeholder={translations.directory.studio[currentLang]}
+      class="min-w-0"
+      searchable
+    />
+
+    <CustomSelect
+      bind:value={draftYear}
+      options={yearOptions}
+      placeholder={translations.directory.year[currentLang]}
+      class="min-w-0"
+      searchable
+    />
+
+    <div class="flex gap-3 pt-2">
+      <Button variant="secondary" fullWidth onclick={resetDraft}>
+        {translations.directory.clearFilters[currentLang]}
+      </Button>
+      <Button variant="primary" fullWidth onclick={applyFilters}>
+        {translations.directory.applyFilters[currentLang]}
+      </Button>
+    </div>
+  </div>
+</Sheet>

@@ -169,18 +169,18 @@
   <title>My Lists - Mitteiru</title>
 </svelte:head>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-20">
+<div class="mx-auto max-w-7xl px-4 pb-20 pt-24 sm:px-6 sm:pt-32">
   <!-- Header with List Selector & Create Button -->
-  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+  <div class="mb-8 flex flex-col justify-between gap-4 md:mb-12 md:flex-row md:items-center md:gap-6">
     <!-- Interactive List Selector Title -->
-    <div class="relative z-40">
+    <div class="relative z-40 min-w-0">
       <button
         onclick={() => (isListDropdownOpen = !isListDropdownOpen)}
         type="button"
-        class="text-4xl md:text-5xl font-extrabold text-white flex items-center gap-3 hover:text-indigo-400 transition-colors tracking-tight cursor-pointer"
+        class="flex max-w-full items-center gap-2 text-2xl font-extrabold tracking-tight text-white transition-colors hover:text-indigo-400 sm:text-4xl md:text-5xl md:gap-3"
       >
-        {activeListName}
-        <svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <span class="truncate">{activeListName}</span>
+        <svg class="w-6 h-6 shrink-0 text-indigo-500 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
@@ -214,6 +214,7 @@
     <Button
       variant="secondary"
       size="md"
+      class="w-full sm:w-auto"
       onclick={() => (isCreateModalOpen = true)}
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,7 +226,7 @@
 
   <!-- Anime Grid for Selected List -->
   {#if currentListAnimes.length > 0}
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+    <div class="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
       {#each currentListAnimes as item, index (item._id || item.id2 || item.animeId)}
         {@const animeObj = item.anime || item}
         <AnimeCard

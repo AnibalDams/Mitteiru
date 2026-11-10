@@ -187,7 +187,7 @@
     {#if activeView === 'select'}
       <!-- VIEW 1: SELECTION -->
       <div class="flex flex-col items-center animate-slide-up">
-        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-12 text-white drop-shadow-lg text-center">
+        <h1 class="mb-8 text-2xl font-extrabold tracking-tight text-white drop-shadow-lg text-center sm:mb-12 sm:text-5xl">
           {translations.profile.whosWatching[currentLang]}
         </h1>
 
@@ -254,7 +254,7 @@
     {:else if activeView === 'manage'}
       <!-- VIEW 2: MANAGE PROFILES -->
       <div class="flex flex-col items-center animate-slide-up">
-        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4 text-white drop-shadow-lg text-center">
+        <h1 class="mb-4 text-2xl font-extrabold tracking-tight text-white drop-shadow-lg text-center sm:text-5xl">
           Gestionar Perfiles
         </h1>
         <p class="text-gray-400 text-sm mb-10">Selecciona un perfil para editar su nombre, avatar o eliminarlo.</p>
@@ -302,7 +302,7 @@
     {:else if activeView === 'create'}
       <!-- VIEW 3: CREATION -->
       <div class="flex flex-col items-center w-full max-w-3xl mx-auto animate-slide-up">
-        <h2 class="text-3xl font-bold mb-8 text-white">{translations.profile.createTitle[currentLang]}</h2>
+        <h2 class="mb-6 text-2xl font-bold text-white sm:mb-8 sm:text-3xl">{translations.profile.createTitle[currentLang]}</h2>
 
         <div class="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col items-center">
           <!-- Profile Name Input -->
@@ -351,7 +351,7 @@
     {:else if activeView === 'edit'}
       <!-- VIEW 4: EDIT PROFILE -->
       <div class="flex flex-col items-center w-full max-w-3xl mx-auto animate-slide-up">
-        <h2 class="text-3xl font-bold mb-8 text-white">Editar Perfil</h2>
+        <h2 class="mb-6 text-2xl font-bold text-white sm:mb-8 sm:text-3xl">Editar Perfil</h2>
 
         <div class="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col items-center">
           <!-- Profile Name Input -->

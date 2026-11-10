@@ -45,6 +45,10 @@
   --duration-page: 260ms;
   --duration-reveal: 600ms;
 
+  /* Navegación móvil */
+  --mobile-header-height: 3.5rem;
+  --mobile-tabbar-height: 4rem;
+
   /* Animaciones reutilizables */
   --animate-fade-in: fade-in 220ms cubic-bezier(0.2, 0, 0, 1) both;
   --animate-scale-in: scale-in 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -128,14 +132,19 @@
 @layer base {
   html {
     color-scheme: dark;
+    min-height: 100%;
   }
 
   body {
     font-family: var(--font-sans);
+    min-height: 100dvh;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
   }
+
+
 
   h1,
   h2,
@@ -290,6 +299,69 @@
   }
 }
 
+/*
+ * iOS hace zoom automático al enfocar campos con tipografía menor a 16px.
+ * Sin capa para ganarle a las utilidades `text-sm` en móvil.
+ */
+@media (max-width: 767px) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Utilidades de ergonomía móvil */
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .pb-tabbar {
+    padding-bottom: calc(
+      var(--mobile-tabbar-height) + env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@media (min-width: 768px) {
+  .pb-tabbar {
+    padding-bottom: 0;
+  }
+}
+
+/*
+ * En móvil la cabecera permanece visible aunque la página use auto-hide:
+ * ahí no hay hover para revelarla y es la única vía de navegación superior.
+ */
+@media (max-width: 767px) {
+  nav[data-site-navbar] {
+    /* Tailwind 4 compila translate-y-full a la propiedad `translate`. */
+    transform: none !important;
+    translate: 0 0 !important;
+    opacity: 1 !important;
+  }
+}
+
+/*
+ * Fallback de pantalla completa del reproductor cuando la Fullscreen API
+ * está bloqueada. La navegación vive fuera del contexto de apilado del
+ * player, así que se oculta explícitamente.
+ */
+html.player-pseudo-fullscreen nav[data-site-navbar],
+html.player-pseudo-fullscreen nav[data-mobile-tabbar] {
+  display: none !important;
+}
+
 /* Hide scrollbar utility */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -323,8 +395,14 @@ nav[data-site-navbar] {
   view-transition-name: site-navbar;
 }
 
+nav[data-mobile-tabbar] {
+  view-transition-name: mobile-tabbar;
+}
+
 ::view-transition-old(site-navbar),
-::view-transition-new(site-navbar) {
+::view-transition-new(site-navbar),
+::view-transition-old(mobile-tabbar),
+::view-transition-new(mobile-tabbar) {
   animation: none;
 }
 

@@ -7,12 +7,14 @@
     initialQuery = '',
     onsearch,
     shortcut = false,
+    autofocus = false,
     class: className = ''
   }: {
     placeholder?: string;
     initialQuery?: string;
     onsearch?: (query: string) => void;
     shortcut?: boolean;
+    autofocus?: boolean;
     class?: string;
   } = $props();
 
@@ -26,6 +28,11 @@
   // Mantiene el término cuando la URL cambia (p. ej. nueva búsqueda).
   $effect(() => {
     query = initialQuery;
+  });
+
+  $effect(() => {
+    if (!autofocus) return;
+    inputEl?.focus();
   });
 
   $effect(() => {
@@ -61,7 +68,7 @@
 </script>
 
 <form
-  class="relative w-full max-w-xs {className}"
+  class="relative w-full {className || 'max-w-xs'}"
   role="search"
   onsubmit={handleSubmit}
 >
@@ -84,8 +91,9 @@
     bind:this={inputEl}
     type="search"
     bind:value={query}
+    data-autofocus={autofocus ? '' : undefined}
     placeholder={placeholder || defaultPlaceholder}
-    class="w-full rounded-full border border-white/10 bg-white/5 py-2 pl-10 pr-4 text-sm text-white shadow-inner transition-all placeholder-gray-500 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 [&::-webkit-search-cancel-button]:hidden"
+    class="min-h-11 w-full rounded-full border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-base text-white shadow-inner transition-all placeholder-gray-500 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:min-h-0 sm:py-2 sm:text-sm [&::-webkit-search-cancel-button]:hidden"
     autocomplete="off"
   />
 </form>

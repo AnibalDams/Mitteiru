@@ -32,7 +32,7 @@
 </script>
 
 <div
-  class="pointer-events-none fixed inset-x-4 bottom-4 z-[150] flex flex-col gap-3 sm:inset-x-auto sm:bottom-6 sm:right-6"
+  class="pointer-events-none fixed inset-x-4 bottom-[calc(1rem+var(--mobile-tabbar-height)+env(safe-area-inset-bottom,0px))] z-[150] flex flex-col gap-3 md:inset-x-auto md:bottom-6 md:right-6"
   aria-live="polite"
   aria-atomic="false"
 >

@@ -1,41 +1,35 @@
 <script lang="ts">
-  import { language, languages, translations } from '$lib/i18n';
+  import { language, translations } from '$lib/i18n';
   import { navigating, page } from '$app/state';
-  import { fade, fly } from 'svelte/transition';
+  import { isActivePath, isPendingPath, primaryNav } from '$lib/nav';
   import SearchBar from '../ui/SearchBar.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
 
   let {
     user = null,
     currentProfile = null,
-    autoHide = false
+    autoHide = false,
+    onOpenSearch,
+    onOpenAccount
   }: {
-    user?: any;
-    currentProfile?: any;
+    user?: { username?: string } | null;
+    currentProfile?: { name?: string; photo?: string } | null;
     autoHide?: boolean;
+    onOpenSearch: () => void;
+    onOpenAccount: () => void;
   } = $props();
 
   const REVEAL_DELAY = 300;
 
   let isDropdownOpen = $state(false);
-  let isMobileMenuOpen = $state(false);
   let currentLang = $derived($language);
 
-  let navLinks = $derived([
-    { href: '/', label: translations.nav.home[currentLang] },
-    { href: '/directory', label: translations.nav.directory[currentLang] }
-  ]);
-
   function isActive(href: string): boolean {
-    const pathname = page.url.pathname;
-    if (href === '/') return pathname === '/';
-    return pathname === href || pathname.startsWith(href + '/');
+    return isActivePath(page.url.pathname, href);
   }
 
   function isPending(href: string): boolean {
-    const target = navigating.to?.url.pathname;
-    if (!target) return false;
-    return target === href || (href !== '/' && target.startsWith(href + '/'));
+    return isPendingPath(navigating.to?.url.pathname, href);
   }
 
   // Auto-hide state: hidden on autoHide pages until the user scrolls or hovers.
@@ -52,6 +46,13 @@
 
   function handleAvatarClick(e: MouseEvent) {
     e.stopPropagation();
+
+    // En móvil no existe el desplegable: se abre la hoja de cuenta táctil.
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      onOpenAccount();
+      return;
+    }
+
     isDropdownOpen = !isDropdownOpen;
   }
 
@@ -110,7 +111,6 @@
     clearRevealTimer();
     isHoverRevealed = false;
     isDropdownOpen = false;
-    isMobileMenuOpen = false;
 
     if (!autoHide) {
       isHidden = false;
@@ -164,7 +164,7 @@
 
 {#if isHidden}
   <div
-    class="fixed top-0 left-0 right-0 h-6 z-40"
+    class="fixed top-0 left-0 right-0 z-40 hidden h-6 md:block"
     aria-hidden="true"
     onpointerenter={handleHotzoneEnter}
     onpointerleave={handleHotzoneLeave}
@@ -179,7 +179,7 @@
   onfocusin={handleNavFocusIn}
   onfocusout={handleNavFocusOut}
 >
-  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+  <div class="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 md:h-20 lg:px-8">
     
     <div class="flex min-w-0 items-center gap-4 lg:gap-8">
       <a href="/" class="group flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5">
@@ -189,11 +189,11 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
-        <span class="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-white via-gray-100 to-gray-400 bg-clip-text text-transparent">Mitteiru</span>
+        <span class="bg-gradient-to-r from-white via-gray-100 to-gray-400 bg-clip-text text-lg font-black tracking-tight text-transparent sm:text-2xl">Mitteiru</span>
       </a>
 
       <div class="hidden md:flex items-center gap-1 text-sm font-medium">
-        {#each navLinks as link (link.href)}
+        {#each primaryNav as link (link.href)}
           <a
             href={link.href}
             aria-current={isActive(link.href) ? 'page' : undefined}
@@ -202,7 +202,7 @@
               ? 'text-white font-semibold bg-white/10 backdrop-blur-sm'
               : 'text-gray-400 hover:text-white hover:bg-white/5'}"
           >
-            {link.label}
+            {link.label[currentLang]}
             {#if isPending(link.href)}
               <span
                 class="motion-essential absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-indigo-400 animate-pulse"
@@ -217,7 +217,7 @@
     </div>
 
     <div class="flex shrink-0 items-center gap-2 sm:gap-4">
-      <div class="relative hidden sm:block">
+      <div class="relative hidden lg:block">
         <SearchBar 
           placeholder={translations.nav.search[currentLang]} 
           class="w-56 focus:w-72"
@@ -225,6 +225,17 @@
         />
         <kbd class="hidden lg:flex items-center absolute right-3 top-2.5 px-1.5 py-0.5 text-[10px] font-semibold text-gray-400 bg-white/10 rounded border border-white/10 pointer-events-none">⌘K</kbd>
       </div>
+
+      <button
+        type="button"
+        onclick={onOpenSearch}
+        class="flex h-11 w-11 items-center justify-center rounded-full text-gray-300 transition-colors hover:bg-white/10 hover:text-white lg:hidden"
+        aria-label={translations.nav.searchTitle[currentLang]}
+      >
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </button>
 
       {#if user}
         <div class="relative flex items-center gap-2 pl-2 border-l border-white/10">
@@ -253,7 +264,7 @@
           {#if isDropdownOpen}
             <div
               bind:this={dropdownEl}
-              class="absolute right-0 top-full pt-2 z-50"
+              class="absolute right-0 top-full z-50 pt-2 max-md:hidden"
             >
               <div class="w-56 bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] py-2 origin-top-right animate-scale-in">
               <div class="px-4 py-3 border-b border-white/10 mb-2">
@@ -335,90 +346,6 @@
           </a>
         </div>
       {/if}
-
-      <button
-        onclick={() => (isMobileMenuOpen = !isMobileMenuOpen)}
-        type="button"
-        class="md:hidden p-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all"
-        aria-label="Open Menu"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-        </svg>
-      </button>
     </div>
   </div>
-
-  {#if isMobileMenuOpen}
-    <div
-      class="md:hidden bg-gray-950/95 backdrop-blur-xl border-b border-white/10 px-6 py-4 space-y-4"
-      in:fly={{ y: -10, duration: 180 }}
-      out:fade={{ duration: 120 }}
-    >
-      <div class="sm:hidden mb-4">
-        <SearchBar />
-      </div>
-      {#each navLinks as link (link.href)}
-        <a
-          href={link.href}
-          aria-current={isActive(link.href) ? 'page' : undefined}
-          class="block font-medium transition-colors {isActive(link.href)
-            ? 'text-white'
-            : 'text-gray-300 hover:text-white'}"
-        >
-          {link.label}
-        </a>
-      {/each}
-      {#if user}
-        <a
-          href="/lists"
-          aria-current={isActive('/lists') ? 'page' : undefined}
-          class="block font-medium transition-colors {isActive('/lists') ? 'text-white' : 'text-gray-300 hover:text-white'}"
-        >
-          {translations.nav.myLists[currentLang]}
-        </a>
-        <a
-          href="/selectprofile"
-          class="block text-gray-300 hover:text-white font-medium"
-        >
-          {translations.nav.changeProfile[currentLang]}
-        </a>
-      {:else}
-        <a href="/login" class="block font-medium text-gray-300 hover:text-white transition-colors">
-          {translations.nav.login[currentLang]}
-        </a>
-        <a href="/signup" class="block font-medium text-gray-300 hover:text-white transition-colors">
-          {translations.nav.signup[currentLang]}
-        </a>
-      {/if}
-      <div class="space-y-2 border-t border-white/10 pt-3">
-        <p class="text-[11px] font-semibold uppercase tracking-widest text-gray-500">
-          {translations.nav.language[currentLang]}
-        </p>
-        <div class="flex gap-2">
-          {#each languages as option (option.code)}
-            <button
-              type="button"
-              onclick={() => language.set(option.code)}
-              aria-pressed={option.code === currentLang}
-              class="flex flex-1 items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition-colors {option.code ===
-              currentLang
-                ? 'border-indigo-500/40 bg-indigo-600/15 text-white'
-                : 'border-white/10 bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white'}"
-            >
-              <span class="text-[10px] font-bold uppercase tracking-wide text-gray-400">
-                {option.short}
-              </span>
-              {option.label}
-              {#if option.code === currentLang}
-                <svg class="h-3.5 w-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-              {/if}
-            </button>
-          {/each}
-        </div>
-      </div>
-    </div>
-  {/if}
 </nav>

@@ -46,7 +46,7 @@
   onclick={handleClick}
   class="group flex cursor-pointer flex-col transition-transform duration-300 motion-safe:hover:-translate-y-0.5 {layout === 'grid'
     ? 'w-full min-w-0 h-full'
-    : 'snap-start shrink-0 w-72 md:w-80'}"
+    : 'snap-start shrink-0 w-64 sm:w-72 md:w-80'}"
   role="button"
   tabindex="0"
   aria-label={`Ver episodio ${episode.episodeNumber}: ${episode.name || ''}`}
@@ -63,7 +63,7 @@
 
     <!-- Play Overlay -->
     <div
-      class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+      class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-100 transition-opacity duration-300 md:bg-black/40 md:opacity-0 md:group-hover:opacity-100"
     >
       <div class="w-12 h-12 rounded-full bg-indigo-600/90 flex items-center justify-center backdrop-blur-sm shadow-lg shadow-indigo-600/40">
         <svg class="w-6 h-6 fill-white ml-0.5" viewBox="0 0 24 24">

@@ -51,7 +51,7 @@
   aria-busy={loading || undefined}
   {onclick}
   aria-label={ariaLabel}
-  class="inline-flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none {variantStyles[variant]} {sizeStyles[size]} {fullWidth ? 'w-full' : ''} {className}"
+  class="inline-flex touch-manipulation items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none max-md:min-h-11 {variantStyles[variant]} {sizeStyles[size]} {fullWidth ? 'w-full' : ''} {className}"
 >
   {#if loading}
     <span

@@ -61,7 +61,7 @@
 
 {#if isOpen}
   <div
-    class="fixed inset-0 z-[100] flex items-center justify-center p-4"
+    class="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-4"
     transition:fade={{ duration: 160 }}
   >
     <div
@@ -76,10 +76,14 @@
       aria-modal="true"
       aria-label={title || 'Confirmación'}
       use:modalBehavior={handleCancel}
-      in:fly={{ y: 14, duration: 220 }}
+      in:fly={{ y: 40, duration: 240 }}
       out:fade={{ duration: 120 }}
-      class="relative w-full rounded-3xl border border-white/10 bg-gray-900 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.8)] outline-none sm:p-8 {sizeClasses[size]} {variantStyles[variant]}"
+      class="relative w-full rounded-t-3xl border border-white/10 bg-gray-900 p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] shadow-[0_20px_60px_rgba(0,0,0,0.8)] outline-none sm:rounded-3xl sm:p-8 {sizeClasses[size]} {variantStyles[variant]}"
     >
+      <div class="mb-3 flex justify-center sm:hidden" aria-hidden="true">
+        <span class="h-1 w-10 rounded-full bg-white/20"></span>
+      </div>
+
       <div class="flex items-start gap-4">
         <div class="mt-0.5 flex-shrink-0">
           {#if variant === 'info'}
@@ -108,11 +112,12 @@
         </div>
       </div>
 
-      <div class="mt-6 flex justify-end gap-3">
+      <div class="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
         {#if type === 'confirm'}
           <Button
             variant="secondary"
             size="sm"
+            class="w-full sm:w-auto"
             onclick={handleCancel}
             disabled={isLoading}
           >
@@ -121,6 +126,7 @@
           <Button
             variant={variant === 'danger' ? 'danger' : 'primary'}
             size="sm"
+            class="w-full sm:w-auto"
             onclick={handleConfirm}
             loading={isLoading}
           >

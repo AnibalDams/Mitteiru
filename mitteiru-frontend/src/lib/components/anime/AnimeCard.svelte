@@ -13,7 +13,8 @@
     progress = undefined,
     showActions = false,
     onChangeList,
-    onRemove
+    onRemove,
+    class: className = ''
   }: {
     anime: Anime;
     index?: number;
@@ -25,6 +26,7 @@
     showActions?: boolean;
     onChangeList?: () => void;
     onRemove?: () => void;
+    class?: string;
   } = $props();
 
   const fallbackImage = 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop';
@@ -81,7 +83,7 @@
 </script>
 
 <div
-  class="anime-card card-enter group relative aspect-[2/3] overflow-hidden rounded-2xl border border-white/10 bg-gray-900 shadow-xl"
+  class="anime-card card-enter group relative aspect-[2/3] overflow-hidden rounded-2xl border border-white/10 bg-gray-900 shadow-xl {className}"
   style={`--stagger: ${stagger}`}
   data-anime-card
 >
@@ -147,7 +149,7 @@
 
   <!-- Acciones de lista -->
   {#if showActions && (onChangeList || onRemove)}
-    <div class="absolute right-2.5 top-2.5 z-30 opacity-0 transition-opacity duration-200 focus-within:opacity-100 group-hover:opacity-100">
+    <div class="absolute right-2.5 top-2.5 z-30 opacity-100 transition-opacity duration-200 focus-within:opacity-100 md:opacity-0 md:group-hover:opacity-100">
       <ContextMenu position="bottom-right">
         {#snippet trigger({ toggle, isOpen }: { open: () => void; close: () => void; toggle: () => void; isOpen: boolean })}
           <button

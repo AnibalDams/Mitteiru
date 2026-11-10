@@ -244,9 +244,9 @@
     {disabled}
     aria-haspopup="listbox"
     aria-expanded={isOpen}
-    class="w-full min-w-[180px] bg-gray-900/90 border border-white/10 text-gray-300 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer flex items-center justify-between gap-2 hover:border-indigo-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+    class="flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-xl border border-white/10 bg-gray-900/90 px-4 py-2.5 text-sm text-gray-300 transition-all hover:border-indigo-500/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 md:min-h-0"
   >
-    <span class="truncate flex-1">{selectedOption?.label || placeholder}</span>
+    <span class="flex-1 truncate text-left">{selectedOption?.label || placeholder}</span>
     <svg
       class="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200 {isOpen
         ? 'rotate-180'
