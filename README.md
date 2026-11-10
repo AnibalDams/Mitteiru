@@ -80,11 +80,17 @@ El navegador nunca habla directamente con el backend ni ve el JWT: SvelteKit act
 <p align="center">
   <img src="docs/screenshots/mobile-home.png" alt="Home en móvil" width="31%" />
   <img src="docs/screenshots/mobile-directory.png" alt="Directorio en móvil" width="31%" />
-  <img src="docs/screenshots/mobile-menu.png" alt="Menú móvil con selector de idioma" width="31%" />
+  <img src="docs/screenshots/mobile-filters.png" alt="Filtros del directorio en hoja inferior" width="31%" />
 </p>
 
 <p align="center">
-  <sub>Home, directorio y menú móvil con búsqueda y selector de idioma.</sub>
+  <img src="docs/screenshots/mobile-anime.png" alt="Ficha de anime en móvil" width="31%" />
+  <img src="docs/screenshots/mobile-player.png" alt="Reproductor de episodio en móvil" width="31%" />
+  <img src="docs/screenshots/mobile-menu.png" alt="Hoja de cuenta móvil con selector de idioma" width="31%" />
+</p>
+
+<p align="center">
+  <sub>Home, directorio y filtros en hoja inferior; ficha de anime, reproductor y cuenta, con navegación inferior persistente.</sub>
 </p>
 
 <p align="center">
